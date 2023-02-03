@@ -210,7 +210,6 @@ const Home = () => {
                     </div>
                 </div>
                 <div class="row">
-
                     <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-4">
                         <div class="card h-100">
                             <div class="card-header d-flex align-items-center justify-content-between pb-0">
@@ -299,8 +298,6 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
-
-
                     <div class="col-md-6 col-lg-4 order-1 mb-4">
                         <div class="card h-100">
                             <div class="card-header">
@@ -353,8 +350,6 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
-
-
                     <div class="col-md-6 col-lg-4 order-2 mb-4">
                         <div class="card h-100">
                             <div class="card-header d-flex align-items-center justify-content-between">

@@ -1,38 +1,83 @@
-.App {
-  text-align: center;
+.darklighttoggle {
+  z-index: 1;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.darklighttoggle2 {
+  --ray-size: calc(var(--size)*-0.4);
+  --offset-orthogonal: calc(var(--size)*0.75);
+  --offset-diagonal: calc(var(--size)*0.5);
+  box-shadow: inset 0 0 0 var(--size), calc(var(--offset-orthogonal)*-1) 0 0 var(--ray-size), var(--offset-orthogonal) 0 0 var(--ray-size), 0 calc(var(--offset-orthogonal)*-1) 0 var(--ray-size), 0 var(--offset-orthogonal) 0 var(--ray-size), calc(var(--offset-diagonal)*-1) calc(var(--offset-diagonal)*-1) 0 var(--ray-size), var(--offset-diagonal) var(--offset-diagonal) 0 var(--ray-size), calc(var(--offset-diagonal)*-1) var(--offset-diagonal) 0 var(--ray-size), var(--offset-diagonal) calc(var(--offset-diagonal)*-1) 0 var(--ray-size);
+  color: #00aeef;
+  transform: scale(.75);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.darklighttoggle {
+  --size: 24px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 999px;
+  box-shadow: inset calc(var(--size)*.33) calc(var(--size)*-.25) 0;
+  color: #b6b6bb;
+  cursor: pointer;
+  height: var(--size);
+  outline: none;
+  transition: all .5s;
+  width: var(--size);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.darklighttoggle2 {
+  --ray-size: calc(var(--size)*-0.4);
+  --offset-orthogonal: calc(var(--size)*0.75);
+  --offset-diagonal: calc(var(--size)*0.5);
+  box-shadow: inset 0 0 0 var(--size), calc(var(--offset-orthogonal)*-1) 0 0 var(--ray-size), var(--offset-orthogonal) 0 0 var(--ray-size), 0 calc(var(--offset-orthogonal)*-1) 0 var(--ray-size), 0 var(--offset-orthogonal) 0 var(--ray-size), calc(var(--offset-diagonal)*-1) calc(var(--offset-diagonal)*-1) 0 var(--ray-size), var(--offset-diagonal) var(--offset-diagonal) 0 var(--ray-size), calc(var(--offset-diagonal)*-1) var(--offset-diagonal) 0 var(--ray-size), var(--offset-diagonal) calc(var(--offset-diagonal)*-1) 0 var(--ray-size);
+  color: #2b2c40;
+  transform: scale(.75);
 }
 
-.App-link {
-  color: #61dafb;
+
+.dark-theme {
+  background-color: #232333;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.card {
+  --highlight-color: #2b2c40;
+}
+
+.layout-menu {
+  --highlight-color: #2b2c40;
+}
+
+.content-footer {
+  --highlight-color: #2b2c40;
+
+}
+
+p {
+  --highlight-color: white;
+}
+
+.dark-theme .card {
+  background: var(--highlight-color);
+}
+
+.dark-theme .layout-menu {
+  background: var(--highlight-color) !important;
+}
+
+.dark-theme .content-footer {
+  background: var(--highlight-color) !important;
+}
+
+.dark-theme p {
+  --highlight-color: white !important;
+}
+
+p {
+  --highlight-color: white;
+}
+
+.dark-theme .p {
+  --highlight-color: white;
 }

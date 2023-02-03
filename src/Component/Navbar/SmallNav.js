@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const SmallNav = () => {
+    const [toggle, setToggle] = useState(false);
+    const triggerToggle = () => {
+        setToggle(!toggle)
+        document.body.classList.toggle('dark-theme');
+    }
     return (
         <>
             <nav
@@ -13,25 +18,25 @@ const SmallNav = () => {
                 </div>
 
                 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-                    
+
                     <div class="navbar-nav align-items-center">
                         <div class="nav-item d-flex align-items-center">
                             <i class="bx bx-search fs-4 lh-0"></i>
-                            <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
-                                aria-label="Search..." />
+                            <input type="text" class="form-control border-0 shadow-none" placeholder="Search..." aria-label="Search..." />
                         </div>
                     </div>
-                    
 
                     <ul class="navbar-nav flex-row align-items-center ms-auto">
-                        
+                        <li class="nav-item lh-1 me-3">
+                            <div class={`darklighttoggle ${toggle ? "darklighttoggle2" : ""}`} onClick={triggerToggle}></div>
+                        </li>
                         <li class="nav-item lh-1 me-3">
                             <a class="github-button" href="https://github.com/themeselection/sneat-html-admin-template-free"
                                 data-icon="octicon-star" data-size="large" data-show-count="true"
                                 aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
                         </li>
 
-                        
+
                         <li class="nav-item navbar-dropdown dropdown-user dropdown">
                             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                 <div class="avatar avatar-online">
@@ -89,7 +94,7 @@ const SmallNav = () => {
                                 </li>
                             </ul>
                         </li>
-                     </ul>
+                    </ul>
                 </div>
             </nav>
         </>

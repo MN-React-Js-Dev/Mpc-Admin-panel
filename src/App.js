@@ -5,9 +5,10 @@ import Header from './Component/Navbar/Header';
 import SmallNav from './Component/Navbar/SmallNav';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 function App() {
+
   return (
     <>
-      <div class="layout-wrapper layout-content-navbar">
+       <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
           <Header />
           <div class="layout-page">
@@ -17,7 +18,6 @@ function App() {
             </Routes>
             <Footer />
           </div>
-
         </div>
       </div>
     </>
