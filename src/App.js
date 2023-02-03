@@ -3,7 +3,7 @@ import Footer from './Component/Footer';
 import Home from './Component/Home';
 import Header from './Component/Navbar/Header';
 import SmallNav from './Component/Navbar/SmallNav';
-
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 function App() {
   return (
     <>
@@ -12,7 +12,9 @@ function App() {
           <Header />
           <div class="layout-page">
             <SmallNav />
-            <Home />
+            <Routes>
+              <Route exact path='/' element={< Home />}></Route>
+            </Routes>
             <Footer />
           </div>
 
