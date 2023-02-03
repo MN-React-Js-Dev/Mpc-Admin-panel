@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
     return (
@@ -36,18 +37,17 @@ const Header = () => {
                 </div>
                 <div class="menu-inner-shadow"></div>
                 <ul class="menu-inner py-1">
-
                     <li class="menu-item active">
-                        <a href="#" class="menu-link">
+                        <Link to={{ pathname: "/" }} class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Dashboard</div>
-                        </a>
+                        </Link>
                     </li>
                     <li class="menu-item">
-                        <a href="#" class="menu-link">
+                        <Link to={{ pathname: "/create-user" }} class="menu-link">
                             <i class="menu-icon tf-icons bx bx-crown"></i>
-                            <div data-i18n="Boxicons">Boxicons</div>
-                        </a>
+                            <div data-i18n="Boxicons">Create User</div>
+                        </Link>
                     </li>
                     <li class="menu-item">
                         <a href="#" class="menu-link">
