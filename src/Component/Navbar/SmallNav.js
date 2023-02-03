@@ -57,6 +57,8 @@ const SmallNav = () => {
                   alt
                   class="w-px-40 h-auto rounded-circle"
                 />
+
+                
               </div>
               </a>
                            
