@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
     return (
@@ -118,10 +119,12 @@ const Header = () => {
                         <span class="menu-header-text">Pages</span>
                     </li>
                     <li class="menu-item">
-                        <a href="" class="menu-link menu-toggle">
+                        {/* <a href="" class="menu-link menu-toggle"> */}'
+                        <Link to='/form' class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                            <div data-i18n="Account Settings">Account Settings</div>
-                        </a>
+                            <div data-i18n="Account Settings">Form</div>
+                        {/* </a> */}
+                        </Link>
                         <ul class="menu-sub">
                             <li class="menu-item">
                                 <a href="pages-account-settings-account.html" class="menu-link">

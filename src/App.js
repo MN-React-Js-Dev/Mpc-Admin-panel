@@ -3,7 +3,8 @@ import Footer from './Component/Footer';
 import Home from './Component/Home';
 import Header from './Component/Navbar/Header';
 import SmallNav from './Component/Navbar/SmallNav';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
+import Form from './Component/Form';
 function App() {
 
   return (
@@ -15,6 +16,7 @@ function App() {
             <SmallNav />
             <Routes>
               <Route exact path='/' element={< Home />}></Route>
+              <Route exact path='/form' element={<Form/>}></Route>
             </Routes>
           </div>
         </div>
