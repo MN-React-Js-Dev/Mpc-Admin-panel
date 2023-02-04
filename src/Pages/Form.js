@@ -36,7 +36,8 @@ const Form = () => {
   return (
     <div class="container-xxl card m-5">
         <div class="card-header">
-        <h5 class="mb-0">FORM</h5>
+            <h4 class="fw-bold py-3 mb-4">Create User</h4>
+        {/* <h5 class="mb-0">FORM</h5> */}
         {/* <small class="text-muted float-end">Merged input group</small> */}
         </div>
     <div class="card-body">
@@ -138,7 +139,7 @@ const Form = () => {
               type="text"
               className={submitted && !data.design ? `form-control invalid ` : `form-control`}
               id="basic-icon-default-design"
-              name="design"
+              name="design" 
               value={data.design || ""}
               placeholder="..."
               aria-label="..."
@@ -166,8 +167,8 @@ const Form = () => {
               name="note"
               value={data.note || ""}
               class="form-control"
-              placeholder="Hi, Do you have a moment to talk Joe?"
-              aria-label="Hi, Do you have a moment to talk Joe?"
+              placeholder="Please leave us a note if you have"
+              aria-label="Please leave us a note if you have"
               aria-describedby="basic-icon-default-message2"
               onChange={handleInput}
             ></textarea>

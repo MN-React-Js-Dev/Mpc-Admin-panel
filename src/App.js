@@ -4,7 +4,7 @@ import Home from './Component/Home';
 import Header from './Component/Navbar/Header';
 import SmallNav from './Component/Navbar/SmallNav';
 import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
-import Form from './Component/Form';
+import Form from './Pages/Form';
 import CreateUser from './Pages/CreateUser';
 function App() {
 
