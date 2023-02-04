@@ -5,6 +5,7 @@ import Header from './Component/Navbar/Header';
 import SmallNav from './Component/Navbar/SmallNav';
 import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import Form from './Component/Form';
+import CreateUser from './Pages/CreateUser';
 function App() {
 
   return (
@@ -17,6 +18,7 @@ function App() {
             <Routes>
               <Route exact path='/' element={< Home />}></Route>
               <Route exact path='/form' element={<Form/>}></Route>
+              <Route exact path='/create-user' element={< CreateUser />}></Route>
             </Routes>
           </div>
         </div>
