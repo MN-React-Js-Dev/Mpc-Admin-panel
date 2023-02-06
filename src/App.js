@@ -8,6 +8,7 @@ import Form from "./Pages/Form";
 import CreateUser from "./Pages/CreateUser";
 import Login from "./Pages/Login";
 import Users from "./Pages/Users";
+import RegisterUser from "./Pages/RegisterUser";
 function App() {
   return (
     <>
@@ -22,8 +23,8 @@ function App() {
               <Route exact path="/create-user" element={<CreateUser />}></Route>
               <Route exact path="/login" element={<Login />}></Route>
               <Route exact path="/users" element={<Users />}></Route>
+              <Route exact path="/register-user" element={<RegisterUser />}></Route>
             </Routes>
-            
           </div>
         </div>
       </div>

@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+// import { Form } from 'react-router-dom';
 import { getAllUsersStart } from '../Redux/Actions/usersActions';
-
+import Form from './Form'
 const Users = () => {
 
+    const [toggle, setToggle] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -12,6 +15,12 @@ const Users = () => {
     },[])
     const usersData = useSelector((state) => state?.users?.users?.data?.rows)
     console.log("USERDATA~~~>>>", usersData)
+
+    const handleActions = (e) => {
+        e.preventDefault();
+        setToggle(!toggle)
+    }
+
   return (
     <>
         <div class="container-xxl flex-grow-1 container-p-y">
@@ -20,6 +29,9 @@ const Users = () => {
             <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">User List</h5>
+                        <Link  to={`/register-user/`}>
+                            <button type="button" class="btn btn-primary">+ NEW</button>
+                        </Link>
                     </div>
 
                     <div class="card-body">
@@ -51,14 +63,17 @@ const Users = () => {
                                         <td><span class="badge bg-label-success me-1">{userList?.role}</span></td>
                                         <td>
                                         <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" onClick={handleActions}>
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                            <a class="dropdown-item">
-                                                <i class="bx bx-edit-alt me-1"></i> Edit</a>
-                                            <a class="dropdown-item">
-                                                <i class="bx bx-trash me-1"></i> Delete</a>
+                                                <Link to='/register-user'>
+                                                <a class="dropdown-item">
+                                                    <i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                                </Link>
+                                                
+                                                <a class="dropdown-item">
+                                                    <i class="bx bx-trash me-1"></i> Delete</a>
                                             </div>
                                         </div>
                                         </td>
