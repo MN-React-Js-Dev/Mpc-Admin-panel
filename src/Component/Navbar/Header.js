@@ -78,6 +78,10 @@ const Header = () => {
             </Link>
           </li>
           <li class="menu-item">
+          <Link to={{ pathname: "/login" }} class="menu-link">
+              <i class="menu-icon tf-icons bx bx-crown"></i>
+              <div data-i18n="Boxicons">Login</div>
+            </Link>
             <Link to="/form" class="menu-link menu-toggle">
               <i class="menu-icon tf-icons bx bx-dock-top"></i>
               <div data-i18n="Account Settings">Form</div>
@@ -85,6 +89,10 @@ const Header = () => {
             <Link to={{ pathname: "/create-user" }} class="menu-link">
               <i class="menu-icon tf-icons bx bx-crown"></i>
               <div data-i18n="Boxicons">Create User</div>
+            </Link>
+            <Link to={{ pathname: "/users" }} class="menu-link">
+              <i class="menu-icon tf-icons bx bx-crown"></i>
+              <div data-i18n="Boxicons">All User</div>
             </Link>
           </li>
 
