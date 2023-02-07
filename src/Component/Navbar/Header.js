@@ -72,13 +72,13 @@ const Header = () => {
         <div class="menu-inner-shadow"></div>
         <ul class="menu-inner py-1">
           <li class="menu-item active">
-            <Link to={{ pathname: "/" }} class="menu-link">
+            <Link to={{ pathname: "/dahboard" }} class="menu-link">
               <i class="menu-icon tf-icons bx bx-home-circle"></i>
               <div data-i18n="Analytics">Dashboard</div>
             </Link>
           </li>
           <li class="menu-item">
-          <Link to={{ pathname: "/login" }} class="menu-link">
+          <Link to={{ pathname: "/" }} class="menu-link">
               <i class="menu-icon tf-icons bx bx-crown"></i>
               <div data-i18n="Boxicons">Login</div>
             </Link>

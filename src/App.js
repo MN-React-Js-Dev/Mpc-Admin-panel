@@ -1,5 +1,5 @@
 import "./App.css";
- import Home from "./Component/Home";
+import Home from "./Component/Home";
 import Header from "./Component/Navbar/Header";
 import SmallNav from "./Component/Navbar/SmallNav";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
@@ -9,7 +9,15 @@ import Login from "./Pages/Login";
 import Users from "./Pages/Users";
 import RegisterUser from "./Pages/RegisterUser";
 import Footer from "./Component/Navbar/Footer";
+import { useEffect ,useState} from "react";
 function App() {
+
+  const [flag, setflag] = useState(false)
+
+  useEffect(() => {
+
+  }, [])
+
   return (
     <>
       <div class="layout-wrapper layout-content-navbar">
@@ -18,10 +26,10 @@ function App() {
           <div class="layout-page">
             <SmallNav />
             <Routes>
-              <Route exact path="/" element={<Home />}></Route>
+              <Route exact path="/dahboard" element={<Home />}></Route>
               <Route exact path="/form" element={<Form />}></Route>
               <Route exact path="/create-user" element={<CreateUser />}></Route>
-              <Route exact path="/login" element={<Login />}></Route>
+              <Route exact path="/" element={<Login />}></Route>
               <Route exact path="/users" element={<Users />}></Route>
               <Route exact path="/register-user" element={<RegisterUser />}></Route>
             </Routes>
