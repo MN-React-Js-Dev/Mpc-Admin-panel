@@ -1,6 +1,5 @@
 import "./App.css";
-import Footer from "./Component/Footer";
-import Home from "./Component/Home";
+ import Home from "./Component/Home";
 import Header from "./Component/Navbar/Header";
 import SmallNav from "./Component/Navbar/SmallNav";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
@@ -9,6 +8,7 @@ import CreateUser from "./Pages/CreateUser";
 import Login from "./Pages/Login";
 import Users from "./Pages/Users";
 import RegisterUser from "./Pages/RegisterUser";
+import Footer from "./Component/Navbar/Footer";
 function App() {
   return (
     <>
