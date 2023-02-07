@@ -31,6 +31,7 @@ const Login = () => {
         ) {
           console.log("SUBMIT~~>>", data);
           dispatch(loginUsersStart(data))
+          localStorage.setItem('loginVibes', 'red');
         }
       };
   return (
