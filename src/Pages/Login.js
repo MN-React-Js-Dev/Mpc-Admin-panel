@@ -37,16 +37,15 @@ const Login = () => {
   return (
     <>
     <div class="container-xxl flex-grow-1 container-p-y">
-      <h4 class="fw-bold py-3 mb-4">Create User</h4>
+      <h4 class="fw-bold py-3 mb-4">Login</h4>
 
       <div class="card mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
-          {/* <h5 class="mb-0">Create User</h5> */}
-          
+           
         </div>
         <div class="card-body">
-        <h4 class="mb-2">Welcome to Sneat! 👋</h4>
-        <p class="mb-4">Please sign-in to your account and start the adventure</p>
+        <h4 class="mb-2">Welcome to MPC! 👋</h4>
+        <p class="mb-4">Please Login to your account and start the adventure</p>
 
           <form onSubmit={handleSubmit}>
             <div class="mb-3">
