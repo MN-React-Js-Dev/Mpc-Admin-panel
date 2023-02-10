@@ -3099,6 +3099,7 @@ textarea.form-control-lg {
   white-space: nowrap;
   background-color: transparent;
   border: 0;
+  cursor: pointer;
 }
 .dropdown-item:hover, .dropdown-item:focus {
   color: #5f6e7f;
