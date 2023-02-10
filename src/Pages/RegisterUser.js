@@ -38,7 +38,7 @@ const RegisterUser = () => {
         setData({...data})
       }
     }, [id]);
-    console.log("DATA AFTER ID ~~~>>>", data)
+    // console.log("DATA AFTER ID ~~~>>>", data)
 
   const handleInput = (e) => {
     e.preventDefault();

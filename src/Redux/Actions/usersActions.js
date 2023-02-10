@@ -103,7 +103,22 @@ export const updateUserSuccess = (user) => ({
 export const updateUserError = (error) => ({
     type: types.UPDATE_USER_ERROR,
     payload: error,
-})
+});
+
+export const deleteUserStart = (user) => ({
+    type: types.DELETE_USER_START,
+    payload: user,
+});
+
+export const deleteUserSuccess = (user) => ({
+    type: types.DELETE_USER_SUCCESS,
+    payload: user,
+});
+
+export const deleteUserError = (error) => ({
+    type: types.DELETE_USER_ERROR,
+    payload: error,
+});
 
 export const getUserByRoleStart = (role) => ({
     type: types.GET_USER_BYROLE_START,
