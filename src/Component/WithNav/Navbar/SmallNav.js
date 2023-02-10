@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const SmallNav = () => {
+
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false);
+  const usersData = JSON.parse(localStorage.getItem('MPCADMIN'))
 
   const handleOpen = () => {
     setOpen(!open);
@@ -12,6 +16,12 @@ const SmallNav = () => {
     setToggle(!toggle);
     document.body.classList.toggle("dark-theme");
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('MPCADMIN')
+    navigate('/')
+    window.location.reload()
+  }
 
   return (
     <>
@@ -91,7 +101,7 @@ const SmallNav = () => {
                       </div>
                       <div class="flex-grow-1">
                         <span class="fw-semibold d-block">John Doe</span>
-                        <small class="text-muted">Admin</small>
+                        <small class="text-muted">{usersData?.role}</small>
                       </div>
                     </div>
                   </a>
@@ -112,21 +122,22 @@ const SmallNav = () => {
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">
-                    <span class="d-flex align-items-center align-middle">
-                      <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                      <span class="flex-grow-1 align-middle">Billing</span>
-                      <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">
-                        4
-                      </span>
-                    </span>
-                  </a>
+                  <Link to='/change-password'>
+                    <a class="dropdown-item">
+                      <i class="bx bx-cog me-2"></i>
+                      <span class="align-middle">Change Password</span>
+                    </a>
+                  </Link>
                 </li>
                 <li>
                   <div class="dropdown-divider"></div>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="auth-login-basic.html">
+                  {/* <Link to='/' class="-dropdownitem">
+                    <i class="bx bx-power-off me-2"></i>
+                    <span class="align-middle">Log Out</span>
+                  </Link> */}
+                  <a class="dropdown-item" onClick={handleLogout}>
                     <i class="bx bx-power-off me-2"></i>
                     <span class="align-middle">Log Out</span>
                   </a>

@@ -1,17 +1,26 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createOrdersStart } from "../Redux/Actions/ordersActions";
 
 const Form = () => {
-  // console.log('Form---->', test)
-  const formData = {
-    firstname: "",
+  
+  const orderData = {
+    orderName: "",
     address: "",
     pincode: "",
-    phonenumber: "",
-    design: "",
+    phone: "",
+    desing: "",
     note: "",
+    image: null,
   };
   const [submitted, setSubmitted] = useState(false);
-  const [data, setData] = useState(formData);
+  const [data, setData] = useState(orderData);
+  const formData = new FormData()
+  const dispatch = useDispatch()
+
+  const handleFileSelect = (e) => {
+    setData({...data,  [e.target.name]: e.target.files[0]})
+}
 
   const handleInput = (e) => {
     e.preventDefault();
@@ -20,33 +29,40 @@ const Form = () => {
       ...data,
       [e.target.name]: value,
     });
-    console.log("FORM DATA~~~~>>>>>", data);
-    // setSubmitted(true)
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
     if (
-      data.firstname &&
+      data.orderName &&
       data.address &&
       data.pincode &&
-      data.phonenumber &&
-      data.design &&
-      data.note
+      data.phone &&
+      data.desing &&
+      data.note &&
+      data.image
     ) {
-      console.log("SUBMIT~~>>");
+      formData.append("orderName", data.orderName);
+      formData.append("address", data.address);
+      formData.append("pincode", data.pincode);
+      formData.append("phone", data.phone);
+      formData.append("desing", data.desing);
+      formData.append("note", data.note);
+      formData.append("image", data.image);
+      dispatch(createOrdersStart(formData))
+
     }
   };
 
   return (
     <>
       <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">Create User</h4>
+        <h4 class="fw-bold py-3 mb-4">Create Order</h4>
 
         <div class="card mb-4">
           <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Create User</h5>
+            <h5 class="mb-0">Create Order</h5>
           </div>
           <div class="card-body">
             <form onSubmit={handleSubmit}>
@@ -58,7 +74,7 @@ const Form = () => {
                   <span
                     id="basic-icon-default-fullname2"
                     className={
-                      submitted && !data.firstname
+                      submitted && !data.orderName
                         ? `input-group-text invalid `
                         : `input-group-text`
                     }
@@ -68,20 +84,20 @@ const Form = () => {
                   <input
                     type="text"
                     className={
-                      submitted && !data.firstname
+                      submitted && !data.orderName
                         ? `form-control invalid `
                         : `form-control`
                     }
                     id="basic-icon-default-fullname"
-                    name="firstname"
-                    value={data.firstname || ""}
+                    name="orderName"
+                    value={data.orderName || ""}
                     placeholder="John Doe"
                     aria-label="John Doe"
                     aria-describedby="basic-icon-default-fullname2"
                     onChange={handleInput}
                   />
                 </div>
-                {submitted && !data.firstname && (
+                {submitted && !data.orderName && (
                   <label class="error" for="basic-icon-default-fullname">
                     Name is required
                   </label>
@@ -165,14 +181,14 @@ const Form = () => {
               </div>
 
               <div class="mb-3">
-                <label class="form-label" for="basic-icon-default-phonenumber">
+                <label class="form-label" for="basic-icon-default-phone">
                   Phone Number <span className="error">*</span>
                 </label>
                 <div class="input-group input-group-merge">
                   <span
                     id="basic-icon-default-phone2"
                     className={
-                      submitted && !data.phonenumber
+                      submitted && !data.phone
                         ? `input-group-text invalid `
                         : `input-group-text`
                     }
@@ -182,20 +198,20 @@ const Form = () => {
                   <input
                     type="text"
                     className={
-                      submitted && !data.phonenumber
+                      submitted && !data.phone
                         ? `form-control invalid `
                         : `form-control`
                     }
-                    id="basic-icon-default-phonenumber"
-                    name="phonenumber"
-                    value={data.phonenumber || ""}
+                    id="basic-icon-default-phone"
+                    name="phone"
+                    value={data.phone || ""}
                     placeholder="123 456 4560"
                     aria-label="123 456 4560"
                     aria-describedby="basic-icon-default-fullname2"
                     onChange={handleInput}
                   />
                 </div>
-                {submitted && !data.phonenumber && (
+                {submitted && !data.phone && (
                   <label class="error" for="basic-icon-default-fullname">
                     Enter Phone number
                   </label>
@@ -203,14 +219,14 @@ const Form = () => {
               </div>
 
               <div class="mb-3">
-                <label class="form-label" for="basic-icon-default-design">
+                <label class="form-label" for="basic-icon-default-desing">
                   Design <span className="error">*</span>
                 </label>
                 <div class="input-group input-group-merge">
                   <span
-                    id="basic-icon-default-design"
+                    id="basic-icon-default-desing"
                     className={
-                      submitted && !data.design
+                      submitted && !data.desing
                         ? `input-group-text invalid `
                         : `input-group-text`
                     }
@@ -220,22 +236,22 @@ const Form = () => {
                   <input
                     type="text"
                     className={
-                      submitted && !data.design
+                      submitted && !data.desing
                         ? `form-control invalid `
                         : `form-control`
                     }
-                    id="basic-icon-default-design"
-                    name="design"
-                    value={data.design || ""}
+                    id="basic-icon-default-desing"
+                    name="desing"
+                    value={data.desing || ""}
                     placeholder="..."
                     aria-label="..."
                     aria-describedby="basic-icon-default-fullname2"
                     onChange={handleInput}
                   />
                 </div>
-                {submitted && !data.design && (
+                {submitted && !data.desing && (
                   <label class="error" for="basic-icon-default-fullname">
-                    Design is required
+                    Desingdesing is required
                   </label>
                 )}
               </div>
@@ -244,7 +260,18 @@ const Form = () => {
                 <label for="formFile" class="form-label">
                   photo Upload
                 </label>
-                <input class="form-control" type="file" id="formFile" />
+                <input 
+                 className={
+                  submitted && !data.image
+                    ? `form-control invalid `
+                    : `form-control`
+                  } 
+                  name='image'
+                  type="file" 
+                  id="image" 
+                  accept="/image/*"
+                  placeholder="image"
+                  onChange={handleFileSelect} />
               </div>
 
               <div class="mb-3">

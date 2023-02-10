@@ -1,18 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getAllUsersStart, registerUserStart, updateUserStart } from "../Redux/Actions/usersActions";
 
 const RegisterUser = () => {
   const formData = {
-    role: "",
     userName: "",
-    email: "",
     phone: "",
-    address: "",
-    gender: "",
     password: "",
     confirmPassword: "",
+    email: "",
+    address: "",
+    gender: "",
+    role: "",
   };
+
+  const dispatch = useDispatch();
   const [submitted, setSubmitted] = useState(false);
   const [data, setData] = useState(formData);
+  var { id } = useParams();
+  const [editMode, setEditMode] = useState(false);
+
+  useEffect(() => {
+    dispatch(getAllUsersStart())
+  },[])
+  
+  const usersData = useSelector((state) => state?.users?.users?.data?.rows)
+
+  useEffect(() => {
+    if (id) {
+        setEditMode(true);
+        // console.log("EDIT USER ID~~>>>", id)
+        const singleUser = usersData ? usersData.find((item) => item.id === Number(id)) : null;
+        setData({...singleUser})
+      } else {
+        setEditMode(false);
+        setData({...data})
+      }
+    }, [id]);
+    console.log("DATA AFTER ID ~~~>>>", data)
 
   const handleInput = (e) => {
     e.preventDefault();
@@ -27,7 +53,6 @@ const RegisterUser = () => {
     e.preventDefault();
     setSubmitted(true);
 
-    console.log("FORM DATA~~~~>>>>>", data);
     if (
       data.role &&
       data.userName &&
@@ -38,7 +63,14 @@ const RegisterUser = () => {
       data.password &&
       data.confirmPassword
     ) {
-      console.log("SUBMIT~~>>", data);
+      // console.log("SUBMIT~~>>", data);
+      if (!editMode) {
+        setData(data)
+        dispatch(registerUserStart(data))
+      } else {
+        dispatch(updateUserStart(data))
+      }
+      
     }
   };
 
@@ -73,19 +105,20 @@ const RegisterUser = () => {
                     name="role"
                     aria-label="Default select example"
                     onChange={handleInput}
+                    value={data.role || ""}
                     className={
                       submitted && !data.role
                         ? `form-control invalid `
                         : `form-control`
                     }
                   >
-                    <option selected></option>
-                    <option value="1">Admin</option>
-                    <option value="2">Superwiser</option>
-                    <option value="3">Agents</option>
-                    <option value="4">Designer</option>
-                    <option value="5">Packagers</option>
-                    <option value="6">Trackers</option>
+                    <option selected>Select Role</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Superwiser">Superwiser</option>
+                    <option value="Agents">Agents</option>
+                    <option value="Designer">Designer</option>
+                    <option value="Packagers">Packagers</option>
+                    <option value="Trackers">Trackers</option>
                   </select>
                 </div>
                 {submitted && !data.role && (
@@ -135,7 +168,7 @@ const RegisterUser = () => {
 
               <div class="mb-3">
                 <label class="form-label" for="basic-icon-default-email">
-                  Email Address <span className="error">*</span>
+                  email address <span className="error">*</span>
                 </label>
                 <div class="input-group input-group-merge">
                   <span
@@ -166,7 +199,7 @@ const RegisterUser = () => {
                 </div>
                 {submitted && !data.email && (
                   <label class="error" for="basic-icon-default-fullname">
-                    Provide email Address
+                    Provide email address
                   </label>
                 )}
               </div>
@@ -211,13 +244,13 @@ const RegisterUser = () => {
 
               <div class="mb-3">
                 <label class="form-label" for="basic-icon-default-address">
-                  Address <span className="error">*</span>
+                  address <span className="error">*</span>
                 </label>
                 <div class="input-group input-group-merge">
                   <span
                     id="basic-icon-default-address"
                     className={
-                      submitted && !data.address
+                      submitted && !data.address 
                         ? `input-group-text invalid `
                         : `input-group-text`
                     }
@@ -225,7 +258,7 @@ const RegisterUser = () => {
                     <i class="bx bx-buildings"></i>
                   </span>
                   <input
-                    type="password"
+                    type="text"
                     className={
                       submitted && !data.address
                         ? `form-control invalid `
@@ -236,13 +269,13 @@ const RegisterUser = () => {
                     value={data.address || ""}
                     placeholder="Street, city"
                     aria-label="Street, city"
-                    aria-describedby="basic-icon-default-fullname2"
+                    aria-describedby="basic-icon-default-fullname2" 
                     onChange={handleInput}
                   />
                 </div>
                 {submitted && !data.address && (
                   <label class="error" for="basic-icon-default-fullname">
-                    Enter Address
+                    Enter address
                   </label>
                 )}
               </div>
@@ -252,7 +285,7 @@ const RegisterUser = () => {
                   class="form-label"
                   name="gender"
                   value={data.gender || ""}
-                  for="basic-icon-default-confirmPassword"
+                  for="basic-icon-default-gender"
                 >
                   Select Gender <span className="error">*</span>
                 </label>
@@ -264,7 +297,8 @@ const RegisterUser = () => {
                       type="radio"
                       value="male"
                       onChange={handleInput}
-                      id="defaultRadio1"
+                      id="male"
+                      checked={data.gender === 'male' || ""}
                     />
                     <label class="form-check-label" for="defaultRadio1">
                       {" "}
@@ -278,7 +312,8 @@ const RegisterUser = () => {
                       type="radio"
                       value="female"
                       onChange={handleInput}
-                      id="defaultRadio2"
+                      id="female"
+                      checked={data.gender === 'female' || ""}
                     />
                     <label class="form-check-label" for="defaultRadio2">
                       {" "}
