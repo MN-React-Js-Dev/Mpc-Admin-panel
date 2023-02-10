@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { createOrdersStart } from "../Redux/Actions/ordersActions";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { createOrdersStart, getAllOrdersStart, updateOrderStart } from "../Redux/Actions/ordersActions";
 
 const Form = () => {
   
@@ -10,13 +11,37 @@ const Form = () => {
     pincode: "",
     phone: "",
     desing: "",
-    note: "",
+    description: "",
     image: null,
   };
   const [submitted, setSubmitted] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const [data, setData] = useState(orderData);
+  var { id } = useParams();
   const formData = new FormData()
   const dispatch = useDispatch()
+  const ordersData = useSelector((state) => state?.orders?.orders?.ordersData?.rows)
+  console.log("SELECTOR DATA ORDER~~~>>>>", ordersData)
+
+  useEffect(() => {
+      dispatch(getAllOrdersStart())
+    },[])
+
+    useEffect(() => {
+      if (id) {
+          setEditMode(true);
+          // console.log("EDIT USER ID~~>>>", id)
+          const singleOrder = ordersData ? ordersData.find((item) => item.id === Number(id)) : null;
+          setData({...singleOrder})
+        } else {
+          setEditMode(false);
+          setData({...data})
+        }
+      }, [id]);
+
+    
+
+  console.log("ID~~~>>>", id)
 
   const handleFileSelect = (e) => {
     setData({...data,  [e.target.name]: e.target.files[0]})
@@ -39,19 +64,29 @@ const Form = () => {
       data.address &&
       data.pincode &&
       data.phone &&
-      data.desing &&
-      data.note &&
-      data.image
+      data.desing 
     ) {
-      formData.append("orderName", data.orderName);
-      formData.append("address", data.address);
-      formData.append("pincode", data.pincode);
-      formData.append("phone", data.phone);
-      formData.append("desing", data.desing);
-      formData.append("note", data.note);
-      formData.append("image", data.image);
-      dispatch(createOrdersStart(formData))
-
+      if (!editMode) {
+        formData.append("orderName", data.orderName);
+        formData.append("address", data.address);
+        formData.append("pincode", data.pincode);
+        formData.append("phone", data.phone);
+        formData.append("desing", data.desing);
+        formData.append("note", data.description);
+        formData.append("image", data.image);
+        dispatch(createOrdersStart(formData))
+      } else {
+        formData.append("id", id);
+        formData.append("orderName", data.orderName);
+        formData.append("address", data.address);
+        formData.append("pincode", data.pincode);
+        formData.append("phone", data.phone);
+        formData.append("desing", data.desing);
+        formData.append("note", data.description);
+        formData.append("image", data.image);
+        dispatch(updateOrderStart(formData))
+      }
+        
     }
   };
 
@@ -275,17 +310,17 @@ const Form = () => {
               </div>
 
               <div class="mb-3">
-                <label class="form-label" for="basic-icon-default-note">
+                <label class="form-label" for="basic-icon-default-description">
                   Note
                 </label>
                 <div class="input-group input-group-merge">
-                  <span id="basic-icon-default-note" class="input-group-text">
+                  <span id="basic-icon-default-description" class="input-group-text">
                     <i class="bx bx-comment"></i>
                   </span>
                   <textarea
-                    id="basic-icon-default-note"
-                    name="note"
-                    value={data.note || ""}
+                    id="basic-icon-default-description"
+                    name="description"
+                    value={data.description || ""}
                     class="form-control"
                     placeholder="Please leave us a note if you have"
                     aria-label="Please leave us a note if you have"

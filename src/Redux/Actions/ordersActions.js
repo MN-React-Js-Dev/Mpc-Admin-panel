@@ -29,3 +29,33 @@ export const createOrdersError = (error) => ({
     type: types.CREATE_ORDERS_ERROR,
     payload: error,
 });
+
+export const updateOrderStart = (order) => ({
+    type: types.UPDATE_ORDER_START,
+    payload: order,
+});
+
+export const updateOrderSuccess = (order) => ({
+    type: types.UPDATE_ORDER_SUCCESS,
+    payload: order,
+});
+
+export const updateOrderError = (error) => ({
+    type: types.UPDATE_ORDER_ERROR,
+    payload: error,
+});
+
+export const deleteOrderStart = (order) => ({
+    type: types.DELETE_ORDER_START,
+    payload: order,
+});
+
+export const deleteOrderSuccess = (order) => ({
+    type: types.DELETE_ORDER_SUCCESS,
+    payload: order,
+});
+
+export const deleteOrderError = (error) => ({
+    type: types.DELETE_ORDER_ERROR,
+    payload: error,
+});

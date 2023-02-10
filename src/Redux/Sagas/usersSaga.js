@@ -19,6 +19,8 @@ import {
     forgotPasswordError,
     resetPasswordSuccess,
     resetPasswordError,
+    deleteUserSuccess,
+    deleteUserError,
 } from "../Actions/usersActions";
 
 import { 
@@ -29,7 +31,8 @@ import {
     getUserBYRoleApi,
     ChangePasswordApi,
     forgotPasswordApi,
-    resetPasswordApi
+    resetPasswordApi,
+    deleteUserApi
 } from "../APIs/usersApi";
 
 const Toast = Swal.mixin({
@@ -207,6 +210,30 @@ export function* onUpdateUser() {
     yield takeLatest(types.UPDATE_USER_START, onUpdateUserStartAsync);
 }
 
+export function* onDeleteUserStartAsync ({payload}) {
+    try {
+        const response = yield call(deleteUserApi, payload);
+        if (response.data.success === true) {
+            yield put(deleteUserSuccess(response.data))
+            Toast.fire({
+                icon: "success",
+                title: response.data.message,
+            });
+        }  else {
+            Toast.fire({
+                icon: "error",
+                title: response.data.message,
+            });
+        }
+    } catch (error) {
+        yield put(deleteUserError(error.response))
+    }
+}
+
+export function* onDeleteUser() {
+    yield takeLatest(types.DELETE_USER_START, onDeleteUserStartAsync);
+}
+
 export function* onGetUserByRoleStartAsync ({payload}) {
     try {
         const response = yield call(getUserBYRoleApi, payload);
@@ -230,6 +257,7 @@ const userSagas = [
     fork(onUserLogin),
     fork(onRegisterUser),
     fork(onUpdateUser),
+    fork(onDeleteUser),
     fork(onGetUserByRole),
 ];
 

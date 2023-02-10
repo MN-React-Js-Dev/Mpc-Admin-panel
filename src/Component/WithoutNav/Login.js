@@ -14,7 +14,7 @@ const Login = () => {
       const [submitted, setSubmitted] = useState(false);
       const [data, setData] = useState(loginData);
       const loginDataSelector = useSelector((state) => state?.users?.loginUser?.message)
-      console.log("LOGIN DATA~~~>>>>>", loginDataSelector)
+      // console.log("LOGIN DATA~~~>>>>>", loginDataSelector)
 
       if (loginDataSelector == "Login successful") {
         console.log("NAVIGATE TO HOME")
@@ -29,7 +29,6 @@ const Login = () => {
           ...data,
           [e.target.name]: value,
         });
-        console.log("FORM DATA~~~~>>>>>", data);
       };
     
       const handleSubmit = (e) => {

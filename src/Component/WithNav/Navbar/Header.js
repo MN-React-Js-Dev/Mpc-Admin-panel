@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { loginUsersStart } from "../../../Redux/Actions/usersActions";
 
 const Header = () => {
+
+
+ const getUserData = JSON.parse(localStorage.getItem('MPCADMIN'))
+ const userRole = getUserData?.role;
+ console.log("userRole~~>>", userRole)
+ const [role, setRole] = useState()
+
+ useEffect(() => {
+    if (userRole === 'admin') {
+        setRole(userRole)
+    }
+ },[userRole])
+
+ console.log("ROLE~~>>",role)
+
   return (
     <>
       <aside
@@ -77,39 +94,42 @@ const Header = () => {
               <div data-i18n="Analytics">Dashboard</div>
             </Link>
           </li>
-          <li class="menu-item">
-            <Link to="/form" class="menu-link menu-toggle">
-              <i class="menu-icon tf-icons bx bx-dock-top"></i>
-              <div data-i18n="Account Settings">Form</div>
-            </Link>
-            <Link to={{ pathname: "/create-user" }} class="menu-link">
-              <i class="menu-icon tf-icons bx bx-crown"></i>
-              <div data-i18n="Boxicons">Create User</div>
-            </Link>
-            <Link to={{ pathname: "/users" }} class="menu-link">
-              <i class="menu-icon tf-icons bx bx-crown"></i>
-              <div data-i18n="Boxicons">All User</div>
-            </Link>
-            <Link to={{ pathname: "/orders" }} class="menu-link">
-              <i class="menu-icon tf-icons bx bx-crown"></i>
-              <div data-i18n="Boxicons">All Orders</div>
-            </Link>
-          </li>
 
-          <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Misc</span>
-          </li>
           <li class="menu-item">
-            <a href="#" target="_blank" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-support"></i>
-              <div data-i18n="Support">Support</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="#" target="_blank" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-file"></i>
-              <div data-i18n="Documentation">Documentation</div>
-            </a>
+              
+              {
+                role === 'admin' && (
+                    <li class="menu-item">
+                      <li class="menu-header small text-uppercase">
+                          <span class="menu-header-text">USERS</span>
+                      </li>
+                      <Link to={{ pathname: "/users" }} class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-crown"></i>
+                        <div data-i18n="Boxicons">All User</div>
+                      </Link>
+    
+                      <Link to={{ pathname: "/register-user" }} class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-crown"></i>
+                        <div data-i18n="Boxicons">Create User</div>
+                      </Link>
+                    </li>
+                  )
+              }
+              
+
+              <li class="menu-header small text-uppercase">
+                <span class="menu-header-text">ORDERS</span>
+              </li>
+
+              <Link to={{ pathname: "/orders" }} class="menu-link">
+                <i class="menu-icon tf-icons bx bx-crown"></i>
+                <div data-i18n="Boxicons">All Orders</div>
+              </Link>
+
+              <Link to="/form" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <div data-i18n="Account Settings">Create Order</div>
+              </Link>
           </li>
         </ul>
       </aside>

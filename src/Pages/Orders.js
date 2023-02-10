@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getAllOrdersStart } from "../Redux/Actions/ordersActions";
+import { deleteOrderStart, getAllOrdersStart } from "../Redux/Actions/ordersActions";
 
 const Orders = () => {
 
@@ -12,7 +12,12 @@ const Orders = () => {
     },[])
 
     const ordersData = useSelector((state) => state?.orders?.orders?.ordersData?.rows)
-    console.log("SELECTOR DATA ORDER~~~>>>>", ordersData)
+    // console.log("SELECTOR DATA ORDER~~~>>>>", ordersData)
+
+    const handleClick = (id) => {
+      console.log("DELTE ID~~~>>>", id)
+      dispatch(deleteOrderStart(id))
+    }
 
   return (
     <>
@@ -56,31 +61,29 @@ const Orders = () => {
                   </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                  {ordersData? ordersData.map((userList) => {
+                  {ordersData? ordersData.map((orderList) => {
                         return (
                           <>
                             <tr class="table-light">
                               <td>
                                 <i class="fab fa-bootstrap fa-lg text-primary me-3"></i>{" "}
-                                <strong>{userList?.id}</strong>
+                                <strong>{orderList?.id}</strong>
                               </td>
-                              <td>{userList?.orderName}</td>
+                              <td>{orderList?.orderName}</td>
                               <td>
-                                <img src={`${userList?.image}`} height="50%" width="50%" />
+                                <img src={`${orderList?.image}`} height="50%" width="50%" />
                               </td>
-                              <td>{userList?.phone}</td>
-                              <td>{userList?.address},{userList.pincode}</td>
+                              <td>{orderList?.phone}</td>
+                              <td>{orderList?.address},{orderList.pincode}</td>
                               <td>
-                                <Link to={`/form/${userList.id}`}>
+                                <Link to={`/form/${orderList.id}`}>
                                   <a class="dropdown-item">
                                     <i class="bx bx-edit-alt me-1"></i> Edit
                                   </a>
                                 </Link>
                               </td>
                               <td>
-                                <a
-                                  class="dropdown-item"
-                                >
+                                <a class="dropdown-item" onClick={() => handleClick(orderList.id)}>
                                   <i class="bx bx-trash me-1"></i> Delete
                                 </a>
                               </td>

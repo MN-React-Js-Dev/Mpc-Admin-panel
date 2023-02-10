@@ -30,10 +30,10 @@ const Users = () => {
       } 
     },[roleData, usersData])
     
-    console.log("MANAGE DATA~~>>>", manageData)
+    // console.log("MANAGE DATA~~>>>", manageData)
     const handleDelete = (userList) => {
         setData(userList)
-        console.log("DELETE ID!~~~", userList)
+        // console.log("DELETE ID!~~~", userList)
         setDeleteProductDialog(true)
     }
 

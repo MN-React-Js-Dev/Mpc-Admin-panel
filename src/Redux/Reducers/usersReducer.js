@@ -15,6 +15,7 @@ const usersReducer = ( state = initialState, action ) => {
         case types.GET_ALL_USERS_START:
         case types.REGISTER_USER_START:
         case types.UPDATE_USER_START:
+        case types.DELETE_USER_START:
         case types.GET_USER_BYROLE_START:
             return {
                 ...state,
@@ -33,6 +34,7 @@ const usersReducer = ( state = initialState, action ) => {
         case types.GET_ALL_USERS_SUCCESS:
         case types.REGISTER_USER_SUCCESS:
         case types.UPDATE_USER_SUCCESS:  
+        case types.DELETE_USER_SUCCESS:
             return {
                 ...state,
                 users: action.payload,
@@ -49,6 +51,7 @@ const usersReducer = ( state = initialState, action ) => {
         case types.GET_ALL_USERS_ERROR:
         case types.REGISTER_USER_ERROR:
         case types.UPDATE_USER_ERROR:
+        case types.DELETE_USER_ERROR:
         case types.GET_USER_BYROLE_ERROR:
             return {
                 ...state,
