@@ -19,7 +19,6 @@ const Users = () => {
     const usersData = useSelector((state) => state?.users?.users?.data?.rows)
     const roleData = useSelector((state) => state?.users?.usersRole?.serviceSearch)
     
-    // console.log("ROLE WISE FINAL DATA~~~>>>", roleData)
     const [manageData, setManageData] = useState(usersData);
     
     useEffect (() => {
@@ -73,7 +72,6 @@ const Users = () => {
                                 <option value="Designer">Designer</option>
                                 <option value="Packagers">Packagers</option>
                                 <option value="Trackers">Trackers</option>
-                                {/* <option value="showAll">Show All</option> */}
                               </select>
                             </div>
                             <Link to={`/register-user/`}>
@@ -92,8 +90,6 @@ const Users = () => {
                         <th><b>UserName</b></th>
                         <th><b>Email Address</b></th>
                         <th><b>Contact Number</b></th>
-                        {/* <th>Address</th> */}
-                        {/* <th>Gender</th> */}
                         <th><b>Role</b></th>
                       </tr>
                     </thead>
