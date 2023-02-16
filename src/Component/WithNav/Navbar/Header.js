@@ -8,7 +8,6 @@ const Header = () => {
 
  const getUserData = JSON.parse(localStorage.getItem('MPCADMIN'))
  const userRole = getUserData?.role;
- console.log("userRole~~>>", userRole)
  const [role, setRole] = useState()
 
  useEffect(() => {
@@ -17,7 +16,6 @@ const Header = () => {
     }
  },[userRole])
 
- console.log("ROLE~~>>",role)
 
   return (
     <>
