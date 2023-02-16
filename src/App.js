@@ -14,6 +14,7 @@ import ResetPassword from "./Component/WithoutNav/ResetPassword";
 import Orders from "./Pages/Orders";
 
 function App() {
+
   return (
     <>
     <Routes>
@@ -34,26 +35,6 @@ function App() {
           <Route exact path="/orders" element={<Orders />} />
         </Route>
       </Routes>
-
-    {/* <div>
-      <div class="layout-wrapper layout-content-navbar">
-        <div class="layout-container">
-          <Header />
-          <div class="layout-page">
-            <SmallNav />
-            <Routes>
-              <Route exact path="/" element={<Home />}></Route>
-              <Route exact path="/form" element={<Form />}></Route>
-              <Route exact path="/create-user" element={<CreateUser />}></Route>
-              <Route exact path="/users" element={<Users />}></Route>
-              <Route exact path="/register-user" element={<RegisterUser />}></Route>
-              <Route exact path="/update-user/:id" element={<RegisterUser />}></Route>
-            </Routes>
-          </div>
-        </div>
-      </div>
-      <Footer />
-    </div> */}
     </>
   );
 }
