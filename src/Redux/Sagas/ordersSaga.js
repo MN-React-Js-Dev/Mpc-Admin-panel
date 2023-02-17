@@ -81,9 +81,10 @@ export function* onUpdateOrder() {
 }
 
 export function* onUpdateOrderStatusStartAsync ({payload}) {
+    console.log('PAYLOAD~~~~~>>>', payload)
     try {
         const response = yield call(updateOrderStausApi, payload);
-        console.log('RESPONSE~~~~~>>>', response.data)
+        console.log('RESPONSE~~~~~~', response);
         if (response.data.success === true) {
             yield put(updateOrderStatusSuccess(response.data))
             Toast.fire({
