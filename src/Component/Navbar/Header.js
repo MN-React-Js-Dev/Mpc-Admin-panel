@@ -12,7 +12,6 @@ const Header = () => {
                                 viewBox="0 0 25 42"
                                 version="1.1"
 
-
                             >
                                 <defs>
                                     <path

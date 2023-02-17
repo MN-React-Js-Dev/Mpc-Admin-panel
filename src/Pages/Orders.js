@@ -1,30 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   deleteOrderStart,
   getAllOrdersStart,
+  updateOrderStatusStart,
 } from "../Redux/Actions/ordersActions";
 
 
 const Orders = () => {
   const dispatch = useDispatch();
+  const [ ischecked, setChecked ] = useState(false);
 
   useEffect(() => {
     dispatch(getAllOrdersStart());
   }, []);
 
-  const ordersData = useSelector(
-    (state) => state?.orders?.orders?.ordersDetails?.orders
-  );
+
+  const ordersData = useSelector((state) => state?.orders?.orders?.ordersData?.rows);
   console.log("SELECTOR DATA ORDER~~~>>>>", ordersData);
+
+
+  const handleChange = (id) => {
+    // e.preventDefault();
+    console.log("CHECKED ID~~~>>>", id);
+    // dispatch(updateOrderStatusStart(id))
+};
 
   const handleClick = (id) => {
     console.log("DELTE ID~~~>>>", id);
     dispatch(deleteOrderStart(id));
   };
 
- 
 
   return (
     <>
@@ -113,8 +120,6 @@ const Orders = () => {
             </div>
           </div>
         </div>
-
-
         <h4 class="fw-bold py-3 mb-4">All Order</h4>
         <div class="card mb-4">
           <div class="card-header d-flex justify-content-between align-items-center">
@@ -133,6 +138,7 @@ const Orders = () => {
               <table class="table">
                 <thead>
                   <tr>
+                    <th></th>
                     <th>
                       <b>Order Number</b>
                     </th>
@@ -153,13 +159,21 @@ const Orders = () => {
                         return (
                           <>
                             <tr class="table-light">
+                             <td>
+                                <input 
+                                    type="checkbox" 
+                                    id={orderList.id}
+                                    checked={ischecked}
+                                    onChange={() =>handleChange(orderList.id)}
+                                      />
+                             </td>
                               <td>
                                 <i class="fab fa-bootstrap fa-lg text-primary me-3"></i>{" "}
-                                <strong>{orderList?.order_number}</strong>
+                                <strong>{orderList?.id}</strong>
                               </td>
-                              <td>{orderList?.line_items[0].name}</td>
+                              <td>{orderList?.orderName}</td>
                               <td>
-                                {orderList?.financial_status}
+                                {orderList?.status}
                               </td>
                               <td>{orderList?.phone}</td>
                               <td>

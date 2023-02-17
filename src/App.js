@@ -15,9 +15,6 @@ import Orders from "./Pages/Orders";
 
 function App() {
 
-  // const token = localStorage.getItem('MPCADMIN')
-  // console.log("TOKEN In APP~~~>>>>>>", token)
-
   return (
     <>
     <Routes>
@@ -27,7 +24,6 @@ function App() {
           <Route path="/forgot-password" element={ <ForgotPassword/> } />
           <Route path="/reset-password" element={ <ResetPassword/> } />
         </Route>
-        
         <Route element={<WithNav />}>
           <Route exact path="/home" element={<Home />}></Route>
           <Route path="/form" element={<Form />} />

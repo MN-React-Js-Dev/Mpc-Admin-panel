@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { loginUsersStart } from "../../../Redux/Actions/usersActions";
 
 const Header = () => {
-
-
+  
  const getUserData = JSON.parse(localStorage.getItem('MPCADMIN'))
  const userRole = getUserData?.role;
  const [role, setRole] = useState()
 
  useEffect(() => {
-    if (userRole === 'admin') {
+    if (userRole === 'Agent') {
         setRole(userRole)
-    }
+    } 
  },[userRole])
 
 
@@ -96,7 +93,40 @@ const Header = () => {
           <li class="menu-item">
               
               {
-                role === 'admin' && (
+                role === 'Agent' ? (
+
+                  <>
+                  <li class="menu-item">
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">USERS</span>
+                    </li>
+                    <Link to={{ pathname: "/users" }} class="menu-link">
+                      <i class="menu-icon tf-icons bx bx-crown"></i>
+                      <div data-i18n="Boxicons">All User</div>
+                    </Link>
+  
+                    <Link to={{ pathname: "/register-user" }} class="menu-link">
+                      <i class="menu-icon tf-icons bx bx-crown"></i>
+                      <div data-i18n="Boxicons">Create User</div>
+                    </Link>
+                  </li>
+
+                  <li class="menu-header small text-uppercase">
+                  <span class="menu-header-text">ORDERS</span>
+                </li>
+  
+                <Link to={{ pathname: "/orders" }} class="menu-link">
+                  <i class="menu-icon tf-icons bx bx-crown"></i>
+                  <div data-i18n="Boxicons">All Orders</div>
+                </Link>
+                
+                <Link to="/form" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                            <div data-i18n="Account Settings">Create Order</div>
+                </Link>
+                  </>
+
+                  ) : (
                     <li class="menu-item">
                       <li class="menu-header small text-uppercase">
                           <span class="menu-header-text">USERS</span>
@@ -114,20 +144,6 @@ const Header = () => {
                   )
               }
               
-
-              <li class="menu-header small text-uppercase">
-                <span class="menu-header-text">ORDERS</span>
-              </li>
-
-              <Link to={{ pathname: "/orders" }} class="menu-link">
-                <i class="menu-icon tf-icons bx bx-crown"></i>
-                <div data-i18n="Boxicons">All Orders</div>
-              </Link>
-
-              <Link to="/form" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                <div data-i18n="Account Settings">Create Order</div>
-              </Link>
           </li>
         </ul>
       </aside>

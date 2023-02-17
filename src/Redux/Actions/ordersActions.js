@@ -45,6 +45,21 @@ export const updateOrderError = (error) => ({
     payload: error,
 });
 
+export const updateOrderStatusStart = (order) => ({
+    type: types.UPDATE_ORDER_STATUS_START,
+    payload: order,
+});
+
+export const updateOrderStatusSuccess = (order) => ({
+    type: types.UPDATE_ORDER_STATUS_SUCCESS,
+    payload: order,
+});
+
+export const updateOrderStatusError = (error) => ({
+    type: types.UPDATE_ORDER_STATUS_ERROR,
+    payload: error,
+});
+
 export const deleteOrderStart = (order) => ({
     type: types.DELETE_ORDER_START,
     payload: order,
