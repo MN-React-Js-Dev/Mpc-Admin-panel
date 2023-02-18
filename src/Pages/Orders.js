@@ -169,14 +169,7 @@ const Orders = () => {
                                   </a>
                                 </Link>
                               </td>
-                              <td>
-                                <a
-                                  class="dropdown-item"
-                                  onClick={() => handleClick(orderList.id)}
-                                >
-                                  <i class="bx bx-trash me-1"></i> Delete
-                                </a>
-                              </td>
+                              
                             </tr>
                           </>
                         );

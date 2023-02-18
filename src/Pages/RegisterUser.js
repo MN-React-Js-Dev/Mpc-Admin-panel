@@ -114,7 +114,7 @@ const RegisterUser = () => {
                   >
                     <option selected>Select Role</option>
                     <option value="Admin">Admin</option>
-                    <option value="Superwiser">Superwiser</option>
+                    <option value="Supervisors">Supervisors</option>
                     <option value="Agents">Agents</option>
                     <option value="Designer">Designer</option>
                     <option value="Packagers">Packagers</option>
@@ -166,7 +166,9 @@ const RegisterUser = () => {
                 )}
               </div>
 
-              <div class="mb-3">
+                {!editMode && (
+                  <>  
+                    <div class="mb-3">
                 <label class="form-label" for="basic-icon-default-email">
                   email address <span className="error">*</span>
                 </label>
@@ -203,6 +205,9 @@ const RegisterUser = () => {
                   </label>
                 )}
               </div>
+                  </>
+                )}
+            
 
               <div class="mb-3">
                 <label class="form-label" for="basic-icon-default-phone">
@@ -328,84 +333,91 @@ const RegisterUser = () => {
                 )}
               </div>
 
-              <div class="mb-3">
-                <label class="form-label" for="basic-icon-default-password">
-                  password <span className="error">*</span>
-                </label>
-                <div class="input-group input-group-merge">
-                  <span
-                    id="basic-icon-default-password"
-                    className={
-                      submitted && !data.password
-                        ? `input-group-text invalid `
-                        : `input-group-text`
-                    }
-                  >
-                    <i class="bx bx-card"></i>
-                  </span>
-                  <input
-                    type="password"
-                    className={
-                      submitted && !data.password
-                        ? `form-control invalid `
-                        : `form-control`
-                    }
-                    id="basic-icon-default-password"
-                    name="password"
-                    value={data.password || ""}
-                    placeholder="..."
-                    aria-label="..."
-                    aria-describedby="basic-icon-default-fullname2"
-                    onChange={handleInput}
-                  />
-                </div>
-                {submitted && !data.password && (
-                  <label class="error" for="basic-icon-default-fullname">
-                    password is required
-                  </label>
-                )}
-              </div>
+                {!editMode && (
+                  <>
+                      <div class="mb-3">
+                    <label class="form-label" for="basic-icon-default-password">
+                      password <span className="error">*</span>
+                    </label>
+                    <div class="input-group input-group-merge">
+                      <span
+                        id="basic-icon-default-password"
+                        className={
+                          submitted && !data.password
+                            ? `input-group-text invalid `
+                            : `input-group-text`
+                        }
+                      >
+                        <i class="bx bx-card"></i>
+                      </span>
+                      <input
+                        type="password"
+                        className={
+                          submitted && !data.password
+                            ? `form-control invalid `
+                            : `form-control`
+                        }
+                        id="basic-icon-default-password"
+                        name="password"
+                        value={data.password || ""}
+                        placeholder="..."
+                        aria-label="..."
+                        aria-describedby="basic-icon-default-fullname2"
+                        onChange={handleInput}
+                      />
+                    </div>
+                    {submitted && !data.password && (
+                      <label class="error" for="basic-icon-default-fullname">
+                        password is required
+                      </label>
+                    )}
+                  </div>
+    
+                  <div class="mb-3">
+                    <label
+                      class="form-label"
+                      for="basic-icon-default-confirmPassword"
+                    >
+                      Confirm Password <span className="error">*</span>
+                    </label>
+                    <div class="input-group input-group-merge">
+                      <span
+                        id="basic-icon-default-confirmPassword"
+                        className={
+                          submitted && !data.confirmPassword
+                            ? `input-group-text invalid `
+                            : `input-group-text`
+                        }
+                      >
+                        <i class="bx bx-card"></i>
+                      </span>
+                      <input
+                        type="password"
+                        className={
+                          submitted && !data.confirmPassword
+                            ? `form-control invalid `
+                            : `form-control`
+                        }
+                        id="basic-icon-default-confirmPassword"
+                        name="confirmPassword"
+                        value={data.confirmPassword || ""}
+                        placeholder="..."
+                        aria-label="..."
+                        aria-describedby="basic-icon-default-fullname2"
+                        onChange={handleInput}
+                      />
+                    </div>
+                    {submitted && !data.confirmPassword && (
+                      <label class="error" for="basic-icon-default-fullname">
+                        Confirm password is required
+                      </label>
+                    )}
+                  </div>
+                  </>
 
-              <div class="mb-3">
-                <label
-                  class="form-label"
-                  for="basic-icon-default-confirmPassword"
-                >
-                  Confirm Password <span className="error">*</span>
-                </label>
-                <div class="input-group input-group-merge">
-                  <span
-                    id="basic-icon-default-confirmPassword"
-                    className={
-                      submitted && !data.confirmPassword
-                        ? `input-group-text invalid `
-                        : `input-group-text`
-                    }
-                  >
-                    <i class="bx bx-card"></i>
-                  </span>
-                  <input
-                    type="password"
-                    className={
-                      submitted && !data.confirmPassword
-                        ? `form-control invalid `
-                        : `form-control`
-                    }
-                    id="basic-icon-default-confirmPassword"
-                    name="confirmPassword"
-                    value={data.confirmPassword || ""}
-                    placeholder="..."
-                    aria-label="..."
-                    aria-describedby="basic-icon-default-fullname2"
-                    onChange={handleInput}
-                  />
-                </div>
-                {submitted && !data.confirmPassword && (
-                  <label class="error" for="basic-icon-default-fullname">
-                    Confirm password is required
-                  </label>
-                )}
-              </div>
+                  )
+                }
+            
 
               <button type="submit" class="btn btn-primary">
                 Send

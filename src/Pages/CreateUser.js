@@ -102,7 +102,7 @@ const CreateUser = () => {
                                             />
                                             <span id="basic-icon-default-email2" class="input-group-text">@example.com</span>
                                         </div>
-                                        <div class="form-text">You can use letters, numbers & periods</div>
+                                        <div class="form-text">You can use letters, numbers & prieods</div>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="basic-icon-default-phone">Phone No</label>
@@ -128,6 +128,7 @@ const CreateUser = () => {
                                             <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
                                                 <option selected>Please Select Role</option>
                                                 <option value="admin">Admin</option>
+                                                <option value="Supervisors">Supervisors</option>
                                                 <option value="agents">Agents</option>
                                                 <option value="designer">Designer</option>
                                                 <option value="packing">Packing</option>

@@ -15,9 +15,6 @@ import Orders from "./Pages/Orders";
 
 function App() {
 
-  // const token = localStorage.getItem('MPCADMIN')
-  // console.log("TOKEN In APP~~~>>>>>>", token)
-
   return (
     <>
     <Routes>
@@ -29,10 +26,11 @@ function App() {
         </Route>
         
         <Route element={<WithNav />}>
+         
           <Route exact path="/home" element={<Home />}></Route>
           <Route path="/form" element={<Form />} />
           <Route path="/form/:id" element={<Form />} />
-          <Route exact path="/create-user" element={<CreateUser />}></Route>
+          <Route exact path="/create-user" element={<CreateUser />}></Route> 
           <Route exact path="/users" element={<Users />}></Route>
           <Route exact path="/register-user" element={<RegisterUser />}></Route>
           <Route exact path="/update-user/:id" element={<RegisterUser />}></Route>
