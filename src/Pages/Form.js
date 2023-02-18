@@ -11,7 +11,7 @@ const Form = () => {
     city: "",
     province : "",
     country : "",
-    order_name: "",
+    orderName: "",
     address: "",
     pincode: "",
     phone: "",
@@ -77,7 +77,7 @@ const Form = () => {
       data.city &&
       data.province &&
       data.country &&   
-      data.order_name &&
+      data.orderName &&
       data.address &&
       data.pincode &&
       data.phone &&
@@ -94,7 +94,7 @@ const Form = () => {
         formData.append("city", data.city);
         formData.append("province ", data.province);
         formData.append("country", data.country);
-        formData.append("order_name", data.order_name);
+        formData.append("orderName", data.orderName);
         formData.append("address", data.address);
         formData.append("pincode", data.pincode);
         formData.append("phone", data.phone);
@@ -111,7 +111,7 @@ const Form = () => {
         formData.append("city", data.city);
         formData.append("province ", data.province);
         formData.append("country", data.country);
-        formData.append("order_name", data.order_name);
+        formData.append("orderName", data.orderName);
         formData.append("address", data.address);
         formData.append("pincode", data.pincode);
         formData.append("phone", data.phone);
@@ -330,7 +330,7 @@ const Form = () => {
                 <span
                   id="basic-icon-default-fullname2"
                   className={
-                    submitted && !data.order_name
+                    submitted && !data.orderName
                       ? `input-group-text invalid `
                       : `input-group-text`
                   }
@@ -340,20 +340,20 @@ const Form = () => {
                 <input
                   type="text"
                   className={
-                    submitted && !data.order_name
+                    submitted && !data.orderName
                       ? `form-control invalid `
                       : `form-control`
                   }
                   id="basic-icon-default-fullname"
-                  name="order_name"
-                  value={data.order_name || ""}
+                  name="orderName"
+                  value={data.orderName || ""}
                   placeholder="John Doe"
                   aria-label="John Doe"
                   aria-describedby="basic-icon-default-fullname2"
                   onChange={handleInput}
                 />
               </div>
-              {submitted && !data.order_name && (
+              {submitted && !data.orderName && (
                 <label class="error" for="basic-icon-default-fullname">
                   Ordername is required
                 </label>
@@ -674,7 +674,7 @@ const Form = () => {
                 </span>
                 <textarea
                   id="basic-icon-default-description"
-                  name="note"
+                  name="status"
                   value={data.status || ""}
                   class="form-control"
                   placeholder="Please leave us a note if you have"

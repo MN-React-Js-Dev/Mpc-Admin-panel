@@ -10,12 +10,14 @@ const ordersReducer = ( state = initialState, action ) => {
         case types.CREATE_ORDERS_START:
         case types.UPDATE_ORDER_START:
         case types.DELETE_ORDER_START:
+        case types.UPDATE_ORDER_STATUS_START:
             return {
                 ...state,
             };
         case types.GET_ALL_ORDERS_SUCCESS:
         case types.UPDATE_ORDER_SUCCESS:
         case types.DELETE_ORDER_SUCCESS:
+            case types.UPDATE_ORDER_STATUS_SUCCESS:
             return {
                 ...state,
                 orders: action.payload,
@@ -28,6 +30,7 @@ const ordersReducer = ( state = initialState, action ) => {
         case types.CREATE_ORDERS_ERROR:
         case types.UPDATE_ORDER_ERROR:
         case types.DELETE_ORDER_ERROR:
+        case types.UPDATE_ORDER_STATUS_ERROR:
             return {
                 ...state,
                 error: action.payload,
