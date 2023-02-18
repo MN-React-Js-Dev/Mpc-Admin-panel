@@ -10,7 +10,8 @@ import {
 
 const Orders = () => {
   const dispatch = useDispatch();
-  // const [checked , setChecked] = useState(false)
+  const [checked , setChecked] = useState(false)
+  let itemArr = []
 
   useEffect(() => {
     dispatch(getAllOrdersStart());
@@ -22,16 +23,21 @@ const Orders = () => {
   const handleChangeStatus = (id, status) => {
     console.log('Id~~~~~>>>', id)
     console.log('STATUS~~~~~>>', status)
-    const payload = {
-      "itemIds" : [
-        id
-      ], 
-    "status" : 'ready to ship'
-    }
-    console.log('PAYLOAD-DATA~~~~~~>>>', payload)
-    // dispatch(updateOrderStatusStart(payload))
-    // window.location.reload()
-  }
+    setChecked(true)
+    
+    // const payload = {
+      //   "itemIds" : [
+        //     id
+        //   ], 
+        // "status" : 'ready to ship'
+        // }
+        // dispatch(updateOrderStatusStart(payload))
+        // window.location.reload()
+        
+        
+        
+        console.log('PAYLOAD-DATA~~~~~~>>>', itemArr)
+      }
 
   const handleClick = (id) => {
     // console.log("DELTE ID~~~>>>", id);
@@ -131,6 +137,16 @@ const Orders = () => {
           <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Orders List</h5>
             <div class="d-flex justify-content-between">
+
+            {
+              checked && (
+                <button type="button" class="btn btn-primary m-1">
+                  Edit
+                </button>
+              )
+            }
+                
+
               <Link to={`/form`}>
                 <button type="button" class="btn btn-primary m-1">
                   + NEW

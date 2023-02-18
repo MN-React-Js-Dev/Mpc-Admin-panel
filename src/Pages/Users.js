@@ -3,18 +3,9 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllUsersStart, getUserByRoleStart } from '../Redux/Actions/usersActions';
-import { DataTable } from 'primereact/datatable';
-import { Toolbar } from 'primereact/toolbar';
-import { Column } from "primereact/column";
-import { Button } from "primereact/button";
-import { Dialog } from "primereact/dialog";
-import { InputText } from "primereact/inputtext";
 
 const Users = () => {
 
-    const [deleteProductDialog, setDeleteProductDialog] = useState(false);
-    const [data, setData] = useState();
-    
     const [filterData, setFilterData] = useState()
     const dispatch = useDispatch();
     
@@ -36,8 +27,7 @@ const Users = () => {
     },[roleData, usersData])
     
     const handleDelete = (userList) => {
-        setData(userList)
-        setDeleteProductDialog(true)
+      console.log("USERLIST~~>>", userList)
     }
 
     const onFilterValueChange = (e) => {
