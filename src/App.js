@@ -24,7 +24,6 @@ function App() {
           <Route path="/forgot-password" element={ <ForgotPassword/> } />
           <Route path="/reset-password" element={ <ResetPassword/> } />
         </Route>
-        
         <Route element={<WithNav />}>
          
           <Route exact path="/home" element={<Home />}></Route>

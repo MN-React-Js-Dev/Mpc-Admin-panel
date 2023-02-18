@@ -4,27 +4,40 @@ import { Link } from "react-router-dom";
 import {
   deleteOrderStart,
   getAllOrdersStart,
+  updateOrderStatusStart,
 } from "../Redux/Actions/ordersActions";
 
 
 const Orders = () => {
   const dispatch = useDispatch();
+  // const [checked , setChecked] = useState(false)
 
   useEffect(() => {
     dispatch(getAllOrdersStart());
   }, []);
+  
+  const ordersData = useSelector((state) => state?.orders?.orders?.ordersData?.rows);
+  // console.log("SELECTOR DATA ORDER~~~>>>>", ordersData);
 
-  const ordersData = useSelector(
-    (state) => state?.orders?.orders?.ordersDetails?.orders
-  );
-  console.log("SELECTOR DATA ORDER~~~>>>>", ordersData);
+  const handleChangeStatus = (id, status) => {
+    console.log('Id~~~~~>>>', id)
+    console.log('STATUS~~~~~>>', status)
+    const payload = {
+      "itemIds" : [
+        id
+      ], 
+    "status" : 'ready to ship'
+    }
+    console.log('PAYLOAD-DATA~~~~~~>>>', payload)
+    dispatch(updateOrderStatusStart(payload))
+    window.location.reload()
+  }
 
   const handleClick = (id) => {
-    console.log("DELTE ID~~~>>>", id);
+    // console.log("DELTE ID~~~>>>", id);
     dispatch(deleteOrderStart(id));
   };
 
- 
 
   return (
     <>
@@ -113,8 +126,6 @@ const Orders = () => {
             </div>
           </div>
         </div>
-
-
         <h4 class="fw-bold py-3 mb-4">All Order</h4>
         <div class="card mb-4">
           <div class="card-header d-flex justify-content-between align-items-center">
@@ -133,6 +144,7 @@ const Orders = () => {
               <table class="table">
                 <thead>
                   <tr>
+                    <th></th>
                     <th>
                       <b>Order Number</b>
                     </th>
@@ -150,30 +162,44 @@ const Orders = () => {
                 <tbody class="table-border-bottom-0">
                   {ordersData
                     ? ordersData.map((orderList) => {
-                        return (
-                          <>
-                            <tr class="table-light">
-                              <td>
-                                <i class="fab fa-bootstrap fa-lg text-primary me-3"></i>{" "}
-                                <strong>{orderList?.order_number}</strong>
-                              </td>
-                              <td>{orderList?.line_items[0].name}</td>
-                              <td>
-                                {orderList?.financial_status}
-                              </td>
-                              <td>{orderList?.phone}</td>
-                              <td>
-                                <Link to={`/form/${orderList.id}`}>
-                                  <a class="dropdown-item">
-                                    <i class="bx bx-edit-alt me-1"></i> Edit
-                                  </a>
-                                </Link>
-                              </td>
-                              
-                            </tr>
-                          </>
-                        );
-                      })
+                      return (
+                        <>
+                          <tr class="table-light">
+                            <td>
+                              <input
+                                type="checkbox"
+                                checked={orderList.isChecked}
+                                onClick={() => handleChangeStatus(orderList.id, orderList.status)}
+                              />
+                            </td>
+                            <td>
+                              <i class="fab fa-bootstrap fa-lg text-primary me-3"></i>{" "}
+                              <strong>{orderList?.id}</strong>
+                            </td>
+                            <td>{orderList?.orderName}</td>
+                            <td>
+                              {orderList?.status}
+                            </td>
+                            <td>{orderList?.phone}</td>
+                            <td>
+                              <Link to={`/form/${orderList.id}`}>
+                                <a class="dropdown-item">
+                                  <i class="bx bx-edit-alt me-1"></i> Edit
+                                </a>
+                              </Link>
+                            </td>
+                            <td>
+                              <a
+                                class="dropdown-item"
+                                onClick={() => handleClick(orderList.id)}
+                              >
+                                <i class="bx bx-trash me-1"></i> Delete
+                              </a>
+                            </td>
+                          </tr>
+                        </>
+                      );
+                    })
                     : null}
                 </tbody>
               </table>
