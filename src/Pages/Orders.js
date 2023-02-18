@@ -29,8 +29,8 @@ const Orders = () => {
     "status" : 'ready to ship'
     }
     console.log('PAYLOAD-DATA~~~~~~>>>', payload)
-    dispatch(updateOrderStatusStart(payload))
-    window.location.reload()
+    // dispatch(updateOrderStatusStart(payload))
+    // window.location.reload()
   }
 
   const handleClick = (id) => {
