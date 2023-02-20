@@ -2,6 +2,7 @@ import * as types from '../ActionTypes/ordersActionTypes';
 
 const initialState = {
     orders: [],
+    orderList: []
 }
 
 const ordersReducer = ( state = initialState, action ) => {
@@ -10,6 +11,7 @@ const ordersReducer = ( state = initialState, action ) => {
         case types.CREATE_ORDERS_START:
         case types.UPDATE_ORDER_START:
         case types.DELETE_ORDER_START:
+        case types.GET_ALL_ORDER_LIST_START:
         case types.UPDATE_ORDER_STATUS_START:
             return {
                 ...state,
@@ -26,10 +28,16 @@ const ordersReducer = ( state = initialState, action ) => {
             return {
                 ...state,
             }
+        case types.GET_ALL_ORDER_LIST_SUCCESS:
+            return{
+                ...state,
+                orderList: action.payload
+            }
         case types.GET_ALL_ORDERS_ERROR:
         case types.CREATE_ORDERS_ERROR:
         case types.UPDATE_ORDER_ERROR:
         case types.DELETE_ORDER_ERROR:
+        case types.GET_ALL_ORDERS_LIST_ERROR:
         case types.UPDATE_ORDER_STATUS_ERROR:
             return {
                 ...state,

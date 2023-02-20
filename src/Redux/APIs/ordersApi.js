@@ -15,3 +15,5 @@ export const updateOrderApi = async (order) => await axios.put(`http://localhost
 export const deleteOrderApi = async (order) => await axios.delete(`http://localhost:7000/api/order/${order}`, { headers : headersParam });
 
 export const updateOrderStausApi = async (order) => await axios.patch(`http://localhost:7000/api/order/updateStatus`, order, { headers : headersParam });
+
+export const loadOrderListApi = async () => await axios.get(`http://localhost:7000/api/order/orderDetails/`, { headers: headersParam });
