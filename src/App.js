@@ -12,6 +12,7 @@ import ChangePassword from "./Component/WithoutNav/ChangePassword";
 import ForgotPassword from "./Component/WithoutNav/ForgotPassword";
 import ResetPassword from "./Component/WithoutNav/ResetPassword";
 import Orders from "./Pages/Orders";
+import { DesignersOrders } from "./Pages/DesignersOrders";
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
           <Route exact path="/register-user" element={<RegisterUser />}></Route>
           <Route exact path="/update-user/:id" element={<RegisterUser />}></Route>
           <Route exact path="/orders" element={<Orders />} />
+          <Route exact path="/all-orders" element={ <DesignersOrders />} />
         </Route>
       </Routes>
     </>

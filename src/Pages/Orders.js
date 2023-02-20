@@ -67,11 +67,9 @@ const Orders = () => {
   }, []);
 
   const orderListData = useSelector((state) => state?.orders?.orderList?.ordersDetails?.orders);
-  console.log("ORDERSLIST ADTA~~>>>",orderListData)
-  const ordersData = useSelector((state) => state?.orders?.orders?.ordersData?.rows);
+  const ordersData = useSelector((state) => state?.orders?.orders?.ordersData);
 
   const handleClick = (id) => {
-    // console.log("DELTE ID~~~>>>", id);
     dispatch(deleteOrderStart(id));
   };
 
@@ -92,7 +90,8 @@ const Orders = () => {
   }
 
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -252,7 +251,7 @@ const Orders = () => {
                     </thead>
                     <tbody class="table-border-bottom-0">
                       {ordersData
-                        ? ordersData.map((orderList) => {
+                        ? ordersData.rows?.map((orderList) => {
                             let cssClass;
 
                             if (orderList?.status === "Deliverd") {
@@ -312,6 +311,8 @@ const Orders = () => {
                   </table>
                 </div>
               </div>
+
+              
             </TabPanel>
             <TabPanel value={value} index={1}>
             <div class="card-header d-flex justify-content-between align-items-center">
