@@ -5,9 +5,10 @@ const Header = () => {
   const getUserData = JSON.parse(localStorage.getItem("MPCADMIN"));
   const userRole = getUserData?.role;
   const [role, setRole] = useState();
+  // console.log("ROLE~~~>>>", getUserData?.role)
 
   useEffect(() => {
-    if (userRole === "admin") {
+    if (userRole) {
       setRole(userRole);
     }
   }, [userRole]);
@@ -114,6 +115,7 @@ const Header = () => {
                 </Link>
               </li>
             )}
+
             {role === "Superwiser" && (
               <li class="menu-item">
                 <li class="menu-header small text-uppercase">

@@ -1,9 +1,9 @@
 import * as types from "../ActionTypes/ordersActionTypes";
 import { takeLatest, put, all, fork, call, take } from "redux-saga/effects";
 import Swal from "sweetalert2";
-import { createOrdersApi, deleteOrderApi, loadOrderListApi, loadOrdersApi, updateOrderApi, updateOrderStausApi } from "../APIs/ordersApi";
+import { createOrdersApi, deleteOrderApi, loadFilterOrdersApi, loadOrderListApi, loadOrdersApi, updateOrderApi, updateOrderStausApi } from "../APIs/ordersApi";
 
-import { createOrdersError, createOrdersSuccess, deleteOrderError, deleteOrderSuccess, getAllOrderListError, getAllOrderListSuccess, getAllOrdersError, getAllOrdersSuccess, updateOrderError, updateOrderStatusError, updateOrderStatusSuccess, updateOrderSuccess } from "../Actions/ordersActions";
+import { createOrdersError, createOrdersSuccess, deleteOrderError, deleteOrderSuccess, getAllOrderListError, getAllOrderListSuccess, getAllOrdersError, getAllOrdersSuccess, getFilterOrdersError, getFilterOrdersSuccess, updateOrderError, updateOrderStatusError, updateOrderStatusSuccess, updateOrderSuccess } from "../Actions/ordersActions";
 
 const Toast = Swal.mixin({
     toast: true,
@@ -109,7 +109,6 @@ export function* onUpdateOrderStatus() {
 export function* onDeleteOrderStartAsync ({payload}) {
     try {
         const response = yield call(deleteOrderApi, payload);
-        console.log("DELETE RESPOSNE~~~>>>", response)
         if (response.data.success === true) {
             yield put(deleteOrderSuccess(response.data))
             Toast.fire({
@@ -151,6 +150,25 @@ export function* onLoadOrderList() {
     yield takeLatest(types.GET_ALL_ORDER_LIST_START, onLoadOrderListStartAsync);
 }
 
+export function* onLoadFilterOrderListStartAsync({payload}) {
+    try {
+        const response = yield call(loadFilterOrdersApi, payload);
+        if (response.data.success === true) {
+            yield put(getFilterOrdersSuccess(response.data));
+        }
+    } catch (error) {
+        yield put(getFilterOrdersError(error.response));
+        Toast.fire({
+            icon: "error",
+            title: error.response.data.message,
+        });
+    }
+}
+
+export function* onLoadFilterOrderList() {
+    yield takeLatest(types.GET_FILTER_ORDERS_START, onLoadFilterOrderListStartAsync);
+}
+
 const orderSagas = [
     fork(onLoadOrders), 
     fork(onSubmitOrder),
@@ -158,6 +176,7 @@ const orderSagas = [
     fork(onUpdateOrderStatus),
     fork(onDeleteOrder),
     fork(onLoadOrderList),
+    fork(onLoadFilterOrderList),
 ];
 
 export default function* orderSaga() {

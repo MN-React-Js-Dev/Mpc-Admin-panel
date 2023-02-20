@@ -6,6 +6,8 @@ const headersParam = {
     "Authorization" : `Bearer ${token?.token}`,
 };
 
+console.log("TOKEN~~~>>>>>", token)
+
 export const loadOrdersApi = async () => await axios.get(`http://localhost:7000/api/order/`, { headers: headersParam });
 
 export const createOrdersApi = async (order) => await axios.post(`http://localhost:7000/api/order/Create`, order, { headers: headersParam });
@@ -17,3 +19,5 @@ export const deleteOrderApi = async (order) => await axios.delete(`http://localh
 export const updateOrderStausApi = async (order) => await axios.patch(`http://localhost:7000/api/order/updateStatus`, order, { headers : headersParam });
 
 export const loadOrderListApi = async () => await axios.get(`http://localhost:7000/api/order/orderDetails/`, { headers: headersParam });
+
+export const loadFilterOrdersApi = async (data) => await axios.get(`http://localhost:7000/api/order/?status=${data}`, { headers: headersParam });
