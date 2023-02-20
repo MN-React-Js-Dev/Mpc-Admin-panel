@@ -1,9 +1,9 @@
 import * as types from "../ActionTypes/ordersActionTypes";
 import { takeLatest, put, all, fork, call, take } from "redux-saga/effects";
 import Swal from "sweetalert2";
-import { createOrdersApi, deleteOrderApi, loadOrdersApi, updateOrderApi, updateOrderStausApi } from "../APIs/ordersApi";
+import { createOrdersApi, deleteOrderApi, loadOrderListApi, loadOrdersApi, updateOrderApi, updateOrderStausApi } from "../APIs/ordersApi";
 
-import { createOrdersError, createOrdersSuccess, deleteOrderError, deleteOrderSuccess, getAllOrdersError, getAllOrdersSuccess, updateOrderError, updateOrderStatusError, updateOrderStatusSuccess, updateOrderSuccess } from "../Actions/ordersActions";
+import { createOrdersError, createOrdersSuccess, deleteOrderError, deleteOrderSuccess, getAllOrderListError, getAllOrderListSuccess, getAllOrdersError, getAllOrdersSuccess, updateOrderError, updateOrderStatusError, updateOrderStatusSuccess, updateOrderSuccess } from "../Actions/ordersActions";
 
 const Toast = Swal.mixin({
     toast: true,
@@ -132,12 +132,32 @@ export function* onDeleteOrder() {
 }
 
 
+export function* onLoadOrderListStartAsync() {
+    try {
+        const response = yield call(loadOrderListApi);
+        if (response.data.success === true) {
+            yield put(getAllOrderListSuccess(response.data));
+        }
+    } catch (error) {
+        yield put(getAllOrderListError(error.response));
+        Toast.fire({
+            icon: "error",
+            title: error.response.data.message,
+        });
+    }
+}
+
+export function* onLoadOrderList() {
+    yield takeLatest(types.GET_ALL_ORDER_LIST_START, onLoadOrderListStartAsync);
+}
+
 const orderSagas = [
     fork(onLoadOrders), 
     fork(onSubmitOrder),
     fork(onUpdateOrder),
     fork(onUpdateOrderStatus),
     fork(onDeleteOrder),
+    fork(onLoadOrderList),
 ];
 
 export default function* orderSaga() {

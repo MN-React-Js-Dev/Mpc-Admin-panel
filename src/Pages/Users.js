@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -6,9 +6,6 @@ import { getAllUsersStart, getUserByRoleStart } from '../Redux/Actions/usersActi
 
 const Users = () => {
 
-    const [deleteProductDialog, setDeleteProductDialog] = useState(false);
-    const [data, setData] = useState();
-    
     const [filterData, setFilterData] = useState()
     const dispatch = useDispatch();
     
@@ -17,7 +14,7 @@ const Users = () => {
     },[])
     
     const usersData = useSelector((state) => state?.users?.users?.data?.rows)
-    const roleData = useSelector((state) => state?.users?.usersRole?.serviceSearch)
+    const roleData = useSelector((state) => state?.users?.usersRole?.userSearch)
     
     const [manageData, setManageData] = useState(usersData);
     
@@ -29,11 +26,8 @@ const Users = () => {
       } 
     },[roleData, usersData])
     
-    // console.log("MANAGE DATA~~>>>", manageData)
     const handleDelete = (userList) => {
-        setData(userList)
-        // console.log("DELETE ID!~~~", userList)
-        setDeleteProductDialog(true)
+      console.log("USERLIST~~>>", userList)
     }
 
     const onFilterValueChange = (e) => {
@@ -42,7 +36,6 @@ const Users = () => {
           ...filterData,
           [name] : e.target.value
         })
-        // dispatch(getUserByRoleStart(filterData))
       }
       {
         filterData && dispatch(getUserByRoleStart(filterData))
@@ -67,7 +60,7 @@ const Users = () => {
                               >
                                 <option selected>Show All</option>
                                 <option value="Admin">Admin</option>
-                                <option value="Superwiser">Superwiser</option>
+                                <option value="Supervisors">Supervisors</option>
                                 <option value="Agents">Agents</option>
                                 <option value="Designer">Designer</option>
                                 <option value="Packagers">Packagers</option>
@@ -100,7 +93,7 @@ const Users = () => {
 
                               if (userList?.role === 'Admin') {
                                   cssClass = 'bg-label-success'
-                              } else if (userList?.role === 'Superwiser') {
+                              } else if (userList?.role === 'Supervisors') {
                                   cssClass = 'bg-label-info'
                               } else if (userList?.role === 'Agents') {
                                   cssClass = 'bg-label-primary'
@@ -121,7 +114,6 @@ const Users = () => {
                                         <td>{userList?.userName}</td>
                                         <td>{userList?.email}</td>
                                         <td>{userList?.phone}</td>
-                                        {/* <td>{userList?.address}</td> */}   
                                         <td> 
                                           <span class={`badge ${cssClass} me-1`}>{userList?.role}</span>
                                         </td>
@@ -130,14 +122,6 @@ const Users = () => {
                                         <td>
                                           <a class="dropdown-item" onClick={() => handleDelete(userList)}>
                                                     <i class="bx bx-trash me-1"></i> Delete</a>
-                                                    {/* <button
-                                                        type="button"
-                                                        class="btn btn-primary"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#modalCenter"
-                                                      >
-                                                        Launch modal
-                                                      </button> */}
                                         </td>
                                         </tr>
                                     </> 
@@ -146,45 +130,6 @@ const Users = () => {
                         }
                     </tbody>
                 </table>
-
-
-                {/* { deleteProductDialog &&
-                    <div class="col-lg-4 col-md-6">
-                      <div class="modal fade" aria-hidden="true"> 
-                        <div class="mt-3">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalCenterTitle">Modal title</h5>
-                                <button
-                                type="button"
-                                class="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              ></button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="row">
-                              <div class="col mb-3">
-                                  <label for="nameWithTitle" class="form-label">Are you Sure You want to Delete ?</label>
-                                 
-                                </div>
-                                <div class="modal-footer">
-                              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                Cancel
-                              </button>
-                              <button type="button" class="btn btn-primary">Delete</button>
-                            </div>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                        </div>
-                    </div>
-                  </div>
-                } */}
-
-               
             </div>
             </div>
             </div>
@@ -194,5 +139,6 @@ const Users = () => {
     </>
   )
 }
+
 
 export default Users;

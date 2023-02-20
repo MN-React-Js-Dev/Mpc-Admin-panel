@@ -162,8 +162,8 @@ const Form = () => {
                   id="basic-icon-default-fullname"
                   name="firstname"
                   value={data.firstname || ""}
-                  placeholder="John Doe"
-                  aria-label="John Doe"
+                  placeholder="John"
+                  aria-label="John"
                   aria-describedby="basic-icon-default-fullname2"
                   onChange={handleInput}
                 />
@@ -199,8 +199,8 @@ const Form = () => {
                   id="basic-icon-default-fullname"
                   name="lastname"
                   value={data.lastname || ""}
-                  placeholder="John Doe"
-                  aria-label="John Doe"
+                  placeholder="Doe"
+                  aria-label="Doe"
                   aria-describedby="basic-icon-default-fullname2"
                   onChange={handleInput}
                 />
@@ -236,8 +236,8 @@ const Form = () => {
                   id="basic-icon-default-address"
                   name="city"
                   value={data.city || ""}
-                  placeholder="Street, city"
-                  aria-label="Street, city"
+                  placeholder="City"
+                  aria-label="City"
                   aria-describedby="basic-icon-default-fullname2"
                   onChange={handleInput}
                 />
@@ -273,8 +273,8 @@ const Form = () => {
                   id="basic-icon-default-address"
                   name="province"
                   value={data.province || ""}
-                  placeholder="Street, city"
-                  aria-label="Street, city"
+                  placeholder="..."
+                  aria-label="..."
                   aria-describedby="basic-icon-default-fullname2"
                   onChange={handleInput}
                 />
@@ -310,8 +310,8 @@ const Form = () => {
                   id="basic-icon-default-address"
                   name="country"
                   value={data.country || ""}
-                  placeholder="Street, city"
-                  aria-label="Street, city"
+                  placeholder="India"
+                  aria-label="India"
                   aria-describedby="basic-icon-default-fullname2"
                   onChange={handleInput}
                 />
@@ -347,8 +347,8 @@ const Form = () => {
                   id="basic-icon-default-fullname"
                   name="orderName"
                   value={data.orderName || ""}
-                  placeholder="John Doe"
-                  aria-label="John Doe"
+                  placeholder="..."
+                  aria-label="..."
                   aria-describedby="basic-icon-default-fullname2"
                   onChange={handleInput}
                 />
@@ -384,8 +384,8 @@ const Form = () => {
                   id="basic-icon-default-address"
                   name="address"
                   value={data.address || ""}
-                  placeholder="Street, city"
-                  aria-label="Street, city"
+                  placeholder="..."
+                  aria-label="..."
                   aria-describedby="basic-icon-default-fullname2"
                   onChange={handleInput}
                 />
@@ -677,8 +677,8 @@ const Form = () => {
                   name="status"
                   value={data.status || ""}
                   class="form-control"
-                  placeholder="Please leave us a note if you have"
-                  aria-label="Please leave us a note if you have"
+                  placeholder="status"
+                  aria-label="status"
                   aria-describedby="basic-icon-default-message2"
                   onChange={handleInput}
                 ></textarea>

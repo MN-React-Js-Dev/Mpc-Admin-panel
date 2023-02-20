@@ -74,3 +74,18 @@ export const deleteOrderError = (error) => ({
     type: types.DELETE_ORDER_ERROR,
     payload: error,
 });
+
+export const getAllOrderListStart = (orderList) => ({
+    type: types.GET_ALL_ORDER_LIST_START,
+    payload: orderList,
+});
+
+export const getAllOrderListSuccess = (orderList) => ({
+    type: types.GET_ALL_ORDER_LIST_SUCCESS,
+    payload: orderList,
+});
+
+export const getAllOrderListError = (error) => ({
+    type: types.GET_ALL_ORDERS_LIST_ERROR,
+    payload: error,
+});
