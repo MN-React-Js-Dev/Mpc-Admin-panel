@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { deleteOrderStart } from '../Redux/Actions/ordersActions';
 import { getAllUsersStart, getUserByRoleStart } from '../Redux/Actions/usersActions';
 
 const Users = () => {
@@ -28,6 +29,7 @@ const Users = () => {
     
     const handleDelete = (userList) => {
       console.log("USERLIST~~>>", userList)
+      dispatch(deleteOrderStart(userList?.id))
     }
 
     const onFilterValueChange = (e) => {

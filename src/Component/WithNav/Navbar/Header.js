@@ -5,9 +5,10 @@ const Header = () => {
   const getUserData = JSON.parse(localStorage.getItem("MPCADMIN"));
   const userRole = getUserData?.role;
   const [role, setRole] = useState();
+  // console.log("ROLE~~~>>>", getUserData?.role)
 
   useEffect(() => {
-    if (userRole === "admin") {
+    if (userRole) {
       setRole(userRole);
     }
   }, [userRole]);
@@ -114,6 +115,7 @@ const Header = () => {
                 </Link>
               </li>
             )}
+
             {role === "Superwiser" && (
               <li class="menu-item">
                 <li class="menu-header small text-uppercase">
@@ -153,7 +155,7 @@ const Header = () => {
                   <span class="menu-header-text">ORDERS</span>
                 </li>
 
-                <Link to={{ pathname: "/orders" }} class="menu-link">
+                <Link to={{ pathname: "/all-orders" }} class="menu-link">
                   <i class="menu-icon tf-icons bx bx-crown"></i>
                   <div data-i18n="Boxicons">All Orders</div>
                 </Link>
@@ -167,7 +169,7 @@ const Header = () => {
                     <span class="menu-header-text">ORDERS</span>
                   </li>
 
-                  <Link to={{ pathname: "/orders" }} class="menu-link">
+                  <Link to={{ pathname: "/tracker-orders" }} class="menu-link">
                     <i class="menu-icon tf-icons bx bx-crown"></i>
                     <div data-i18n="Boxicons">All Orders</div>
                   </Link>

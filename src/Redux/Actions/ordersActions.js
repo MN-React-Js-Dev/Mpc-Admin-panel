@@ -89,3 +89,18 @@ export const getAllOrderListError = (error) => ({
     type: types.GET_ALL_ORDERS_LIST_ERROR,
     payload: error,
 });
+
+export const getFilterOrdersStart = (order) => ({
+    type: types.GET_FILTER_ORDERS_START,
+    payload: order,
+});
+
+export const getFilterOrdersSuccess = (order) => ({
+    type: types.GET_FILTER_ORDERS_SUCCESS,
+    payload: order,
+});
+
+export const getFilterOrdersError = (error) => ({
+    type: types.GET_FILTER_ORDERS_ERROR,
+    payload: error,
+});
