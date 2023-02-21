@@ -163,13 +163,13 @@ const Header = () => {
             )}
 
             {
-              role === 'Trackers' && (
+              role === 'Tracker' && (
                 <>
                   <li class="menu-header small text-uppercase">
                     <span class="menu-header-text">ORDERS</span>
                   </li>
 
-                  <Link to={{ pathname: "/orders" }} class="menu-link">
+                  <Link to={{ pathname: "/trackers-order" }} class="menu-link">
                     <i class="menu-icon tf-icons bx bx-crown"></i>
                     <div data-i18n="Boxicons">All Orders</div>
                   </Link>
