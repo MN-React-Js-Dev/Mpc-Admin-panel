@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect  } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteOrderStart, getAllOrderListStart, getAllOrdersStart } from '../Redux/Actions/ordersActions';
 import Barcode from 'react-barcode';
