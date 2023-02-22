@@ -38,7 +38,7 @@ const RegisterUser = () => {
         setData({...data})
       }
     }, [id]);
-    // console.log("DATA AFTER ID ~~~>>>", data)
+    console.log("DATA AFTER ID ~~~>>>", editMode)
 
   const handleInput = (e) => {
     e.preventDefault();
@@ -57,17 +57,14 @@ const RegisterUser = () => {
       data.role &&
       data.userName &&
       data.address &&
-      data.email &&
       data.phone &&
-      data.gender &&
-      data.password &&
-      data.confirmPassword
+      data.gender 
     ) {
-      // console.log("SUBMIT~~>>", data);
       if (!editMode) {
         setData(data)
         dispatch(registerUserStart(data))
       } else {
+        setData(data)
         dispatch(updateUserStart(data))
       }
       
@@ -112,7 +109,7 @@ const RegisterUser = () => {
                         : `form-control`
                     }
                   >
-                    <option selected>Select Role</option>
+                    <option selected disabled>Select Role</option>
                     <option value="Admin">Admin</option>
                     <option value="Supervisors">Supervisors</option>
                     <option value="Agents">Agents</option>

@@ -11,13 +11,21 @@ const Users = () => {
     const dispatch = useDispatch();
     
     useEffect(() => {
-      dispatch(getAllUsersStart())
-    },[])
+      if(!filterData) {
+        dispatch(getAllUsersStart())
+      } else {
+        console.log("FILTERDATA~~>>>", filterData)
+        dispatch(getUserByRoleStart(filterData))
+      }
+    },[filterData])
+
     
     const usersData = useSelector((state) => state?.users?.users?.data?.rows)
     const roleData = useSelector((state) => state?.users?.usersRole?.userSearch)
+    console.log("ROLEDTA~~>>", roleData)
     
     const [manageData, setManageData] = useState(usersData);
+    const [filter, SetFilter] = useState("");
     
     useEffect (() => {
       if (roleData) {
@@ -31,33 +39,143 @@ const Users = () => {
       console.log("USERLIST~~>>", userList)
       dispatch(deleteOrderStart(userList?.id))
     }
-
-    const onFilterValueChange = (e) => {
-        let name = e.target.name;
-        setFilterData({
-          ...filterData,
-          [name] : e.target.value
-        })
-      }
-      {
-        filterData && dispatch(getUserByRoleStart(filterData))
-      }
+   
+    // const onFilterValueChange = (e) => {
+    //     let name = e.target.name;
+    //     setFilterData({
+    //       ...filterData,
+    //       [name] : e.target.value
+    //     })
+    //   }
+      // {
+      //   filterData && dispatch(getUserByRoleStart(filterData))
+      // }
      
   return (
     <>
         <div class="container-xxl flex-grow-1 container-p-y">
+        <div>
+            <div class="row">
+              <div class="col-lg-2 col-md-12 col-6 mb-4">
+                <div class="card" onClick={() => setFilterData("admin")}>
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img
+                          src="../assets/img/icons/unicons/chart-success.png"
+                          alt="chart success"
+                          class="rounded"
+                        />
+                      </div>
+                    </div>
+                    <span class="fw-semibold d-block mb-1">Admin</span>
+                    {/* <h3 class="card-title mb-2">$12,628</h3> */}
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-12 col-6 mb-4">
+                <div class="card" onClick={() => setFilterData("supervisors")}>
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img
+                          src="../assets/img/icons/unicons/wallet-info.png"
+                          alt="Credit Card"
+                          class="rounded"
+                        />
+                      </div>
+                    </div>
+                    <span class="fw-semibold d-block mb-1">Supervisors</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-12 col-6 mb-4">
+                <div class="card" onClick={() => setFilterData("Agents")}>
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img
+                          src="../assets/img/icons/unicons/wallet-info.png"
+                          alt="Credit Card"
+                          class="rounded"
+                        />
+                      </div>
+                    </div>
+                    <span class="d-block mb-1">Agents</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-12 col-6 mb-4">
+                <div class="card" onClick={() => setFilterData("designer")}>
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img
+                          src="../assets/img/icons/unicons/cc-primary.png"
+                          alt="Credit Card"
+                          class="rounded"
+                        />
+                      </div>
+                    </div>
+                    <span class="fw-semibold d-block mb-1">Designers</span>
+                    </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-12 col-6 mb-4">
+                <div class="card" onClick={() => setFilterData("Packagers")}>
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img
+                          src="../assets/img/icons/unicons/cc-primary.png"
+                          alt="Credit Card"
+                          class="rounded"
+                        />
+                      </div>
+                    </div>
+                    <span class="fw-semibold d-block mb-1">Packagers</span>
+                    </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-12 col-6 mb-4">
+                <div class="card" onClick={() => setFilterData("Trackers")}>
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img
+                          src="../assets/img/icons/unicons/cc-primary.png"
+                          alt="Credit Card"
+                          class="rounded"
+                        />
+                      </div>
+                    </div>
+                    <span class="fw-semibold d-block mb-1">Trackers</span>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+
             <h4 class="fw-bold py-3 mb-4">All User</h4>
             <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">User List</h5>
+                    <button
+                        type="button"
+                        class="btn btn-info m-1"
+                        onClick={() => window.location.reload()}
+                      >
+                        ↻ See all
+                      </button>
+                        {/* <h5 class="mb-0">User List</h5> */}
                         <div class="d-flex justify-content-between">
-                          <div class="input-group input-group-merge m-1">
+                          {/* <div class="input-group input-group-merge m-1">
                               <select
                                 id="exampleFormControlSelect1"
                                 name="role"
                                 aria-lbel="Default select example"
                                 value={filterData?.role || ""}
-                                onChange={(e) => onFilterValueChange(e, "filterData")}
+                                // onChange={(e) => onFilterValueChange(e, "filterData")}
                                 className={`form-control`}
                               >
                                 <option selected>Show All</option>
@@ -68,7 +186,7 @@ const Users = () => {
                                 <option value="Packagers">Packagers</option>
                                 <option value="Trackers">Trackers</option>
                               </select>
-                            </div>
+                            </div> */}
                             <Link to={`/register-user/`}>
                               <button type="button" class="btn btn-primary m-1">+ NEW</button>
                           </Link>

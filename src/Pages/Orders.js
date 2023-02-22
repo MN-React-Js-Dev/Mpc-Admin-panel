@@ -110,7 +110,7 @@ const Orders = () => {
             <div>
             <div class="row">
               <div class="col-lg-3 col-md-12 col-6 mb-4">
-                <div class="card" onClick={() => SetFilter("confirm-Orders")}>
+                <div class="card" onClick={() => SetFilter("ReadytoPrint")}>
                   <div class="card-body">
                     <div class="card-title d-flex align-items-start justify-content-between">
                       <div class="avatar flex-shrink-0">
@@ -121,13 +121,13 @@ const Orders = () => {
                         />
                       </div>
                     </div>
-                    <span class="fw-semibold d-block mb-1">Confirm Orders</span>
+                    <span class="fw-semibold d-block mb-1">Ready to Print</span>
                     {/* <h3 class="card-title mb-2">$12,628</h3> */}
                   </div>
                 </div>
               </div>
               <div class="col-lg-3 col-md-12 col-6 mb-4">
-                <div class="card" onClick={() => SetFilter("In-Production")}>
+                <div class="card" onClick={() => SetFilter("InProduction")}>
                   <div class="card-body">
                     <div class="card-title d-flex align-items-start justify-content-between">
                       <div class="avatar flex-shrink-0">
@@ -199,7 +199,7 @@ const Orders = () => {
                   class="btn btn-info m-1"
                   onClick={() => window.location.reload()}
                 >
-                  ↻ Refresh
+                  ↻ See All
                 </button>
                 <div class="d-flex justify-content-between">
                   {checked.length >= 1 && (

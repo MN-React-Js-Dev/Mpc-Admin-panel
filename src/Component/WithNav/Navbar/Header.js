@@ -90,7 +90,7 @@ const Header = () => {
           </li>
 
           <li class="menu-item">
-            {role === "admin" && (
+            {role === "Admin" && (
               <li class="menu-item">
                 <li class="menu-header small text-uppercase">
                   <span class="menu-header-text">USERS</span>
@@ -163,7 +163,7 @@ const Header = () => {
             )}
 
             {
-              role === 'Tracker' && (
+              role === 'Trackers' && (
                 <>
                   <li class="menu-header small text-uppercase">
                     <span class="menu-header-text">ORDERS</span>

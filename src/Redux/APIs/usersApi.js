@@ -25,5 +25,5 @@ export const updateUserApi = async (user) => await axios.patch(`http://localhost
 
 export const deleteUserApi = async (user) => await axios.delete(`http://localhost:7000/api/user/${user}`, { headers : headersParam });
 
-export const getUserBYRoleApi = async (role) => await axios.get(`http://localhost:7000/api/user/?title=${role.role}`, { headers: headersParam });
+export const getUserBYRoleApi = async (role) => await axios.get(`http://localhost:7000/api/user/?title=${role}`, { headers: headersParam });
 

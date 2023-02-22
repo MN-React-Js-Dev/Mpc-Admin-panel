@@ -171,14 +171,41 @@ export function* onRegisterStartAsync ({payload}) {
                 icon: "success",
                 title: response.data.message,
             });
-        } else {
-            Toast.fire({
-                icon: "error",
-                title: response.data.message,
-            });
-        }
+        } 
     } catch (error) {
         yield put(registerUserError(error.response))
+        if(error.response.data.errors.userName) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.userName,
+            });
+        } else if(error.response.data.errors.phone) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.phone,
+            });
+        } else if(error.response.data.errors.address) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.address,
+            });
+        } else if(error.response.data.errors.password) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.password,
+            });
+        } else if(error.response.data.errors.confirmPassword) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.confirmPassword,
+            });
+        } else if(error.response.data.errors.email) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.email,
+            });
+        }
+        
     }
 }
 
@@ -195,14 +222,25 @@ export function* onUpdateUserStartAsync ({payload}) {
                 icon: "success",
                 title: response.data.message,
             });
-        }  else {
-            Toast.fire({
-                icon: "error",
-                title: response.data.message,
-            });
         }
     } catch (error) {
         yield put(updateUserError(error.response))
+        if(error.response.data.errors.userName) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.userName,
+            });
+        } else if(error.response.data.errors.phone) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.phone,
+            });
+        } else if(error.response.data.errors.address) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.address,
+            });
+        }
     }
 }
 
@@ -236,7 +274,9 @@ export function* onDeleteUser() {
 
 export function* onGetUserByRoleStartAsync ({payload}) {
     try {
+        console.log("PAYLOAD~~~>>>", payload)
         const response = yield call(getUserBYRoleApi, payload);
+        console.log("RESPOSNE~~>>>>", response)
         if (response.data.success === true) {
             yield put(getUserByRoleSuccess(response.data))
         }
