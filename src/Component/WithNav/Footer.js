@@ -1,21 +1,29 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
-    return (
-        <>
-            <footer class="content-footer footer bg-footer-theme">
-                <div class="container-xxl d-flex flex-wrap justify-content-center py-2 flex-md-row flex-column">
-                    <div class="mb-2 mb-md-0">
-                        MADED BY KOLI INFOTECH ❤️ |
-                    </div>
-                    <div>
-                        <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">Email:</a>
-                        <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">koliinfotech@gmail.com</a>
-                    </div>
-                </div>
-            </footer>
-        </>
-    )
-}
+  return (
+    <>
+      <footer class="content-footer footer bg-footer-theme">
+        <div class="container-xxl d-flex flex-wrap justify-content-center py-2 flex-md-row flex-column">
+          <a
+            class="github-button"
+            href="https://koliinfotech.com/"
+            data-icon="octicon-star"
+            data-size="large"
+            data-show-count="true"
+            aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
+          >
+            <div class="mb-2 mb-md-0">
+              DESIGN & DEVELOPED BY KOLI INFOTECH ❤️
+            </div>
+          </a>
+          <div>
+          </div>
+        </div>
+      </footer>
+    </>
+  );
+};
 
-export default Footer
+export default Footer;
