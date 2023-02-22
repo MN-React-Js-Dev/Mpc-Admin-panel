@@ -74,7 +74,8 @@ export const TrackersOrders = () => {
                         <img
                           src="../assets/img/icons/unicons/cc-primary.png"
                           alt="Credit Card"
-                          class="rounded"
+                          class="rounded "
+
                         />
                       </div>
                     </div>
