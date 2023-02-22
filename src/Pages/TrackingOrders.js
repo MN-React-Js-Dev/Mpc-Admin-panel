@@ -1,9 +1,8 @@
-import React, { useEffect  } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllOrderListStart } from '../Redux/Actions/ordersActions';
-import Barcode from 'react-barcode';
 
-export const DesignersOrders = () => {
+export const TrackerOrders = () => {
 
     useEffect(() => {
         dispatch(getAllOrderListStart());
@@ -11,10 +10,78 @@ export const DesignersOrders = () => {
 
     const dispatch = useDispatch();
     const orderListData = useSelector((state) => state?.orders?.orderList?.ordersDetails?.orders);
+    console.log('ORDER-LIST-DATA~~~~~~>>>', orderListData)
 
   return (
     <>
       <div class="container-xxl flex-grow-1 container-p-y">
+      <div class="row">
+              <div class="col-lg-3 col-md-12 col-6 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img
+                          src="../assets/img/icons/unicons/chart-success.png"
+                          alt="chart success"
+                          class="rounded"
+                        />
+                      </div>
+                    </div>
+                    <span class="fw-semibold d-block mb-1">Action Required</span>
+                    {/* <h3 class="card-title mb-2">$12,628</h3> */}
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-12 col-6 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img
+                          src="../assets/img/icons/unicons/wallet-info.png"
+                          alt="Credit Card"
+                          class="rounded"
+                        />
+                      </div>
+                    </div>
+                    <span class="fw-semibold d-block mb-1">Action Requested</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-12 col-6 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img
+                          src="../assets/img/icons/unicons/wallet-info.png"
+                          alt="Credit Card"
+                          class="rounded"
+                        />
+                      </div>
+                    </div>
+                    <span class="d-block mb-1">RTO</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-12 col-6 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                        <img
+                          src="../assets/img/icons/unicons/cc-primary.png"
+                          alt="Credit Card"
+                          class="rounded"
+                        />
+                      </div>
+                    </div>
+                    <span class="fw-semibold d-block mb-1">Deliverd</span>
+                    </div>
+                </div>
+              </div>
+            </div>
          <h4 class="fw-bold py-3 mb-4">All Order</h4>
         <div class="card mb-4">
              <div class="card-header d-flex justify-content-between align-items-center">
@@ -30,17 +97,17 @@ export const DesignersOrders = () => {
                           <b>Order Number</b>
                         </th>
                         <th>
-                          <b>Image</b>
+                          <b>Name</b>
                         </th>
                         <th>
                             <b>Status</b>
                         </th>
                         <th>
-                          <b>barcode</b>
+                          <b>Tracking Id</b>
                         </th>
-                        <th>
+                        {/* <th>
                           <b>Submit</b>
-                        </th>
+                        </th> */}
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -76,22 +143,9 @@ export const DesignersOrders = () => {
                                           }
                                         }
                                       )}
-                                   </td>
-                                  <td>
-                                    <>
-                                        <Barcode value={`${orderList?.order_number}`} 
-                                            width={1}
-                                            height={25}
-                                            displayValue={false}
-                                            format={'CODE128'}
-                                            background= {"#ffffff"}
-                                            lineColor= {"#000000"}
-                                            margin={0}
-                                           
-                                        />
-                                    </>
+                                   </td><td>
                                   </td>
-                                  <td>{`submit`}</td>
+                                 
                                 </tr>
                               </>
                             );

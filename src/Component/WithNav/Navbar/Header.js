@@ -169,7 +169,7 @@ const Header = () => {
                     <span class="menu-header-text">ORDERS</span>
                   </li>
 
-                  <Link to={{ pathname: "/orders" }} class="menu-link">
+                  <Link to={{ pathname: "/tracker-orders" }} class="menu-link">
                     <i class="menu-icon tf-icons bx bx-crown"></i>
                     <div data-i18n="Boxicons">All Orders</div>
                   </Link>

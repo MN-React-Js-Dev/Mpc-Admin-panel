@@ -10,7 +10,18 @@ import {
 } from "../Redux/Actions/ordersActions";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Box, Tab, Tabs, Typography } from "@material-ui/core";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TablePagination from '@mui/material/TablePagination';
+import SearchBar from "material-ui-search-bar";
+import Paper from "@material-ui/core/Paper";
+import { AppBar, Box, Tab, Tabs, TextField, Typography } from "@material-ui/core";
+
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -55,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
 const Orders = () => {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [searched, setSearched] = useState("");
   const [showEdit, setShowEdit] = useState(false);
   const [status, setStatus] = useState();
   const [filter, SetFilter] = useState("");
@@ -71,6 +85,8 @@ const Orders = () => {
   const orderListData = useSelector(
     (state) => state?.orders?.orderList?.ordersDetails?.orders
   );
+  const [rows, setRows] = useState(orderListData);
+ 
   const filterordersData = useSelector(
     (state) => state?.orders?.orders?.statusFilter
   );
@@ -101,6 +117,30 @@ const Orders = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = event => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  const requestSearch = (searchedVal) => {
+   const filterData = orderListData.filter((row) => {
+   {row?.line_items?.map((data) => {
+    return data?.name.includes(searchedVal);
+   })}
+   })
+   setRows(filterData);
+  };
+  
+  const cancelSearch = () => {
+    setSearched("");
+    requestSearch(searched);
+  };
+
 
   return (
     <>
@@ -322,7 +362,7 @@ const Orders = () => {
 
               <div class="card-body">
                 <div class="table-responsive text-nowrap">
-                  <table class="table">
+                  {/* <table class="table">
                     <>
                       <thead>
                         <tr>
@@ -395,13 +435,79 @@ const Orders = () => {
                           : null}
                       </tbody>
                     </>
-                  </table>
+                  </table> */}
+<Paper>
+<SearchBar
+          value={searched}
+          onChange={(searchVal) => requestSearch(searchVal)}
+          onCancelSearch={() => cancelSearch()}
+        />
+<TableContainer>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">Order Number</TableCell>
+                <TableCell align="left">Name</TableCell>
+                <TableCell align="left">Status</TableCell>
+                <TableCell align="left">Key</TableCell>
+                <TableCell align="left">Tracing Id</TableCell>
+              </TableRow>
+            </TableHead>
+             <TableBody>
+              {orderListData?.sort((a, b) => a.protein < b.protein ? -1 : 1).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map((row) => {
+                return (
+
+                <TableRow >
+                  <TableCell component="th" scope="row">{row.order_number}</TableCell>
+                  {row?.line_items?.map((items) => (
+                    <TableCell align="left"  
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}>{items.name}</TableCell>
+                  ))}
+                  <TableCell align="left">{row.line_items[0]?.properties?.map((items) => {
+                    if(items?.name === 'status'){
+                      return (
+
+                        <TableCell class='bg-label-warning'>{items?.value}</TableCell>
+                      )
+                    }
+                  })}
+                  </TableCell>
+                  <TableCell align="left">{row.line_items[0]?.properties?.map((items) => {
+                    if(items?.name === 'key'){
+                      return (
+
+                        <TableCell class='bg-label-success'>{items?.value}</TableCell>
+                      )
+                    }
+                  })}
+                  </TableCell>
+                  <TableCell align="left">{row?.phone}</TableCell>
+                </TableRow>
+                )
+})}
+            </TableBody>
+          </Table>
+        </TableContainer>
+</Paper>
+        <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={orderListData}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
                 </div>
               </div>
             </TabPanel>
           </div>
         </div>
       </div>
+      
     </>
   );
 };
