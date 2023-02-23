@@ -19,6 +19,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TablePagination from '@mui/material/TablePagination';
 import SearchBar from "material-ui-search-bar";
 import Paper from "@material-ui/core/Paper";
+import Checkbox from '@mui/material/Checkbox';
 import { AppBar, Box, Tab, Tabs, TextField, Typography } from "@material-ui/core";
 
 
@@ -73,6 +74,7 @@ const Orders = () => {
   const [status, setStatus] = useState();
   const [filter, SetFilter] = useState("");
   let itemIds = [];
+    const dataArr = [];
 
   useEffect(() => {
     dispatch(getFilterOrdersStart(filter));
@@ -88,8 +90,9 @@ const Orders = () => {
   const [rows, setRows] = useState(orderListData);
  
   const filterordersData = useSelector(
-    (state) => state?.orders?.orders?.statusFilter
+    (state) => state?.orders?.orders?.ordersData?.rows
   );
+const [data , setData] = useState(filterordersData)
 
   const handleClick = (id) => {
     dispatch(deleteOrderStart(id));
@@ -127,19 +130,28 @@ const Orders = () => {
     setPage(0);
   };
 
+
   const requestSearch = (searchedVal) => {
-   const filterData = orderListData.filter((row) => {
-   {row?.line_items?.map((data) => {
-    return data?.name.includes(searchedVal);
-   })}
-   })
-   setRows(filterData);
+    setRows(searchData);
   };
-  
+
+
+  const searchData = (searchedVal) => {
+    const searching = filterordersData && filterordersData?.filter((data) => {
+      // console.log('DATA~~~~>>', data.orderName);
+      return data?.orderName?.toLowerCase().includes(searchedVal.toLowerCase())
+    })
+    console.log('SERACHING~~~~', searching) 
+    setData(searching)
+    // setRows(searching)  
+  }
+
   const cancelSearch = () => {
     setSearched("");
     requestSearch(searched);
+    searchData(searched)
   };
+
 
 
   return (
@@ -270,9 +282,81 @@ const Orders = () => {
                   </Link>
                 </div>
               </div>
+              
               <div class="card-body">
                 <div class="table-responsive text-nowrap">
-                  <table class="table">
+                <SearchBar
+          value={searched}
+          onChange={(searchVal) => searchData(searchVal)}
+          onCancelSearch={() => cancelSearch()}
+        />
+        <TableContainer>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+              <TableCell align="left"></TableCell>
+                <TableCell align="left">Order Number</TableCell>
+                <TableCell align="left">Title</TableCell>
+                <TableCell align="left">Status</TableCell>
+                <TableCell align="left">Contact</TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+             <TableBody>
+              {data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((orderList) => {
+                let cssClass;
+                if (orderList?.status === "Deliverd") {
+                  cssClass = "bg-label-success";
+                } else if (orderList?.status === "Shiped") {
+                  cssClass = "bg-label-primary";
+                } else if (orderList?.status === "InProduction") {
+                  cssClass = "bg-label-warning";
+                } else if (orderList?.status === "ReadytoPrint") {
+                  cssClass = "bg-label-danger";
+                } else {
+                  cssClass = "bg-label-secondary";
+                }
+                return (
+                <TableRow >
+                    <Checkbox  onChange={handleCheck}
+                                value={orderList?.id} 
+                                />
+                  <TableCell component="th" scope="row">{orderList.id}</TableCell>
+                  <TableCell align="left">{orderList.orderName}</TableCell>
+                  <TableCell align="left">{orderList?.status}</TableCell>
+                  <TableCell align="left">{orderList?.phone}</TableCell>
+                  <TableCell align="left">
+                  <Link to={`/form/${orderList.id}`}>
+                                      <a class="dropdown-item">
+                                        <i class="bx bx-edit-alt me-1"></i> Edit
+                                      </a>
+                  </Link>
+                  </TableCell>
+                  <TableCell align="left">
+                  <a
+                                      class="dropdown-item"
+                                      onClick={() => handleClick(orderList.id)}
+                                    >
+                                      <i class="bx bx-trash me-1"></i> Delete
+                                    </a>
+                  </TableCell>
+                </TableRow>
+                )
+})}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={filterordersData && filterordersData?.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+                  {/* <table class="table">
                     <thead>
                       <tr>
                         <th></th>
@@ -349,7 +433,7 @@ const Orders = () => {
                           })
                         : null}
                     </tbody>
-                  </table>
+                  </table> */}
                 </div>
               </div>
             </TabPanel>
@@ -454,7 +538,7 @@ const Orders = () => {
               </TableRow>
             </TableHead>
              <TableBody>
-              {orderListData?.sort((a, b) => a.protein < b.protein ? -1 : 1).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map((row) => {
+              {orderListData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map((row) => {
                 return (
 
                 <TableRow >
@@ -466,10 +550,9 @@ const Orders = () => {
                       flexDirection: "row",
                     }}>{items.name}</TableCell>
                   ))}
-                  <TableCell align="left">{row.line_items[0]?.properties?.map((items) => {
+                  <TableCell align="left">{row.line_items[0]?.properties.map((items) => {
                     if(items?.name === 'status'){
                       return (
-
                         <TableCell class='bg-label-warning'>{items?.value}</TableCell>
                       )
                     }
@@ -495,7 +578,7 @@ const Orders = () => {
         <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={orderListData}
+                count={orderListData && orderListData?.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}

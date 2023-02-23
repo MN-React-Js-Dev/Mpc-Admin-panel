@@ -1,24 +1,43 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TablePagination from '@mui/material/TablePagination';
 import { Link } from 'react-router-dom';
+import SearchBar from "material-ui-search-bar";
 import { deleteOrderStart } from '../Redux/Actions/ordersActions';
 import { getAllUsersStart, getUserByRoleStart } from '../Redux/Actions/usersActions';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
 
 const Users = () => {
 
     const [filterData, setFilterData] = useState()
+    const [searched, setSearched] = useState("");
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const dispatch = useDispatch();
     
     useEffect(() => {
       dispatch(getAllUsersStart())
     },[])
-    
+    const classes = useStyles();
     const usersData = useSelector((state) => state?.users?.users?.data?.rows)
     const roleData = useSelector((state) => state?.users?.usersRole?.userSearch)
     
     const [manageData, setManageData] = useState(usersData);
-    
+
     useEffect (() => {
       if (roleData) {
         setManageData(roleData)
@@ -42,6 +61,31 @@ const Users = () => {
       {
         filterData && dispatch(getUserByRoleStart(filterData))
       }
+
+      const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+      };
+    
+      const handleChangeRowsPerPage = event => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+      };
+
+
+      const requestSearch = (searchedVal) => {
+        const filteredRows = usersData.filter((row) => {
+          // console.log('ROWS~~~~>>', row.userName)
+          return row.userName?.toLowerCase().includes(searchedVal.toLowerCase());
+        });
+        console.log('SEARCH~~~~>>', filteredRows)
+        setManageData(filteredRows)
+        // setRows(filteredRows);
+      };
+
+      const cancelSearch = () => {
+        setSearched("");
+        requestSearch(searched);
+      };
      
   return (
     <>
@@ -75,10 +119,83 @@ const Users = () => {
 
                         </div>
                     </div>
-
+                    <SearchBar
+                           value={searched}
+                           onChange={(searchVal) => requestSearch(searchVal)}
+                           onCancelSearch={() => cancelSearch()}
+                    />
                     <div class="card-body">
                     <div class="table-responsive text-nowrap">
-                <table class="table">
+                    <TableContainer>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+              <TableCell align="left">Id</TableCell>
+                <TableCell align="left">User Name</TableCell>
+                <TableCell align="left">Email Address</TableCell>
+                <TableCell align="left">Contact Number</TableCell>
+                <TableCell align="left">Role</TableCell>
+                <TableCell></TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+             <TableBody>
+              {manageData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((userList) => {
+                let cssClass;
+                if (userList?.role === 'Admin') {
+                  cssClass = 'bg-label-success'
+              } else if (userList?.role === 'Supervisors') {
+                  cssClass = 'bg-label-info'
+              } else if (userList?.role === 'Agents') {
+                  cssClass = 'bg-label-primary'
+              } else if (userList?.role === 'Designer') {
+                  cssClass = 'bg-label-warning'
+              } else if (userList?.role === 'Packagers') {
+                cssClass = 'bg-label-danger'
+              } else if (userList?.role === 'Trackers') {
+                cssClass = 'bg-label-dark'
+              } else {
+                  cssClass = 'bg-label-secondary'
+              }
+                return (
+                <TableRow >
+                  <TableCell component="th" scope="row">{userList?.id}</TableCell>
+                  <TableCell align="left">{userList?.userName}</TableCell>
+                  <TableCell align="left">{userList?.email}</TableCell>
+                  <TableCell align="left">{userList?.phone}</TableCell>
+                  <TableCell align="left">{userList?.role}</TableCell>
+                  <TableCell align="left">
+                  <Link to={`/update-user/${userList.id}`}>
+                                      <a class="dropdown-item">
+                                        <i class="bx bx-edit-alt me-1"></i> Edit
+                                      </a>
+                  </Link>
+                  </TableCell>
+                  <TableCell align="left">
+                  <a
+                                      class="dropdown-item"
+                                      onClick={() => handleDelete(userList)}
+                                    >
+                                      <i class="bx bx-trash me-1"></i> Delete
+                                    </a>
+                  </TableCell>
+                </TableRow>
+                )
+})}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={manageData && manageData?.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+                  {/* <
+                {/* <table class="table">
                     <thead>
                       <tr>
                         <th><b>ID</b></th>
@@ -131,7 +248,7 @@ const Users = () => {
                             }) : null
                         }
                     </tbody>
-                </table>
+                </table> */}
             </div>
             </div>
             </div>

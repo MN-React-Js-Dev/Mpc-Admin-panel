@@ -1,16 +1,45 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TablePagination from '@mui/material/TablePagination';
+import { makeStyles } from "@material-ui/core/styles";
+import SearchBar from "material-ui-search-bar";
 import { getAllOrderListStart } from '../Redux/Actions/ordersActions';
 
-export const TrackerOrders = () => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
 
+export const TrackerOrders = () => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [searched, setSearched] = useState("");
+  const classes = useStyles();
     useEffect(() => {
         dispatch(getAllOrderListStart());
       }, []);
 
     const dispatch = useDispatch();
     const orderListData = useSelector((state) => state?.orders?.orderList?.ordersDetails?.orders);
-    console.log('ORDER-LIST-DATA~~~~~~>>>', orderListData)
+    const [data , setData] = useState(orderListData)
+    // console.log('ORDER-LIST-DATA~~~~~~>>>', orderListData)
+
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    };
+  
+    const handleChangeRowsPerPage = event => {
+      setRowsPerPage(+event.target.value);
+      setPage(0);
+    };
 
   return (
     <>
@@ -90,7 +119,55 @@ export const TrackerOrders = () => {
               </div>
               <div class="card-body">
                 <div class="table-responsive text-nowrap">
-                  <table class="table">
+                <TableContainer>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">Order Number</TableCell>
+                <TableCell align="left">Name</TableCell>
+                <TableCell align="left">Status</TableCell>
+                <TableCell align="left">Tracking Id</TableCell>
+              </TableRow>
+            </TableHead>
+             <TableBody>
+              {data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)?.map((orderList) => {
+                return (
+                <TableRow >
+                  <TableCell component="th" scope="row">{orderList.order_number}</TableCell>
+                  {orderList?.line_items?.map((items) => (
+                    <TableCell align="left"  
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      padding:'8%',
+                    }}>{items.name}</TableCell>
+                  ))}
+                  <TableCell align="left">{orderList.line_items[0]?.properties?.map((items) => {
+                    if(items?.name === 'key'){
+                      return (
+
+                        <TableCell class='bg-label-success'>{items?.value}</TableCell>
+                      )
+                    }
+                  })}
+                  </TableCell>
+                  <TableCell align="left"></TableCell>
+                </TableRow>
+                )
+})}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={orderListData && orderListData?.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+                  {/* <table class="table">
                     <thead>
                       <tr>
                         <th>
@@ -105,9 +182,6 @@ export const TrackerOrders = () => {
                         <th>
                           <b>Tracking Id</b>
                         </th>
-                        {/* <th>
-                          <b>Submit</b>
-                        </th> */}
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -152,7 +226,7 @@ export const TrackerOrders = () => {
                           })
                         : null}
                     </tbody>
-                  </table>
+                  </table> */}
                 </div>
               </div>
         </div>
