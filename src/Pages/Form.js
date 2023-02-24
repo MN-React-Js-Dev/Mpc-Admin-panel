@@ -84,8 +84,6 @@ const Form = () => {
       data.desing && 
       data.quantity && 
       data.price && 
-      data.image && 
-      data.note && 
       data.status 
     ) {
       if (!editMode) {
@@ -125,6 +123,7 @@ const Form = () => {
         
     }
   };
+  
 
   return (
     <>
@@ -631,11 +630,7 @@ const Form = () => {
                 photo Upload
               </label>
               <input 
-               className={
-                submitted && !data.image
-                  ? `form-control invalid `
-                  : `form-control`
-                } 
+               className={`form-control`} 
                 name='image'
                 type="file" 
                 id="image" 

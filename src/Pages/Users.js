@@ -1,264 +1,534 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { deleteOrderStart } from '../Redux/Actions/ordersActions';
-import { getAllUsersStart, getUserByRoleStart } from '../Redux/Actions/usersActions';
+import React, { useEffect, useState, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TablePagination from "@mui/material/TablePagination";
+import { Link } from "react-router-dom";
+import SearchBar from "material-ui-search-bar";
+import { visuallyHidden } from "@mui/utils";
+import Box from "@mui/material/Box";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import { deleteOrderStart } from "../Redux/Actions/ordersActions";
+import {
+  getAllUsersStart,
+  getUserByRoleStart,
+} from "../Redux/Actions/usersActions";
+import Checkbox from "@mui/material/Checkbox";
+import { CircularProgress } from "@mui/material";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
 
 const Users = () => {
+  const [order, setOrder] = React.useState("asc");
+  const [orderBy, setOrderBy] = React.useState("calories");
+  const [selected, setSelected] = React.useState([]);
+  const [page, setPage] = React.useState(0);
+  const [dense, setDense] = React.useState(false);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-    const [filterData, setFilterData] = useState()
-    const dispatch = useDispatch();
-    
-    useEffect(() => {
-      if(!filterData) {
-        dispatch(getAllUsersStart())
-      } else {
-        console.log("FILTERDATA~~>>>", filterData)
-        dispatch(getUserByRoleStart(filterData))
-      }
-    },[filterData])
+  const [filterData, setFilterData] = useState();
+  const [searched, setSearched] = useState("");
+  const dispatch = useDispatch();
 
-    
-    const usersData = useSelector((state) => state?.users?.users?.data?.rows)
-    const roleData = useSelector((state) => state?.users?.usersRole?.userSearch)
-    console.log("ROLEDTA~~>>", roleData)
-    
-    const [manageData, setManageData] = useState(usersData);
-    const [filter, SetFilter] = useState("");
-    
-    useEffect (() => {
-      if (roleData) {
-        setManageData(roleData)
-      } else {
-        setManageData(usersData)
-      } 
-    },[roleData, usersData])
-    
-    const handleDelete = (userList) => {
-      console.log("USERLIST~~>>", userList)
-      dispatch(deleteOrderStart(userList?.id))
+  useEffect(() => {
+    if (!filterData) {
+      dispatch(getAllUsersStart());
+    } else {
+      dispatch(getUserByRoleStart(filterData));
     }
-   
-    // const onFilterValueChange = (e) => {
-    //     let name = e.target.name;
-    //     setFilterData({
-    //       ...filterData,
-    //       [name] : e.target.value
-    //     })
-    //   }
-      // {
-      //   filterData && dispatch(getUserByRoleStart(filterData))
-      // }
-     
+  }, [filterData]);
+
+  const usersData = useSelector((state) => state?.users?.users?.data?.rows);
+  const roleData = useSelector((state) => state?.users?.usersRole?.userSearch);
+  const classes = useStyles();
+  const [manageData, setManageData] = useState(usersData);
+  const [filter, SetFilter] = useState("");
+
+  useEffect(() => {
+    if (roleData) {
+      setManageData(roleData);
+    } else {
+      setManageData(usersData);
+    }
+  }, [roleData, usersData]);
+
+  const handleDelete = (userList) => {
+    dispatch(deleteOrderStart(userList?.id));
+  };
+
+  const onFilterValueChange = (e) => {
+    let name = e.target.name;
+    setFilterData({
+      ...filterData,
+      [name]: e.target.value,
+    });
+  };
+  {
+    filterData && dispatch(getUserByRoleStart(filterData));
+  }
+
+  const requestSearch = (searchedVal) => {
+    const filteredRows = usersData.filter((row) => {
+      // console.log('ROWS~~~~>>', row.userName)
+      return row.userName?.toLowerCase().includes(searchedVal.toLowerCase());
+    });
+    setManageData(filteredRows);
+  };
+
+  const cancelSearch = () => {
+    setSearched("");
+    requestSearch(searched);
+  };
+
+  const headCells = [
+    {
+      id: "ID",
+      numeric: false,
+      disablePadding: false,
+      label: "ID",
+    },
+    {
+      id: "UserName",
+      numeric: true,
+      disablePadding: false,
+      label: "UserName",
+    },
+    {
+      id: "Email Address",
+      numeric: true,
+      disablePadding: false,
+      label: "Email Address",
+    },
+    {
+      id: "Role",
+      numeric: true,
+      disablePadding: false,
+      label: "Role",
+    },
+    {
+      id: "Contact Number",
+      numeric: true,
+      disablePadding: false,
+      label: "Contact Number",
+    },
+    {
+      id: "",
+      numeric: true,
+      disablePadding: false,
+      label: "Action",
+    },
+  ];
+
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelected = manageData?.map((n) => n.name);
+      setSelected(newSelected);
+      return;
+    }
+    setSelected([]);
+  };
+
+  function descendingComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
+    return 0;
+  }
+
+  function stableSort(array, comparator) {
+    const stabilizedThis = array?.map((el, index) => [el, index]);
+    stabilizedThis?.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) {
+        return order;
+      }
+      return a[1] - b[1];
+    });
+    return stabilizedThis?.map((el) => el[0]);
+  }
+
+  function getComparator(order, orderBy) {
+    return order === "desc"
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  }
+
+  const handleClick = (event, name) => {
+    const selectedIndex = selected.indexOf(name);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, name);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+
+    setSelected(newSelected);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleChangeDense = (event) => {
+    setDense(event.target.checked);
+  };
+
+  const isSelected = (name) => selected.indexOf(name) !== -1;
+
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - manageData?.length) : 0;
+
+  function EnhancedTableHead(props) {
+    const {
+      onSelectAllClick,
+      order,
+      orderBy,
+      numSelected,
+      rowCount,
+      onRequestSort,
+    } = props;
+    const createSortHandler = (property) => (event) => {
+      onRequestSort(event, property);
+    };
+
+    return (
+      <TableHead>
+        <TableRow>
+          {/* <TableCell padding="checkbox">
+              <Checkbox
+                color="primary"
+                indeterminate={numSelected > 0 && numSelected < rowCount}
+                checked={rowCount > 0 && numSelected === rowCount}
+                onChange={onSelectAllClick}
+                inputProps={{
+                  'aria-label': 'select all desserts',
+                }}
+              />
+            </TableCell> */}
+          {headCells.map((headCell) => (
+            <TableCell
+              key={headCell.id}
+              align={headCell.numeric ? "left" : "left"}
+              padding={headCell.disablePadding ? "none" : "normal"}
+              sortDirection={orderBy === headCell.id ? order : false}
+            >
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : "asc"}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+    );
+  }
+
   return (
     <>
-        <div class="container-xxl flex-grow-1 container-p-y">
+      <div class="container-xxl flex-grow-1 container-p-y">
         <div>
-            <div class="row">
-              <div class="col-lg-2 col-md-12 col-6 mb-4">
-                <div class="card" onClick={() => setFilterData("admin")}>
-                  <div class="card-body">
-                    <div class="card-title d-flex align-items-start justify-content-between">
-                      <div class="avatar flex-shrink-0">
-                        <img
-                          src="../assets/img/icons/unicons/chart-success.png"
-                          alt="chart success"
-                          class="rounded"
-                        />
-                      </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-12 col-6 mb-4">
+              <div class="card" onClick={() => setFilterData("admin")}>
+                <div class="card-body">
+                  <div class="card-title d-flex align-items-start justify-content-between">
+                    <div class="avatar flex-shrink-0">
+                      <img
+                        src="../assets/img/icons/unicons/chart-success.png"
+                        alt="chart success"
+                        class="rounded"
+                      />
                     </div>
-                    <span class="fw-semibold d-block mb-1">Admin</span>
-                    {/* <h3 class="card-title mb-2">$12,628</h3> */}
                   </div>
+                  <span class="fw-semibold d-block mb-1">Admin</span>
+                  {/* <h3 class="card-title mb-2">$12,628</h3> */}
                 </div>
               </div>
-              <div class="col-lg-2 col-md-12 col-6 mb-4">
-                <div class="card" onClick={() => setFilterData("supervisors")}>
-                  <div class="card-body">
-                    <div class="card-title d-flex align-items-start justify-content-between">
-                      <div class="avatar flex-shrink-0">
-                        <img
-                          src="../assets/img/icons/unicons/wallet-info.png"
-                          alt="Credit Card"
-                          class="rounded"
-                        />
-                      </div>
+            </div>
+            <div class="col-lg-2 col-md-12 col-6 mb-4">
+              <div class="card" onClick={() => setFilterData("supervisors")}>
+                <div class="card-body">
+                  <div class="card-title d-flex align-items-start justify-content-between">
+                    <div class="avatar flex-shrink-0">
+                      <img
+                        src="../assets/img/icons/unicons/wallet-info.png"
+                        alt="Credit Card"
+                        class="rounded"
+                      />
                     </div>
-                    <span class="fw-semibold d-block mb-1">Supervisors</span>
                   </div>
+                  <span class="fw-semibold d-block mb-1">Supervisors</span>
                 </div>
               </div>
-              <div class="col-lg-2 col-md-12 col-6 mb-4">
-                <div class="card" onClick={() => setFilterData("Agents")}>
-                  <div class="card-body">
-                    <div class="card-title d-flex align-items-start justify-content-between">
-                      <div class="avatar flex-shrink-0">
-                        <img
-                          src="../assets/img/icons/unicons/wallet-info.png"
-                          alt="Credit Card"
-                          class="rounded"
-                        />
-                      </div>
+            </div>
+            <div class="col-lg-2 col-md-12 col-6 mb-4">
+              <div class="card" onClick={() => setFilterData("Agents")}>
+                <div class="card-body">
+                  <div class="card-title d-flex align-items-start justify-content-between">
+                    <div class="avatar flex-shrink-0">
+                      <img
+                        src="../assets/img/icons/unicons/wallet-info.png"
+                        alt="Credit Card"
+                        class="rounded"
+                      />
                     </div>
-                    <span class="d-block mb-1">Agents</span>
                   </div>
+                  <span class="d-block mb-1">Agents</span>
                 </div>
               </div>
-              <div class="col-lg-2 col-md-12 col-6 mb-4">
-                <div class="card" onClick={() => setFilterData("designer")}>
-                  <div class="card-body">
-                    <div class="card-title d-flex align-items-start justify-content-between">
-                      <div class="avatar flex-shrink-0">
-                        <img
-                          src="../assets/img/icons/unicons/cc-primary.png"
-                          alt="Credit Card"
-                          class="rounded"
-                        />
-                      </div>
+            </div>
+            <div class="col-lg-2 col-md-12 col-6 mb-4">
+              <div class="card" onClick={() => setFilterData("designer")}>
+                <div class="card-body">
+                  <div class="card-title d-flex align-items-start justify-content-between">
+                    <div class="avatar flex-shrink-0">
+                      <img
+                        src="../assets/img/icons/unicons/cc-primary.png"
+                        alt="Credit Card"
+                        class="rounded"
+                      />
                     </div>
-                    <span class="fw-semibold d-block mb-1">Designers</span>
-                    </div>
+                  </div>
+                  <span class="fw-semibold d-block mb-1">Designers</span>
                 </div>
               </div>
-              <div class="col-lg-2 col-md-12 col-6 mb-4">
-                <div class="card" onClick={() => setFilterData("Packagers")}>
-                  <div class="card-body">
-                    <div class="card-title d-flex align-items-start justify-content-between">
-                      <div class="avatar flex-shrink-0">
-                        <img
-                          src="../assets/img/icons/unicons/cc-primary.png"
-                          alt="Credit Card"
-                          class="rounded"
-                        />
-                      </div>
+            </div>
+            <div class="col-lg-2 col-md-12 col-6 mb-4">
+              <div class="card" onClick={() => setFilterData("Packagers")}>
+                <div class="card-body">
+                  <div class="card-title d-flex align-items-start justify-content-between">
+                    <div class="avatar flex-shrink-0">
+                      <img
+                        src="../assets/img/icons/unicons/cc-primary.png"
+                        alt="Credit Card"
+                        class="rounded"
+                      />
                     </div>
-                    <span class="fw-semibold d-block mb-1">Packagers</span>
-                    </div>
+                  </div>
+                  <span class="fw-semibold d-block mb-1">Packagers</span>
                 </div>
               </div>
-              <div class="col-lg-2 col-md-12 col-6 mb-4">
-                <div class="card" onClick={() => setFilterData("Trackers")}>
-                  <div class="card-body">
-                    <div class="card-title d-flex align-items-start justify-content-between">
-                      <div class="avatar flex-shrink-0">
-                        <img
-                          src="../assets/img/icons/unicons/cc-primary.png"
-                          alt="Credit Card"
-                          class="rounded"
-                        />
-                      </div>
+            </div>
+            <div class="col-lg-2 col-md-12 col-6 mb-4">
+              <div class="card" onClick={() => setFilterData("Trackers")}>
+                <div class="card-body">
+                  <div class="card-title d-flex align-items-start justify-content-between">
+                    <div class="avatar flex-shrink-0">
+                      <img
+                        src="../assets/img/icons/unicons/cc-primary.png"
+                        alt="Credit Card"
+                        class="rounded"
+                      />
                     </div>
-                    <span class="fw-semibold d-block mb-1">Trackers</span>
-                    </div>
+                  </div>
+                  <span class="fw-semibold d-block mb-1">Trackers</span>
                 </div>
               </div>
             </div>
           </div>
-          
-
-            <h4 class="fw-bold py-3 mb-4">All User</h4>
-            <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                    <button
-                        type="button"
-                        class="btn btn-info m-1"
-                        onClick={() => window.location.reload()}
-                      >
-                        ↻ See all
-                      </button>
-                        {/* <h5 class="mb-0">User List</h5> */}
-                        <div class="d-flex justify-content-between">
-                          {/* <div class="input-group input-group-merge m-1">
-                              <select
-                                id="exampleFormControlSelect1"
-                                name="role"
-                                aria-lbel="Default select example"
-                                value={filterData?.role || ""}
-                                // onChange={(e) => onFilterValueChange(e, "filterData")}
-                                className={`form-control`}
-                              >
-                                <option selected>Show All</option>
-                                <option value="Admin">Admin</option>
-                                <option value="Supervisors">Supervisors</option>
-                                <option value="Agents">Agents</option>
-                                <option value="Designer">Designer</option>
-                                <option value="Packagers">Packagers</option>
-                                <option value="Trackers">Trackers</option>
-                              </select>
-                            </div> */}
-                            <Link to={`/register-user/`}>
-                              <button type="button" class="btn btn-primary m-1">+ NEW</button>
-                          </Link>
-
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-                    <div class="table-responsive text-nowrap">
-                <table class="table">
-                    <thead>
-                      <tr>
-                        <th><b>ID</b></th>
-                        <th><b>UserName</b></th>
-                        <th><b>Email Address</b></th>
-                        <th><b>Contact Number</b></th>
-                        <th><b>Role</b></th>
-                      </tr>
-                    </thead>
-                    <tbody class="table-border-bottom-0">
-                        {
-                            manageData? manageData.map((userList) => {
-                              let cssClass;
-
-                              if (userList?.role === 'Admin') {
-                                  cssClass = 'bg-label-success'
-                              } else if (userList?.role === 'Supervisors') {
-                                  cssClass = 'bg-label-info'
-                              } else if (userList?.role === 'Agents') {
-                                  cssClass = 'bg-label-primary'
-                              } else if (userList?.role === 'Designer') {
-                                  cssClass = 'bg-label-warning'
-                              } else if (userList?.role === 'Packagers') {
-                                cssClass = 'bg-label-danger'
-                              } else if (userList?.role === 'Trackers') {
-                                cssClass = 'bg-label-dark'
-                              } else {
-                                  cssClass = 'bg-label-secondary'
-                              }
-
-                                return (
-                                    <>
-                                        <tr class="table-light">
-                                        <td><i class="fab fa-bootstrap fa-lg text-primary me-3"></i> <strong>{userList?.id}</strong></td>
-                                        <td>{userList?.userName}</td>
-                                        <td>{userList?.email}</td>
-                                        <td>{userList?.phone}</td>
-                                        <td> 
-                                          <span class={`badge ${cssClass} me-1`}>{userList?.role}</span>
-                                        </td>
-                                        <td><Link to={`/update-user/${userList.id}`}><a class="dropdown-item">
-                                                    <i class="bx bx-edit-alt me-1"></i> Edit</a></Link></td>
-                                        <td>
-                                          <a class="dropdown-item" onClick={() => handleDelete(userList)}>
-                                                    <i class="bx bx-trash me-1"></i> Delete</a>
-                                        </td>
-                                        </tr>
-                                    </> 
-                                )
-                            }) : null
-                        }
-                    </tbody>
-                </table>
-            </div>
-            </div>
-            </div>
-
-            
         </div>
-    </>
-  )
-}
 
+        <h4 class="fw-bold py-3 mb-4">All User</h4>
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <button
+              type="button"
+              class="btn btn-info m-1"
+              onClick={() => window.location.reload()}
+            >
+              ↻ See all
+            </button>
+            <div class="d-flex justify-content-between">
+              <Link to={`/register-user/`}>
+                <button type="button" class="btn btn-primary m-1">
+                  + NEW
+                </button>
+              </Link>
+            </div>
+          </div>
+
+          <TableContainer
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            {!manageData ? (
+              <CircularProgress />
+            ) : (
+              <>
+                <SearchBar
+                  value={searched}
+                  onChange={(searchVal) => requestSearch(searchVal)}
+                  onCancelSearch={() => cancelSearch()}
+                  style={{ alignSelf: "flex-start", margin: "2%" }}
+                />
+                <Table
+                  sx={{ minWidth: 750 }}
+                  aria-labelledby="tableTitle"
+                  size={dense ? "small" : "medium"}
+                >
+                  <EnhancedTableHead
+                    numSelected={selected.length}
+                    order={order}
+                    orderBy={orderBy}
+                    onSelectAllClick={handleSelectAllClick}
+                    onRequestSort={handleRequestSort}
+                    rowCount={manageData?.length}
+                  />
+                  <TableHead>
+                    <TableRow>
+                      <TableCell padding="checkbox"></TableCell>
+                    </TableRow>
+                  </TableHead>
+
+                  <TableBody>
+                    {stableSort(manageData, getComparator(order, orderBy))
+                      ?.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      ?.map((userList, index) => {
+                        const isItemSelected = isSelected(userList.id);
+                        const labelId = `enhanced-table-checkbox-${index}`;
+                        let cssClass;
+
+                        if (userList?.role === "Admin") {
+                          cssClass = "bg-label-success";
+                        } else if (userList?.role === "Supervisors") {
+                          cssClass = "bg-label-info";
+                        } else if (userList?.role === "Agents") {
+                          cssClass = "bg-label-primary";
+                        } else if (userList?.role === "Designer") {
+                          cssClass = "bg-label-warning";
+                        } else if (userList?.role === "Packagers") {
+                          cssClass = "bg-label-danger";
+                        } else if (userList?.role === "Trackers") {
+                          cssClass = "bg-label-dark";
+                        } else {
+                          cssClass = "bg-label-secondary";
+                        }
+
+                        return (
+                          <TableRow
+                            hover
+                            onClick={(event) =>
+                              handleClick(event, userList?.name)
+                            }
+                            role="checkbox"
+                            aria-checked={isItemSelected}
+                            tabIndex={-1}
+                            key={userList.name}
+                            selected={isItemSelected}
+                          >
+                            <TableCell
+                              component="th"
+                              id={labelId}
+                              scope="row"
+                              align="left"
+                            >
+                              {userList.id}
+                            </TableCell>
+                            <TableCell align="left">
+                              {userList.userName}
+                            </TableCell>
+                            <TableCell align="left">{userList.email}</TableCell>
+                            <TableCell align="left" class={`badge ${cssClass}`}>
+                              {userList.role}
+                            </TableCell>
+                            <TableCell align="left">{userList.phone}</TableCell>
+                            <TableCell align="left">
+                              <td>
+                                <Link to={`/update-user/${userList.id}`}>
+                                  <a class="dropdown-item">
+                                    <i class="bx bx-edit-alt me-1"></i> Edit
+                                  </a>
+                                </Link>
+                              </td>
+                              <td>
+                                <a
+                                  class="dropdown-item"
+                                  onClick={() => handleDelete(userList)}
+                                >
+                                  <i class="bx bx-trash me-1"></i> Delete
+                                </a>
+                              </td>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow
+                        style={{
+                          height: (dense ? 33 : 53) * emptyRows,
+                        }}
+                      >
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </>
+            )}
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={manageData?.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default Users;

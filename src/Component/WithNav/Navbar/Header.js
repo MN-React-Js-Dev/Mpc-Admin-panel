@@ -163,7 +163,7 @@ const Header = () => {
             )}
 
             {
-              role === 'Trackers' && (
+              role === 'Tracker' && (
                 <>
                   <li class="menu-header small text-uppercase">
                     <span class="menu-header-text">ORDERS</span>
