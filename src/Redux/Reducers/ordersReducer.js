@@ -2,7 +2,9 @@ import * as types from '../ActionTypes/ordersActionTypes';
 
 const initialState = {
     orders: [],
-    orderList: []
+    orderList: [],
+    singleOrder: [],
+    trackerOrders: [],
 }
 
 const ordersReducer = ( state = initialState, action ) => {
@@ -14,6 +16,9 @@ const ordersReducer = ( state = initialState, action ) => {
         case types.GET_ALL_ORDER_LIST_START:
         case types.UPDATE_ORDER_STATUS_START:
         case types.GET_FILTER_ORDERS_START:
+        case types.GET_SINGLE_ORDERS_START:
+        case types.GET_ALL_TRACKERS_ORDERS_START:
+        case types.ON_PAGE_CHANGE_START:
             return {
                 ...state,
             };
@@ -26,6 +31,22 @@ const ordersReducer = ( state = initialState, action ) => {
                 ...state,
                 orders: action.payload,
             };
+        case types.GET_SINGLE_ORDERS_SUCCESS:
+            return {
+                ...state,
+                singleOrder: action.payload,
+            }
+        case types.GET_ALL_TRACKERS_ORDERS_SUCCESS:
+        case types.ON_PAGE_CHANGE_SUCCESS:
+            return {
+                ...state,
+                trackerOrders: action.payload,
+            }
+        // case types.ON_PAGE_CHANGE_SUCCESS:
+        //     return {
+        //         ...state,
+        //         trackerOrders: action.payload,
+        //     }
         case types.CREATE_ORDERS_SUCCESS:
             return {
                 ...state,
@@ -42,6 +63,9 @@ const ordersReducer = ( state = initialState, action ) => {
         case types.GET_ALL_ORDERS_LIST_ERROR:
         case types.UPDATE_ORDER_STATUS_ERROR:
         case types.GET_FILTER_ORDERS_ERROR:
+        case types.GET_SINGLE_ORDERS_ERROR:
+        case types.GET_ALL_TRACKERS_ORDERS_ERROR:
+        case types.ON_PAGE_CHANGE_ERROR:
             return {
                 ...state,
                 error: action.payload,

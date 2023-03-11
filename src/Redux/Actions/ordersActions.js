@@ -104,3 +104,49 @@ export const getFilterOrdersError = (error) => ({
     type: types.GET_FILTER_ORDERS_ERROR,
     payload: error,
 });
+
+export const getSingleOrdersStart = (order) => ({
+    type: types.GET_SINGLE_ORDERS_START,
+    payload: order,
+});
+
+export const getSingleOrdersSuccess = (order) => ({
+    type: types.GET_SINGLE_ORDERS_SUCCESS,
+    payload: order,
+});
+
+export const getSingleOrdersError = (error) => ({
+    type: types.GET_SINGLE_ORDERS_ERROR,
+    payload: error,
+});
+
+
+export const getAllTrackersOrdersStart = (orders) => ({
+    type: types.GET_ALL_TRACKERS_ORDERS_START,
+    payload: orders,
+});
+
+export const getAllTrackersOrdersSuccess = (orders) => ({
+    type: types.GET_ALL_TRACKERS_ORDERS_SUCCESS,
+    payload: orders,
+});
+
+export const getAllTrackersOrdersError = (error) => ({
+    type: types.GET_ALL_TRACKERS_ORDERS_ERROR,
+    payload: error,
+});
+
+export const onPageChangeStart = (pageNumber) => ({
+    type: types.ON_PAGE_CHANGE_START,
+    payload: pageNumber,
+});
+
+export const onPageChangeSuccess = (pageNumber) => ({
+    type: types.ON_PAGE_CHANGE_SUCCESS,
+    payload: pageNumber,
+});
+
+export const onPageChangeError = (error) => ({
+    type: types.ON_PAGE_CHANGE_ERROR,
+    payload: error,
+});

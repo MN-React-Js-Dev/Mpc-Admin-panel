@@ -30,7 +30,6 @@ export const ChangePassword = () => {
         if (data.currentPassword && data.newPassword && data.confirmPassword) {
             dispatch(changePasswordStart(data))
         }
-        console.log("DATA~~~>>>>", data)
     }
 
   return (

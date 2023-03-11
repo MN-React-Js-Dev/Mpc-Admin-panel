@@ -1,9 +1,9 @@
 import * as types from "../ActionTypes/ordersActionTypes";
 import { takeLatest, put, all, fork, call, take } from "redux-saga/effects";
 import Swal from "sweetalert2";
-import { createOrdersApi, deleteOrderApi, loadFilterOrdersApi, loadOrderListApi, loadOrdersApi, updateOrderApi, updateOrderStausApi } from "../APIs/ordersApi";
+import { createOrdersApi, deleteOrderApi, loadAllTrackersOrderApi, loadFilterOrdersApi, loadOrderListApi, loadOrdersApi, loadSingleOrdersApi, pageChangeApi, updateOrderApi, updateOrderStausApi } from "../APIs/ordersApi";
 
-import { createOrdersError, createOrdersSuccess, deleteOrderError, deleteOrderSuccess, getAllOrderListError, getAllOrderListSuccess, getAllOrdersError, getAllOrdersSuccess, getFilterOrdersError, getFilterOrdersSuccess, updateOrderError, updateOrderStatusError, updateOrderStatusSuccess, updateOrderSuccess } from "../Actions/ordersActions";
+import { createOrdersError, createOrdersSuccess, deleteOrderError, deleteOrderSuccess, getAllOrderListError, getAllOrderListSuccess, getAllOrdersError, getAllOrdersSuccess, getAllTrackersOrdersError, getAllTrackersOrdersSuccess, getFilterOrdersError, getFilterOrdersSuccess, getSingleOrdersError, getSingleOrdersSuccess, onPageChangeError, onPageChangeSuccess, updateOrderError, updateOrderStatusError, updateOrderStatusSuccess, updateOrderSuccess } from "../Actions/ordersActions";
 
 const Toast = Swal.mixin({
     toast: true,
@@ -167,6 +167,65 @@ export function* onLoadFilterOrderList() {
     yield takeLatest(types.GET_FILTER_ORDERS_START, onLoadFilterOrderListStartAsync);
 }
 
+
+export function* onSingleOrderStartAsync({payload}) {
+    try {
+        const response = yield call(loadSingleOrdersApi, payload);
+        if (response.data.success === true) {
+            yield put(getSingleOrdersSuccess(response.data));
+        }
+    } catch (error) {
+        yield put(getSingleOrdersError(error.response));
+        Toast.fire({
+            icon: "error",
+            title: error.response.data.message,
+        });
+    }
+}
+
+export function* onSingleOrderList() {
+    yield takeLatest(types.GET_SINGLE_ORDERS_START, onSingleOrderStartAsync);
+}
+
+
+export function* onTrackerOrderStartAsync() {
+    try {
+        const response = yield call(loadAllTrackersOrderApi);
+        if(response) {
+            localStorage.setItem("TRACKER",response.data?.userToken )
+        }
+        yield put(getAllTrackersOrdersSuccess(response.data));
+    } catch (error) {
+        yield put(getAllTrackersOrdersError(error.response));
+        Toast.fire({
+            icon: "error",
+            title: error.response.data.message,
+        });
+    }
+}
+
+export function* onTrackerOrderList() {
+    yield takeLatest(types.GET_ALL_TRACKERS_ORDERS_START, onTrackerOrderStartAsync);
+}
+
+
+export function* onPageChangeStartAsync({payload}) {
+    try {
+        const response = yield call(pageChangeApi, payload);
+        yield put(onPageChangeSuccess(response.data));
+    } catch (error) {
+        yield put(onPageChangeError(error.response));
+        Toast.fire({
+            icon: "error",
+            title: error.response.data.message,
+        });
+    }
+}
+
+export function* onPageChange() {
+    yield takeLatest(types.ON_PAGE_CHANGE_START, onPageChangeStartAsync);
+}
+
 const orderSagas = [
     fork(onLoadOrders), 
     fork(onSubmitOrder),
@@ -175,6 +234,9 @@ const orderSagas = [
     fork(onDeleteOrder),
     fork(onLoadOrderList),
     fork(onLoadFilterOrderList),
+    fork(onSingleOrderList),
+    fork(onTrackerOrderList),
+    fork(onPageChange),
 ];
 
 export default function* orderSaga() {

@@ -1,19 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import TablePagination from '@mui/material/TablePagination';
+import TablePagination from "@mui/material/TablePagination";
 import { makeStyles } from "@material-ui/core/styles";
 import SearchBar from "material-ui-search-bar";
 import { visuallyHidden } from "@mui/utils";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Box from "@mui/material/Box";
-import { getAllOrderListStart } from '../Redux/Actions/ordersActions';
-import { CircularProgress } from '@mui/material';
+import {
+  getAllOrderListStart,
+  getAllTrackersOrdersStart,
+  onPageChangeStart,
+} from "../Redux/Actions/ordersActions";
+import { CircularProgress } from "@mui/material";
+import { Link } from "react-router-dom";
+import { BorderBottom, ChevronLeft } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,53 +29,61 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const TrackerOrders = () => {
-
+  const dispatch = useDispatch();
   const [searched, setSearched] = useState("");
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(1);
   const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
+  const [filter, setFilter] = useState('');
 
   const headCells = [
     {
       id: "Order Number",
-      numeric: false,
+      numeric: true,
       disablePadding: false,
       label: "Order Number",
     },
     {
       id: "Name",
-      numeric: true,
+      numeric: false,
       disablePadding: false,
       label: "Name",
     },
     {
       id: "Status",
-      numeric: true,
-      disablePadding: false,
+      numeric: false,
+      disablePadding: true,
       label: "Status",
     },
     {
       id: "Tracking Id",
       numeric: true,
-      disablePadding: false,
+      disablePadding: true,
       label: "Tracking Id",
     },
   ];
 
   useEffect(() => {
-    dispatch(getAllOrderListStart());
+    dispatch(getAllTrackersOrdersStart());
   }, []);
 
-  const dispatch = useDispatch();
-  const orderListData = useSelector((state) => state?.orders?.orderList?.ordersDetails?.orders);
-  const [data, setData] = useState(orderListData)
+  const orderListData = useSelector((state) => state?.orders?.trackerOrders);
+  const [data, setData] = useState([orderListData.data]);
 
   useEffect(() => {
-    setData(orderListData)
-  }, [orderListData])
+    setData(orderListData);
+  }, [orderListData]);
+
+//  {filter && data?.data?.filter((item) => {
+//   console.log("ITEM~~>>>",item)
+//    if(item.status == filter) {
+//      console.log("DATAA>DATA~~~>>>", item)
+//      return item
+//     };
+//   })}
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -136,6 +150,7 @@ export const TrackerOrders = () => {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    dispatch(onPageChangeStart(newPage))
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -152,70 +167,82 @@ export const TrackerOrders = () => {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data?.length) : 0;
 
-    function EnhancedTableHead(props) {
-      const {
-        onSelectAllClick,
-        order,
-        orderBy,
-        numSelected,
-        rowCount,
-        onRequestSort,
-      } = props;
-      const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
-      };
-  
-      return (
-        <TableHead>
-          <TableRow>
-            {headCells.map((headCell) => (
-              <TableCell
-                key={headCell.id}
-                align={headCell.numeric ? "left" : "left"}
-                padding={headCell.disablePadding ? "none" : "normal"}
-                sortDirection={orderBy === headCell.id ? order : false}
+  function EnhancedTableHead(props) {
+    const {
+      onSelectAllClick,
+      order,
+      orderBy,
+      numSelected,
+      rowCount,
+      onRequestSort,
+    } = props;
+    const createSortHandler = (property) => (event) => {
+      onRequestSort(event, property);
+    };
+
+    return (
+      <TableHead>
+        <TableRow>
+          {headCells.map((headCell) => (
+            <TableCell
+              key={headCell.id}
+              align={headCell.numeric ? "left" : "left"}
+              padding={headCell.disablePadding ? "none" : "normal"}
+              sortDirection={orderBy === headCell.id ? order : false}
+            >
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : "asc"}
+                onClick={createSortHandler(headCell.id)}
               >
-                <TableSortLabel
-                  active={orderBy === headCell.id}
-                  direction={orderBy === headCell.id ? order : "asc"}
-                  onClick={createSortHandler(headCell.id)}
-                >
-                  {headCell.label}
-                  {orderBy === headCell.id ? (
-                    <Box component="span" sx={visuallyHidden}>
-                      {order === "desc"
-                        ? "sorted descending"
-                        : "sorted ascending"}
-                    </Box>
-                  ) : null}
-                </TableSortLabel>
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-      );
-    }
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+    );
+  }
+
 
   const requestSearch = (searchedVal) => {
-    const filteredRows = orderListData.filter((row) => {
-      return row.line_items?.map((item) => {
-        item.name?.toLowerCase().includes(searchedVal.toLowerCase())
-      })
-    });
-    setData(filteredRows)
+  
+    // const filteredRows = data?.data?.filter((row) => {
+    //   return row.products?.map((item) => {
+    //     item.name?.toLowerCase().includes(searchedVal.toLowerCase());
+    //   });
+    // });
+    // setData(filteredRows);
+    // const filteredRows = data?.filter(({data}) => {
+    //  const res = data.map((item) => {
+    //     item.name?.toLowerCase().includes(searchedVal.toLowerCase());
+    //   })
+    //   console.log("ERSULT ~~~>>>",res)
+    // })
+    
   };
+
 
   const cancelSearch = () => {
     setSearched("");
     requestSearch(searched);
   };
 
+ 
+
   return (
     <>
       <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="row">
+        {/* <div class="row">
           <div class="col-lg-3 col-md-12 col-6 mb-4">
-            <div class="card">
+            <div class="card" onClick={() => setFilter("NEW")}>
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                   <div class="avatar flex-shrink-0">
@@ -231,7 +258,7 @@ export const TrackerOrders = () => {
             </div>
           </div>
           <div class="col-lg-3 col-md-12 col-6 mb-4">
-            <div class="card">
+            <div class="card" onClick={() => setFilter("Action Requested")}>
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                   <div class="avatar flex-shrink-0">
@@ -247,7 +274,7 @@ export const TrackerOrders = () => {
             </div>
           </div>
           <div class="col-lg-3 col-md-12 col-6 mb-4">
-            <div class="card">
+            <div class="card" onClick={() => setFilter("RTO")}>
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                   <div class="avatar flex-shrink-0">
@@ -263,7 +290,7 @@ export const TrackerOrders = () => {
             </div>
           </div>
           <div class="col-lg-3 col-md-12 col-6 mb-4">
-            <div class="card">
+            <div class="card" onClick={() => setFilter("DELIVERED")}>
               <div class="card-body">
                 <div class="card-title d-flex align-items-start justify-content-between">
                   <div class="avatar flex-shrink-0">
@@ -278,7 +305,7 @@ export const TrackerOrders = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <h4 class="fw-bold py-3 mb-4">All Order</h4>
         <div class="card mb-4">
           <div class="card-header d-flex justify-content-between align-items-center">
@@ -286,110 +313,168 @@ export const TrackerOrders = () => {
           </div>
           <div class="card-body">
             <div class="table-responsive text-nowrap">
-            <TableContainer style={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
-              {
-                !data ? (
-                  <CircularProgress  />
+              <TableContainer
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                {!data ? (
+                  <CircularProgress />
                 ) : (
                   <>
-                  <SearchBar
-              value={searched}
-              onChange={(searchVal) => requestSearch(searchVal)}
-              onCancelSearch={() => cancelSearch()}
-              style={{ alignSelf:'flex-start' , margin:'2%'}}
-            />
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size={dense ? "small" : "medium"}
-            >
-              <EnhancedTableHead
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                rowCount={data?.length}
-              />
-              <TableHead>
-                <TableRow>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {stableSort(data, getComparator(order, orderBy))
-                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  ?.map((orderList, index) => {
-                    const checked = isSelected(orderList?.order_number);
-                    const labelId = `enhanced-table-checkbox-${index}`;
-                    return (
-                      <TableRow
-                        hover
-                        onClick={(event) => handleClick(event, orderList?.id)}
-                        role="checkbox"
-                        aria-checked={checked}
-                        tabIndex={-1}
-                        key={orderList.id}
-                        selected={checked}
-                      >
-                        <TableCell
-                          component="th"
-                          id={labelId}
-                          scope="row"
-                          align="left"
-                        >
-                          {orderList.order_number}
-                        </TableCell>
-                        <TableCell>
-                        {orderList?.line_items?.map((item) => {
-                          return (
-                            <TableCell align="left"  style={{ display: "flex",
-                            flexDirection: "row",}}
-                                >{item?.name}</TableCell>
-                          )
-                        })}
-                        </TableCell>
-                        <TableCell>
-                        {orderList?.line_items[0]?.properties.map((items) => {
-                          if(items?.name === "key"){
+                    <SearchBar
+                      value={searched}
+                      onChange={(searchVal) => requestSearch(searchVal)}
+                      onCancelSearch={() => cancelSearch()}
+                      style={{ alignSelf: "flex-start", margin: "2%" }}
+                    />
+                    <Table
+                      sx={{ minWidth: 750 }}
+                      aria-labelledby="tableTitle"
+                      size={dense ? "small" : "medium"}
+                    >
+                      <EnhancedTableHead
+                        numSelected={selected.length}
+                        order={order}
+                        orderBy={orderBy}
+                        onSelectAllClick={handleSelectAllClick}
+                        onRequestSort={handleRequestSort}
+                        rowCount={data?.length}
+                      />
+                      <TableHead>
+                        <TableRow></TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {
+                          (stableSort(
+                            data?.data,
+                            getComparator(order, orderBy)
+                          )?.slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage
+                          ),
+                          data?.data?.map((orderList, index) => {
+                            const checked = isSelected(
+                              orderList?.channel_order_id
+                            );
+                            const labelId = `enhanced-table-checkbox-${index}`;
+                            let cssClass;
+
+                            if (orderList?.status === "NEW") {
+                              cssClass = "bg-label-success";
+                            } else if (orderList?.status === "DELIVERED") {
+                              cssClass = "bg-label-danger";
+                            }else {
+                              cssClass = "bg-label-warning";
+                            }
+
                             return (
-                              <td class='bg-label-warning'>{items.value}</td>
-                            )
-                          }
-                        })}
-                        </TableCell>
-                        <TableCell align='left'>{`tracking id`}</TableCell>
-                      </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow
-                    style={{
-                      height: (dense ? 33 : 53) * emptyRows,
-                    }}
-                  >
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
+                              <TableRow
+                                hover
+                                onClick={(event) =>
+                                  handleClick(
+                                    event,
+                                    orderList?.channel_order_id
+                                  )
+                                }
+                                role="checkbox"
+                                aria-checked={checked}
+                                tabIndex={-1}
+                                key={orderList.id}
+                                selected={checked}
+                              >
+                                <TableCell
+                                  component="th"
+                                  id={labelId}
+                                  scope="row"
+                                  align="left"
+                                >
+                                  {orderList.channel_order_id}
+                                </TableCell>
+                                <TableCell>
+                                  {orderList?.products?.map((item) => {
+                                    return (
+                                      <td
+                                        align="left"
+                                        style={{
+                                          display: "flex",
+                                          flexDirection: "row",
+                                        }}
+                                      >
+                                        {item?.name}
+                                      </td>
+                                    );
+                                  })}
+                                </TableCell>
+                                <TableCell
+                                  align="left"
+                                  class={`badge ${cssClass}`}
+                                >
+                                  <td>{orderList?.status}</td>
+                                </TableCell>
+                                <TableCell align="left">
+                                {orderList?.shipments?.map((item) => {
+                                    return (
+                                      <td
+                                        align="left"
+                                        style={{
+                                          display: "flex",
+                                          flexDirection: "row",
+                                        }}
+                                      > 
+                                      <Link to={`https://shiprocket.co//tracking/${item.awb}`}>
+                                          <button
+                                            type="button"
+                                            class="btn btn-primary m-1"
+                                            disabled={
+                                              item.awb === '' ? true: false
+                                            }
+                                          > 
+                                           {item?.awb ? item.awb : "n/a"}
+                                          </button>
+                                        </Link>
+
+                                      {/* <Link to={`https://shiprocket.co//tracking/${item.awb}`}>
+                                        {item?.awb ? item.awb : "N/A"} 
+                                      </Link> */}
+                                      </td>
+                                    );
+                                  })}
+                                </TableCell>
+                              </TableRow>
+                            );
+                          }))
+                        }
+                        {emptyRows > 0 && (
+                          <TableRow
+                            style={{
+                              height: (dense ? 33 : 53) * emptyRows,
+                            }}
+                          >
+                            <TableCell colSpan={6} />
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
                   </>
-                )
-              }
-            
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={data?.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+                )}
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[15]}
+                component="div"
+                count={data?.meta?.pagination?.total}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
             </div>
           </div>
         </div>
       </div>
     </>
-  )
-}
+  );
+};

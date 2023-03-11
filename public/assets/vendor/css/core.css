@@ -4197,7 +4197,8 @@ textarea.form-control-lg {
 
 .badge {
   display: inline-block;
-  padding: 0.52em 0.593em;
+  /* padding: 0.52em 0.593em; */
+  padding: 5%;
   font-size: 0.8125em;
   font-weight: 500;
   line-height: 1;
@@ -4209,7 +4210,9 @@ textarea.form-control-lg {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 15%;
+  margin-top: 11%;
+  width: fit-content;
+  border-bottom: 1px solid gray;
 }
 .badge:empty {
   display: none;

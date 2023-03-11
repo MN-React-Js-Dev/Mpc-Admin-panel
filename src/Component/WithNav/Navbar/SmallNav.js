@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import Footer from "../Footer";
+import WithNav from "../WithNav";
+import Header from "./Header";
+import profile from "../../../assets/img/icons/unicons/man.png"
 
 const SmallNav = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const usersData = JSON.parse(localStorage.getItem('MPCADMIN'))
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const usersData = JSON.parse(localStorage.getItem("MPCADMIN"));
 
   const handleOpen = () => {
     setOpen(!open);
@@ -18,9 +22,14 @@ const SmallNav = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('MPCADMIN')
-    navigate('/')
-    window.location.reload()
+    localStorage.removeItem("MPCADMIN");
+    navigate("/");
+    window.location.reload();
+  };
+
+  const handleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen)
+  
   }
 
   return (
@@ -29,12 +38,13 @@ const SmallNav = () => {
         class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
         id="layout-navbar"
       >
-        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-          <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+
+        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none" onClick={handleDrawer}>
+          <a class="nav-item nav-link px-0 me-xl-4">
             <i class="bx bx-menu bx-sm"></i>
           </a>
         </div>
-
+      
         <div
           class="navbar-nav-right d-flex align-items-center"
           id="navbar-collapse"
@@ -67,7 +77,7 @@ const SmallNav = () => {
               >
                 <div class="avatar avatar-online" onClick={handleOpen}>
                   <img
-                    src="../assets/img/avatars/1.png"
+                    src={profile}
                     alt
                     class="w-px-40 h-auto rounded-circle"
                   />
@@ -82,7 +92,7 @@ const SmallNav = () => {
                       <div class="flex-shrink-0 me-3">
                         <div class="avatar avatar-online">
                           <img
-                            src="../assets/img/avatars/1.png"
+                            src={profile}
                             alt
                             class="w-px-40 h-auto rounded-circle"
                           />
@@ -98,18 +108,7 @@ const SmallNav = () => {
                 <li>
                   <div class="dropdown-divider"></div>
                 </li>
-                <li>
-                  <a class="dropdown-item" href="#">
-                    <i class="bx bx-user me-2"></i>
-                    <span class="align-middle">My Profile</span>
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">
-                    <i class="bx bx-cog me-2"></i>
-                    <span class="align-middle">Settings</span>
-                  </a>
-                </li>
+               
                 <li>
                   <Link to='/change-password'>
                     <a class="dropdown-item">
@@ -122,10 +121,6 @@ const SmallNav = () => {
                   <div class="dropdown-divider"></div>
                 </li>
                 <li>
-                  {/* <Link to='/' class="-dropdownitem">
-                    <i class="bx bx-power-off me-2"></i>
-                    <span class="align-middle">Log Out</span>
-                  </Link> */}
                   <a class="dropdown-item" onClick={handleLogout}>
                     <i class="bx bx-power-off me-2"></i>
                     <span class="align-middle">Log Out</span>

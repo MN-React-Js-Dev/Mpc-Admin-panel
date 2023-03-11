@@ -80,9 +80,9 @@ export const registerUserStart = (user) => ({
     payload: user,
 });
 
-export const registerUserSuccess = () => ({
+export const registerUserSuccess = (user) => ({
     type: types.REGISTER_USER_SUCCESS,
-    // payload: user,
+    payload: user,
 });
 
 export const registerUserError = (error) => ({

@@ -1,12 +1,14 @@
 import axios from "axios";
 
 const token = JSON.parse(localStorage.getItem("MPCADMIN"));
+const tracker = localStorage.getItem("TRACKER")
 
 const headersParam = {
     "Authorization" : `Bearer ${token?.token}`,
 };
-
-console.log("TOKEN~~~>>>>>", token)
+const headersParam1 = {
+    "Authorization" : `Bearer ${tracker}`,
+}; 
 
 export const loadOrdersApi = async () => await axios.get(`http://localhost:7000/api/order/`, { headers: headersParam });
 
@@ -21,3 +23,11 @@ export const updateOrderStausApi = async (order) => await axios.put(`http://loca
 export const loadOrderListApi = async () => await axios.get(`http://localhost:7000/api/order/orderDetails/`, { headers: headersParam });
 
 export const loadFilterOrdersApi = async (data) => await axios.get(`http://localhost:7000/api/order/?status=${data}`, { headers: headersParam });
+
+export const loadSingleOrdersApi = async (data) => await axios.get(`http://localhost:7000/api/order/singleOrder/${data}`);
+
+
+// export const loadAllTrackersOrderApi = async () => await axios.get(`http://localhost:7000/api/logictic/logistics`, { headers: headersParam });
+export const loadAllTrackersOrderApi = async () => await axios.get(`http://localhost:7000/api/logictic/logistics`, { headers: headersParam });
+
+export const pageChangeApi = async (pageNumber) => await axios.get(`https://apiv2.shiprocket.in/v1/external/orders?page=${pageNumber}`, { headers: headersParam1 });

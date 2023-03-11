@@ -23,6 +23,10 @@ import Checkbox from "@mui/material/Checkbox";
 import { visuallyHidden } from "@mui/utils";
 import { AppBar, Tab, Tabs, Typography } from "@material-ui/core";
 import { CircularProgress } from "@mui/material";
+import readyToPrint from "../assets/img/icons/unicons/printing-machine.png"
+import inProduction from "../assets/img/icons/unicons/printing.png"
+import shipped from "../assets/img/icons/unicons/shipped.png"
+import delivered from "../assets/img/icons/unicons/delivered.png"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -91,7 +95,7 @@ const Orders = () => {
     (state) => state?.orders?.orderList?.ordersDetails?.orders
   );
   const [datas, setDatas] = useState(orderListData);
-  console.log("FILTER~~>>", datas);
+  // console.log("FILTER~~>>", datas);
 
   useEffect(() => {
     setDatas(orderListData);
@@ -101,6 +105,7 @@ const Orders = () => {
     (state) => state?.orders?.orders?.statusFilter
   );
   const [data, setData] = useState(filterordersData);
+  // console.log("DATA!~~~~>>>", data)
 
   useEffect(() => {
     setData(filterordersData);
@@ -176,7 +181,7 @@ const Orders = () => {
   };
 
   const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
+    if (event.target.checked) { 
       const newSelected = data?.map((n) => n.name);
       setSelected(newSelected);
       return;
@@ -445,7 +450,7 @@ const Orders = () => {
                     <div class="card-title d-flex align-items-start justify-content-between">
                       <div class="avatar flex-shrink-0">
                         <img
-                          src="../assets/img/icons/unicons/chart-success.png"
+                          src={readyToPrint}
                           alt="chart success"
                           class="rounded"
                         />
@@ -461,7 +466,7 @@ const Orders = () => {
                     <div class="card-title d-flex align-items-start justify-content-between">
                       <div class="avatar flex-shrink-0">
                         <img
-                          src="../assets/img/icons/unicons/wallet-info.png"
+                          src={inProduction}
                           alt="Credit Card"
                           class="rounded"
                         />
@@ -477,13 +482,13 @@ const Orders = () => {
                     <div class="card-title d-flex align-items-start justify-content-between">
                       <div class="avatar flex-shrink-0">
                         <img
-                          src="../assets/img/icons/unicons/wallet-info.png"
+                          src={shipped}
                           alt="Credit Card"
                           class="rounded"
                         />
                       </div>
                     </div>
-                    <span class="d-block mb-1">Shiped</span>
+                    <span class="fw-semibold d-block mb-1">Shipped</span>
                   </div>
                 </div>
               </div>
@@ -493,13 +498,13 @@ const Orders = () => {
                     <div class="card-title d-flex align-items-start justify-content-between">
                       <div class="avatar flex-shrink-0">
                         <img
-                          src="../assets/img/icons/unicons/cc-primary.png"
+                          src={delivered}
                           alt="Credit Card"
                           class="rounded"
                         />
                       </div>
                     </div>
-                    <span class="fw-semibold d-block mb-1">Deliverd</span>
+                    <span class="fw-semibold d-block mb-1">Delivered</span>
                   </div>
                 </div>
               </div>
@@ -667,8 +672,7 @@ const Orders = () => {
                                       <td>
                                         <Link to={`/form/${orderList.id}`}>
                                           <a class="dropdown-item">
-                                            {" "}
-                                            <i class="bx bx-edit-alt me-1"></i>{" "}
+                                            <i class="bx bx-edit-alt me-1"></i>
                                             Edit
                                           </a>
                                         </Link>
@@ -676,9 +680,8 @@ const Orders = () => {
                                       <td>
                                         <a
                                           class="dropdown-item"
-                                          onClick={() => handleClick(orderList)}
-                                        >
-                                          <i class="bx bx-trash me-1"></i>{" "}
+                                          onClick={() => handleClick(orderList)}>
+                                          <i class="bx bx-trash me-1"></i>
                                           Delete
                                         </a>
                                       </td>

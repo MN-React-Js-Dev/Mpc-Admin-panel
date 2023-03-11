@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
   const getUserData = JSON.parse(localStorage.getItem("MPCADMIN"));
   const userRole = getUserData?.role;
   const [role, setRole] = useState();
-  // console.log("ROLE~~~>>>", getUserData?.role)
 
   useEffect(() => {
     if (userRole) {
       setRole(userRole);
     }
   }, [userRole]);
+
+
 
   return (
     <>
@@ -20,7 +21,7 @@ const Header = () => {
         class="layout-menu menu-vertical menu bg-menu-theme"
       >
         <div class="app-brand demo">
-          <a href="#" class="app-brand-link">
+          <a class="app-brand-link">
             <span class="app-brand-logo demo">
               <svg width="25" viewBox="0 0 25 42" version="1.1">
                 <defs>
@@ -81,9 +82,10 @@ const Header = () => {
           </a>
         </div>
         <div class="menu-inner-shadow"></div>
+
         <ul class="menu-inner py-1">
           <li class="menu-item active">
-            <Link to={{ pathname: "/" }} class="menu-link">
+            <Link to={{ pathname: "/home" }} class="menu-link">
               <i class="menu-icon tf-icons bx bx-home-circle"></i>
               <div data-i18n="Analytics">Dashboard</div>
             </Link>
@@ -95,13 +97,14 @@ const Header = () => {
                 <li class="menu-header small text-uppercase">
                   <span class="menu-header-text">USERS</span>
                 </li>
+
                 <Link to={{ pathname: "/users" }} class="menu-link">
-                  <i class="menu-icon tf-icons bx bx-crown"></i>
+                  <i class="menu-icon tf-icons bx bx-user-pin"></i>
                   <div data-i18n="Boxicons">All User</div>
                 </Link>
 
                 <Link to={{ pathname: "/register-user" }} class="menu-link">
-                  <i class="menu-icon tf-icons bx bx-crown"></i>
+                  <i class="menu-icon tf-icons bx bx-user-plus"></i>
                   <div data-i18n="Boxicons">Create User</div>
                 </Link>
 
@@ -110,24 +113,25 @@ const Header = () => {
                 </li>
 
                 <Link to={{ pathname: "/orders" }} class="menu-link">
-                  <i class="menu-icon tf-icons bx bx-crown"></i>
+                  <i class="menu-icon tf-icons bx bx-bell"></i>
                   <div data-i18n="Boxicons">All Orders</div>
                 </Link>
               </li>
             )}
 
-            {role === "Superwiser" && (
+            {role === "Supervisor" && (
               <li class="menu-item">
                 <li class="menu-header small text-uppercase">
                   <span class="menu-header-text">USERS</span>
                 </li>
+
                 <Link to={{ pathname: "/users" }} class="menu-link">
-                  <i class="menu-icon tf-icons bx bx-user"></i>
+                  <i class="menu-icon tf-icons bx bx-user-pin"></i>
                   <div data-i18n="Boxicons">All User</div>
                 </Link>
 
                 <Link to={{ pathname: "/register-user" }} class="menu-link">
-                  <i class="menu-icon tf-icons bx bx-user"></i>
+                  <i class="menu-icon tf-icons bx bx-user-plus"></i>
                   <div data-i18n="Boxicons">Create User</div>
                 </Link>
 
@@ -136,17 +140,23 @@ const Header = () => {
                 </li>
 
                 <Link to={{ pathname: "/orders" }} class="menu-link">
-                  <i class="menu-icon tf-icons bx bx-crown"></i>
+                  <i class="menu-icon tf-icons bx bx-bell"></i>
                   <div data-i18n="Boxicons">All Orders</div>
                 </Link>
               </li>
             )}
 
-            {role === "Agents" && (
-              <Link to="/form" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                <div data-i18n="Account Settings">Create Order</div>
-              </Link>
+            {role === "Agent" && (
+              <li class="menu-item">
+                <li class="menu-header small text-uppercase">
+                  <span class="menu-header-text">ORDERS</span>
+                </li>
+
+                <Link to="/form" class="menu-link menu-toggle">
+                  <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                  <div data-i18n="Account Settings">Create Order</div>
+                </Link>
+              </li>
             )}
 
             {role === "Designer" && (
@@ -156,27 +166,24 @@ const Header = () => {
                 </li>
 
                 <Link to={{ pathname: "/all-orders" }} class="menu-link">
-                  <i class="menu-icon tf-icons bx bx-crown"></i>
+                  <i class="menu-icon tf-icons bx bx-bell"></i>
                   <div data-i18n="Boxicons">All Orders</div>
                 </Link>
               </>
             )}
 
-            {
-              role === 'Tracker' && (
-                <>
-                  <li class="menu-header small text-uppercase">
-                    <span class="menu-header-text">ORDERS</span>
-                  </li>
+            {role === "Tracker" && (
+              <>
+                <li class="menu-header small text-uppercase">
+                  <span class="menu-header-text">ORDERS</span>
+                </li>
 
-                  <Link to={{ pathname: "/trackers-order" }} class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-crown"></i>
-                    <div data-i18n="Boxicons">All Orders</div>
-                  </Link>
+                <Link to={{ pathname: "/trackers-order" }} class="menu-link">
+                  <i class="menu-icon tf-icons bx bx-bell"></i>
+                  <div data-i18n="Boxicons">All Orders</div>
+                </Link>
               </>
-              )
-            }
-
+            )}
           </li>
         </ul>
       </aside>

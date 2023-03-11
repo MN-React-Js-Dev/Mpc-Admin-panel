@@ -174,36 +174,41 @@ export function* onRegisterStartAsync ({payload}) {
         } 
     } catch (error) {
         yield put(registerUserError(error.response))
-        if(error.response.data.errors.userName) {
+        if(error.response.data.errors?.userName) {
             Toast.fire({
                 icon: "error",
-                title: error.response.data.errors.userName,
+                title: error.response.data.errors?.userName,
             });
-        } else if(error.response.data.errors.phone) {
+        } else if(error.response.data.errors?.phone) {
             Toast.fire({
                 icon: "error",
-                title: error.response.data.errors.phone,
+                title: error.response.data.errors?.phone,
             });
-        } else if(error.response.data.errors.address) {
+        } else if(error.response.data.errors?.address) {
             Toast.fire({
                 icon: "error",
-                title: error.response.data.errors.address,
+                title: error.response.data.errors?.address,
             });
-        } else if(error.response.data.errors.password) {
+        } else if(error.response.data.errors?.password) {
             Toast.fire({
                 icon: "error",
-                title: error.response.data.errors.password,
+                title: error.response.data.errors?.password,
             });
-        } else if(error.response.data.errors.confirmPassword) {
+        } else if(error.response.data.errors?.confirmPassword) {
             Toast.fire({
                 icon: "error",
-                title: error.response.data.errors.confirmPassword,
+                title: error.response.data.errors?.confirmPassword,
             });
-        } else if(error.response.data.errors.email) {
+        } else if(error.response.data.errors?.email) {
             Toast.fire({
                 icon: "error",
-                title: error.response.data.errors.email,
+                title: error.response.data.errors?.email,
             });
+        } else {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.message,
+            })
         }
         
     }

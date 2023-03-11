@@ -16,11 +16,18 @@ import Box from "@mui/material/Box";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { deleteOrderStart } from "../Redux/Actions/ordersActions";
 import {
+  deleteUserStart,
   getAllUsersStart,
   getUserByRoleStart,
 } from "../Redux/Actions/usersActions";
 import Checkbox from "@mui/material/Checkbox";
 import { CircularProgress } from "@mui/material";
+import admin from "../assets/img/icons/unicons/admin.png"
+import supervisor from "../assets/img/icons/unicons/supervisor.png"
+import agent from  "../assets/img/icons/unicons/agent.png"
+import designer from "../assets/img/icons/unicons/designer.png"
+import packager from "../assets/img/icons/unicons/package.png"
+import tracker from "../assets/img/icons/unicons/location.png"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,7 +60,6 @@ const Users = () => {
   const roleData = useSelector((state) => state?.users?.usersRole?.userSearch);
   const classes = useStyles();
   const [manageData, setManageData] = useState(usersData);
-  const [filter, SetFilter] = useState("");
 
   useEffect(() => {
     if (roleData) {
@@ -64,23 +70,12 @@ const Users = () => {
   }, [roleData, usersData]);
 
   const handleDelete = (userList) => {
-    dispatch(deleteOrderStart(userList?.id));
+    dispatch(deleteUserStart(userList?.id));
+    window.location.reload()
   };
-
-  const onFilterValueChange = (e) => {
-    let name = e.target.name;
-    setFilterData({
-      ...filterData,
-      [name]: e.target.value,
-    });
-  };
-  {
-    filterData && dispatch(getUserByRoleStart(filterData));
-  }
 
   const requestSearch = (searchedVal) => {
     const filteredRows = usersData.filter((row) => {
-      // console.log('ROWS~~~~>>', row.userName)
       return row.userName?.toLowerCase().includes(searchedVal.toLowerCase());
     });
     setManageData(filteredRows);
@@ -124,7 +119,7 @@ const Users = () => {
     },
     {
       id: "",
-      numeric: true,
+      numeric: false,
       disablePadding: false,
       label: "Action",
     },
@@ -227,17 +222,6 @@ const Users = () => {
     return (
       <TableHead>
         <TableRow>
-          {/* <TableCell padding="checkbox">
-              <Checkbox
-                color="primary"
-                indeterminate={numSelected > 0 && numSelected < rowCount}
-                checked={rowCount > 0 && numSelected === rowCount}
-                onChange={onSelectAllClick}
-                inputProps={{
-                  'aria-label': 'select all desserts',
-                }}
-              />
-            </TableCell> */}
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
@@ -272,13 +256,13 @@ const Users = () => {
         <div>
           <div class="row">
             <div class="col-lg-2 col-md-12 col-6 mb-4">
-              <div class="card" onClick={() => setFilterData("admin")}>
+              <div class="card" onClick={() => setFilterData("Admin")}>
                 <div class="card-body">
                   <div class="card-title d-flex align-items-start justify-content-between">
                     <div class="avatar flex-shrink-0">
                       <img
-                        src="../assets/img/icons/unicons/chart-success.png"
-                        alt="chart success"
+                        src={admin}
+                        alt="Admin"
                         class="rounded"
                       />
                     </div>
@@ -289,12 +273,12 @@ const Users = () => {
               </div>
             </div>
             <div class="col-lg-2 col-md-12 col-6 mb-4">
-              <div class="card" onClick={() => setFilterData("supervisors")}>
+              <div class="card" onClick={() => setFilterData("Supervisor")}>
                 <div class="card-body">
                   <div class="card-title d-flex align-items-start justify-content-between">
                     <div class="avatar flex-shrink-0">
                       <img
-                        src="../assets/img/icons/unicons/wallet-info.png"
+                        src={supervisor}
                         alt="Credit Card"
                         class="rounded"
                       />
@@ -305,12 +289,12 @@ const Users = () => {
               </div>
             </div>
             <div class="col-lg-2 col-md-12 col-6 mb-4">
-              <div class="card" onClick={() => setFilterData("Agents")}>
+              <div class="card" onClick={() => setFilterData("Agent")}>
                 <div class="card-body">
                   <div class="card-title d-flex align-items-start justify-content-between">
                     <div class="avatar flex-shrink-0">
                       <img
-                        src="../assets/img/icons/unicons/wallet-info.png"
+                        src={agent}
                         alt="Credit Card"
                         class="rounded"
                       />
@@ -321,12 +305,12 @@ const Users = () => {
               </div>
             </div>
             <div class="col-lg-2 col-md-12 col-6 mb-4">
-              <div class="card" onClick={() => setFilterData("designer")}>
+              <div class="card" onClick={() => setFilterData("Designer")}>
                 <div class="card-body">
                   <div class="card-title d-flex align-items-start justify-content-between">
                     <div class="avatar flex-shrink-0">
                       <img
-                        src="../assets/img/icons/unicons/cc-primary.png"
+                        src={designer}
                         alt="Credit Card"
                         class="rounded"
                       />
@@ -337,12 +321,12 @@ const Users = () => {
               </div>
             </div>
             <div class="col-lg-2 col-md-12 col-6 mb-4">
-              <div class="card" onClick={() => setFilterData("Packagers")}>
+              <div class="card" onClick={() => setFilterData("Packager")}>
                 <div class="card-body">
                   <div class="card-title d-flex align-items-start justify-content-between">
                     <div class="avatar flex-shrink-0">
                       <img
-                        src="../assets/img/icons/unicons/cc-primary.png"
+                        src={packager}
                         alt="Credit Card"
                         class="rounded"
                       />
@@ -353,12 +337,12 @@ const Users = () => {
               </div>
             </div>
             <div class="col-lg-2 col-md-12 col-6 mb-4">
-              <div class="card" onClick={() => setFilterData("Trackers")}>
+              <div class="card" onClick={() => setFilterData("Tracker")}>
                 <div class="card-body">
                   <div class="card-title d-flex align-items-start justify-content-between">
                     <div class="avatar flex-shrink-0">
                       <img
-                        src="../assets/img/icons/unicons/cc-primary.png"
+                        src={tracker}
                         alt="Credit Card"
                         class="rounded"
                       />
@@ -440,15 +424,15 @@ const Users = () => {
 
                         if (userList?.role === "Admin") {
                           cssClass = "bg-label-success";
-                        } else if (userList?.role === "Supervisors") {
+                        } else if (userList?.role === "Supervisor") {
                           cssClass = "bg-label-info";
-                        } else if (userList?.role === "Agents") {
+                        } else if (userList?.role === "Agent") {
                           cssClass = "bg-label-primary";
                         } else if (userList?.role === "Designer") {
                           cssClass = "bg-label-warning";
-                        } else if (userList?.role === "Packagers") {
+                        } else if (userList?.role === "Packager") {
                           cssClass = "bg-label-danger";
-                        } else if (userList?.role === "Trackers") {
+                        } else if (userList?.role === "Tracker") {
                           cssClass = "bg-label-dark";
                         } else {
                           cssClass = "bg-label-secondary";

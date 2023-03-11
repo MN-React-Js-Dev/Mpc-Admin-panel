@@ -1,6 +1,6 @@
 import "./App.css";
 import Home from "./Component/Home";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Form from "./Pages/Form";
 import CreateUser from "./Pages/CreateUser";
 import Login from "./Component/WithoutNav/Login";
@@ -15,9 +15,17 @@ import Orders from "./Pages/Orders";
 import { DesignersOrders } from "./Pages/DesignersOrders";
 import { TrackersOrders } from "./Pages/TrackersOrders";
 import { TrackerOrders } from "./Pages/TrackingOrders";
+import { CheckOrderStatus } from "./Component/WithoutNav/CheckOrderStatus";
+import { useEffect } from "react";
 
 function App() {
 
+  const token = localStorage.getItem('MPCADMIN')
+
+  useEffect (() => {
+    !token && <Navigate to="/" />
+  },[token])
+ 
   return (
     <>
     <Routes>
@@ -26,6 +34,7 @@ function App() {
           <Route path="/change-password" element={ <ChangePassword /> } />
           <Route path="/forgot-password" element={ <ForgotPassword/> } />
           <Route path="/reset-password" element={ <ResetPassword/> } />
+          <Route path='/order' element={ <CheckOrderStatus/> } />
         </Route>
         <Route element={<WithNav />}>
          

@@ -16,6 +16,8 @@ const RegisterUser = () => {
   };
 
   const dispatch = useDispatch();
+  const [show, setShow] = useState(false);
+  const [showCPass, setShowCPass] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [data, setData] = useState(formData);
   var { id } = useParams();
@@ -38,7 +40,6 @@ const RegisterUser = () => {
         setData({...data})
       }
     }, [id]);
-    console.log("DATA AFTER ID ~~~>>>", editMode)
 
   const handleInput = (e) => {
     e.preventDefault();
@@ -52,24 +53,41 @@ const RegisterUser = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
-
-    if (
-      data.role &&
-      data.userName &&
-      data.address &&
-      data.phone &&
-      data.gender 
-    ) {
-      if (!editMode) {
+    if(!editMode) {
+      if (
+        data.role && 
+        data.userName &&
+        data.email && 
+        data.phone &&
+        data.address &&
+        data.gender &&
+        data.password &&
+        data.confirmPassword
+      ) {
         setData(data)
         dispatch(registerUserStart(data))
-      } else {
-        setData(data)
+      }
+    } else {
+      if(
+        data.role &&
+        data.userName &&
+        data.address &&
+        data.gender &&
+        data.phone
+      ) {
+        setData(data) 
         dispatch(updateUserStart(data))
       }
-      
     }
   };
+
+  const handleShow = () => {
+    setShow(!show)
+}
+
+const handleConfirmPass = () => {
+  setShowCPass(!showCPass)
+}
 
   return (
     <>
@@ -109,13 +127,13 @@ const RegisterUser = () => {
                         : `form-control`
                     }
                   >
-                    <option selected disabled>Select Role</option>
+                    <option selected>Select Role</option>
                     <option value="Admin">Admin</option>
-                    <option value="Supervisors">Supervisors</option>
-                    <option value="Agents">Agents</option>
+                    <option value="Supervisor">Supervisor</option>
+                    <option value="Agent">Agent</option>
                     <option value="Designer">Designer</option>
-                    <option value="Packagers">Packagers</option>
-                    <option value="Trackers">Trackers</option>
+                    <option value="Packager">Packager</option>
+                    <option value="Tracker">Tracker</option>
                   </select>
                 </div>
                 {submitted && !data.role && (
@@ -348,7 +366,7 @@ const RegisterUser = () => {
                         <i class="bx bx-card"></i>
                       </span>
                       <input
-                        type="password"
+                        type={showCPass ? "text" : "password"}
                         className={
                           submitted && !data.password
                             ? `form-control invalid `
@@ -362,6 +380,7 @@ const RegisterUser = () => {
                         aria-describedby="basic-icon-default-fullname2"
                         onChange={handleInput}
                       />
+                   <span class="input-group-text cursor-pointer" onClick={handleConfirmPass}><i class={showCPass ? "bx bx-show" : "bx bx-hide"}></i></span>
                     </div>
                     {submitted && !data.password && (
                       <label class="error" for="basic-icon-default-fullname">
@@ -389,7 +408,7 @@ const RegisterUser = () => {
                         <i class="bx bx-card"></i>
                       </span>
                       <input
-                        type="password"
+                          type={show ? "text" : "password"}
                         className={
                           submitted && !data.confirmPassword
                             ? `form-control invalid `
@@ -403,6 +422,7 @@ const RegisterUser = () => {
                         aria-describedby="basic-icon-default-fullname2"
                         onChange={handleInput}
                       />
+                   <span class="input-group-text cursor-pointer" onClick={handleShow}><i class={show ? "bx bx-show" : "bx bx-hide"}></i></span>
                     </div>
                     {submitted && !data.confirmPassword && (
                       <label class="error" for="basic-icon-default-fullname">
