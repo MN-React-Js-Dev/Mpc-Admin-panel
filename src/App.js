@@ -12,6 +12,7 @@ import ChangePassword from "./Component/WithoutNav/ChangePassword";
 import ForgotPassword from "./Component/WithoutNav/ForgotPassword";
 import ResetPassword from "./Component/WithoutNav/ResetPassword";
 import Orders from "./Pages/Orders";
+import Errorpage from "./Pages/Errorpage";
 import { DesignersOrders } from "./Pages/DesignersOrders";
 import { TrackersOrders } from "./Pages/TrackersOrders";
 import { TrackerOrders } from "./Pages/TrackingOrders";
@@ -35,6 +36,7 @@ function App() {
           <Route path="/forgot-password" element={ <ForgotPassword/> } />
           <Route path="/reset-password" element={ <ResetPassword/> } />
           <Route path='/order' element={ <CheckOrderStatus/> } />
+          <Route exact path="/*" element={<Errorpage />}></Route>
         </Route>
         <Route element={<WithNav />}>
          

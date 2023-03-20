@@ -56,7 +56,7 @@ const Login = () => {
             <div class="app-brand justify-content-center">
               <a href="index.html" class="app-brand-link gap-2">
                 <span class="app-brand-logo demo"></span>
-                <span class="app-brand-text demo text-body fw-bolder">My Print Clothes</span>
+                <span class="app-brand-text demo text-body fw-bolder">My Print Clothe</span>
               </a>
             </div>
             <h4 class="mb-2">Welcome to MPC! 👋</h4>
