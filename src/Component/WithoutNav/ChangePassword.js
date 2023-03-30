@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
 import "../../assets/vendor/css/pages/page-auth.css";
 import { changePasswordStart } from "../../Redux/Actions/usersActions";
+import { useEffect } from "react";
 
 export const ChangePassword = () => {
   const formData = {
@@ -16,7 +18,17 @@ export const ChangePassword = () => {
   const [show, setShow] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [loader, setLoader] = useState(false);
   const dispatch = useDispatch();
+  const passDataSelector = useSelector((state) => state?.users?.error?.data);
+
+  useEffect(() => {
+    if (passDataSelector?.status == 400) {
+      setLoader(false);
+    } else {
+        setLoader(false);
+    }
+  }, [passDataSelector]);
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -31,6 +43,7 @@ export const ChangePassword = () => {
     setSubmitted(true);
     if (data.currentPassword && data.newPassword && data.confirmPassword) {
       dispatch(changePasswordStart(data));
+      setLoader(true)
     }
   };
 
@@ -188,6 +201,18 @@ export const ChangePassword = () => {
                     </label>
                   )}
                 </div>
+
+                {loader ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <CircularProgress />
+                  </div>
+                ) : null}
 
                 <button type="submit" class="btn btn-primary d-grid w-100">
                   Change Password

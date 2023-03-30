@@ -45,7 +45,6 @@ const Form = () => {
     useEffect(() => {
       if (id) {
           setEditMode(true);
-          // console.log("EDIT USER ID~~>>>", id)
           const singleOrder = ordersData ? ordersData.find((item) => item.id === Number(id)) : null;
           setData({...singleOrder})
         } else {
@@ -81,10 +80,10 @@ const Form = () => {
       data.address &&
       data.pincode &&
       data.phone &&
+      data.email &&
       data.desing && 
       data.quantity && 
-      data.price && 
-      data.status 
+      data.price 
     ) {
       if (!editMode) {
         formData.append("firstname", data.firstname);
@@ -96,9 +95,12 @@ const Form = () => {
         formData.append("address", data.address);
         formData.append("pincode", data.pincode);
         formData.append("phone", data.phone);
+        formData.append("email", data.email);
         formData.append("desing", data.desing);
         formData.append("price", data.price);
         formData.append("image", data.image);
+        formData.append("note",data.note)
+        formData.append("status", data.status)
         dispatch(createOrdersStart(formData))
       } else {
         formData.append("id", id);
@@ -111,12 +113,14 @@ const Form = () => {
         formData.append("address", data.address);
         formData.append("pincode", data.pincode);
         formData.append("phone", data.phone);
+        formData.append("email", data.email);
         formData.append("desing", data.desing);
         formData.append("price", data.price);
         formData.append("image", data.image);
+        formData.append("note",data.note)
+        formData.append("status", data.status)
         dispatch(updateOrderStart(formData))
       }
-        
     }
   };
   

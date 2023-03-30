@@ -32,7 +32,6 @@ const RegisterUser = () => {
   useEffect(() => {
     if (id) {
         setEditMode(true);
-        // console.log("EDIT USER ID~~>>>", id)
         const singleUser = usersData ? usersData.find((item) => item.id === Number(id)) : null;
         setData({...singleUser})
       } else {
@@ -127,7 +126,7 @@ const handleConfirmPass = () => {
                         : `form-control`
                     }
                   >
-                    <option selected>Select Role</option>
+                    <option disabled>Select Role</option>
                     <option value="Admin">Admin</option>
                     <option value="Supervisor">Supervisor</option>
                     <option value="Agent">Agent</option>

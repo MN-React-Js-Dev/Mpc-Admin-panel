@@ -81,14 +81,31 @@ export function* onChangePasswordAsyncStart ({payload}) {
                 icon: "success",
                 title: response.data.message,
             }) ;
-        } else {
-            Toast.fire({
-                icon: "error",
-                title: response.data.message,
-            });
-        }
+        } 
     } catch(error) {
         yield put(changePasswordError(error.response));
+        if(error.response.data.message){
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.message,
+            });
+        } else if(error.response.data.errors.confirmPassword) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.confirmPassword,
+            });
+        }
+        else if(error.response.data.errors.newPassword) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.newPassword,
+            });
+        } else if(error.response.data.errors.confirmPassword) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.confirmPassword,
+            });
+        } 
     }
 }
 
