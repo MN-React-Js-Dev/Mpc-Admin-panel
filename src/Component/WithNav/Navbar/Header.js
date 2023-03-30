@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
-  const getUserData = JSON.parse(localStorage.getItem("MPCADMIN"));
+  const getUserData = JSON.parse(sessionStorage.getItem("MPCADMIN"));
   const userRole = getUserData?.role;
   const [role, setRole] = useState();
 

@@ -1,6 +1,6 @@
 import "./App.css";
 import Home from "./Component/Home";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate,useNavigate } from "react-router-dom";
 import Form from "./Pages/Form";
 import CreateUser from "./Pages/CreateUser";
 import Login from "./Component/WithoutNav/Login";
@@ -20,10 +20,11 @@ import { useEffect } from "react";
 
 function App() {
 
-  const token = localStorage.getItem('MPCADMIN')
+  const navigate = useNavigate()
+  const token = sessionStorage.getItem('MPCADMIN')
 
   useEffect (() => {
-    !token && <Navigate to="/" />
+    !token && navigate('/')
   },[token])
  
   return (

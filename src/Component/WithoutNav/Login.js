@@ -1,5 +1,6 @@
 import { CircularProgress } from '@mui/material';
 import React, { useState } from 'react'
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUsersStart } from '../../Redux/Actions/usersActions';
@@ -15,14 +16,18 @@ const Login = () => {
       const [show, setShow] = useState(false)
       const [submitted, setSubmitted] = useState(false);
       const [data, setData] = useState(loginData);
-      const loginDataSelector = useSelector((state) => state?.users?.loginUser?.message)
-      // console.log("LOGIN DATA~~~>>>>>", loginDataSelector)
+      const [loader, setLoader] = useState(false);
+      const loginDataSelector = useSelector((state) => state?.users?.loginUser)
 
-      if (loginDataSelector == "Login successful") {
-        navigate('/home')
-        window.location.reload()
-      }
-    
+      useEffect(() => {
+        if (loginDataSelector.message == "Login successful") {
+          navigate('/home')
+          window.location.reload()
+        } else if(loginDataSelector.message == "Incorrect email or password") {
+          setLoader(false)
+        } 
+      }, [loginDataSelector])
+
       const handleInput = (e) => {
         e.preventDefault();
         let value = e.target.value;
@@ -39,8 +44,9 @@ const Login = () => {
           data.email &&
           data.password
         ) {
-          dispatch(loginUsersStart(data )) 
-        }
+          setLoader(true)
+          dispatch(loginUsersStart(data)) 
+        } 
       };
 
       const handleShow = () => {
@@ -50,9 +56,10 @@ const Login = () => {
   return (
     <div class="container-xxl">
     <div class="authentication-wrapper authentication-basic container-p-y">
-      <div class="authentication-inner">
+      <div class="authentication-inner">      
         <div class="card">
           <div class="card-body">
+            
             <div class="app-brand justify-content-center">
               <a href="index.html" class="app-brand-link gap-2">
                 <span class="app-brand-logo demo"></span>
@@ -62,6 +69,7 @@ const Login = () => {
             <h4 class="mb-2">Welcome to MPC! 👋</h4>
             <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
+            
             <form onSubmit={handleSubmit}>
             <div class="mb-3">
               <label class="form-label" for="basic-icon-default-fullname">
@@ -139,8 +147,17 @@ const Login = () => {
                 </label>
               )}
             </div>
+
+            {
+              loader ? ( 
+                <div style={{ display:'flex', alignItems:'center', justifyContent:'center' }}>
+                  <CircularProgress  />
+                </div>
+              ) : null
+            }
+
              <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                  <button class="btn btn-primary d-grid w-100" type="submit" disabled={loader ? true : false} >Sign in</button>
             </div>
           </form>
 

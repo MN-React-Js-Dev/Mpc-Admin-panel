@@ -99,8 +99,6 @@ const Form = () => {
         formData.append("desing", data.desing);
         formData.append("price", data.price);
         formData.append("image", data.image);
-        formData.append("note", data.note);
-        formData.append("status", data.status);
         dispatch(createOrdersStart(formData))
       } else {
         formData.append("id", id);
@@ -116,8 +114,6 @@ const Form = () => {
         formData.append("desing", data.desing);
         formData.append("price", data.price);
         formData.append("image", data.image);
-        formData.append("note", data.note);
-        formData.append("status", data.status);
         dispatch(updateOrderStart(formData))
       }
         

@@ -1,36 +1,50 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import '../../assets/vendor/css/pages/page-auth.css'
-import { changePasswordStart } from '../../Redux/Actions/usersActions';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import "../../assets/vendor/css/pages/page-auth.css";
+import { changePasswordStart } from "../../Redux/Actions/usersActions";
 
 export const ChangePassword = () => {
+  const formData = {
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  };
 
-    const formData = {
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
+  const [data, setData] = useState(formData);
+  const [submitted, setSubmitted] = useState(false);
+  const [show, setShow] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleInput = (e) => {
+    const name = e.target.name;
+    setData({
+      ...data,
+      [name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+    if (data.currentPassword && data.newPassword && data.confirmPassword) {
+      dispatch(changePasswordStart(data));
     }
+  };
 
-    const [data, setData] = useState(formData);
-    const [submitted, setSubmitted] = useState(false);
-    const dispatch = useDispatch();
+  const handleShow = () => {
+    setShow(!show);
+  };
 
-    const handleInput = (e) => {
-        const name = e.target.name;
-        setData({
-            ...data,
-            [name] : e.target.value
-        })
-    }
+  const handleShowConfirm = () => {
+    setShowConfirm(!showConfirm);
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setSubmitted(true)
-        if (data.currentPassword && data.newPassword && data.confirmPassword) {
-            dispatch(changePasswordStart(data))
-        }
-    }
+  const handleShowNew = () => {
+    setShowNew(!showNew);
+  };
 
   return (
     <div class="container-xxl">
@@ -42,131 +56,157 @@ export const ChangePassword = () => {
               {/* <!-- Logo --> */}
               <div class="app-brand justify-content-center">
                 <a href="index.html" class="app-brand-link gap-2">
-                  <span class="app-brand-text demo text-body fw-bolder">My Print Clothes</span>
+                  <span class="app-brand-text demo text-body fw-bolder">
+                    My Print Clothes
+                  </span>
                 </a>
               </div>
               {/* <!-- /Logo --> */}
               <h4 class="mb-2">Change Password? 🔒</h4>
-              <p class="mb-4">Enter your email and we'll send you instructions to reset your password</p>
-              <form class="mb-3" onSubmit={handleSubmit} >
-                
+              <p class="mb-4">
+                Enter your email and we'll send you instructions to reset your
+                password
+              </p>
+              <form class="mb-3" onSubmit={handleSubmit}>
                 <div class="mb-3">
-                    <label class="form-label" for="basic-icon-default-fullname">
+                  <label class="form-label" for="basic-icon-default-fullname">
                     Current Password<span className="error">*</span>{" "}
-                    </label>
-                    <div class="input-group input-group-merge">
+                  </label>
+                  <div class="input-group input-group-merge">
                     <span
-                        id="basic-icon-default-fullname"
-                        className={
+                      id="basic-icon-default-password"
+                      className={
                         submitted && !data.currentPassword
-                            ? `input-group-text invalid `
-                            : `input-group-text`
-                        }>
-                        <i class="bx bx-user"></i>
+                          ? `input-group-text invalid `
+                          : `input-group-text`
+                      }
+                    >
+                      <i class="bx bx-user"></i>
                     </span>
                     <input
-                        type="password"
-                        className={
+                      type={show ? "text" : "password"}
+                      className={
                         submitted && !data.currentPassword
-                            ? `form-control invalid `
-                            : `form-control`
-                        }
-                        id="currentPassword"
-                        name="currentPassword"
-                        placeholder="Enter your Current Password"
-                        onChange={handleInput}
+                          ? `form-control invalid `
+                          : `form-control`
+                      }
+                      id="currentPassword"
+                      name="currentPassword"
+                      placeholder="Enter your Current Password"
+                      onChange={handleInput}
                     />
-                    </div>
-                    {submitted && !data.currentPassword && (
+                    <span
+                      class="input-group-text cursor-pointer"
+                      onClick={handleShow}
+                    >
+                      <i class={show ? "bx bx-show" : "bx bx-hide"}></i>
+                    </span>
+                  </div>
+                  {submitted && !data.currentPassword && (
                     <label class="error" for="basic-icon-default-fullname">
-                        Current Password is required
+                      Current Password is required
                     </label>
-                    )}
+                  )}
                 </div>
                 <div class="mb-3">
-                <label class="form-label" for="basic-icon-default-fullname">
+                  <label class="form-label" for="basic-icon-default-fullname">
                     New Password<span className="error">*</span>{" "}
-                    </label>
-                <div class="input-group input-group-merge">
+                  </label>
+                  <div class="input-group input-group-merge">
                     <span
-                        id="basic-icon-default-fullname"
-                        className={
+                      id="basic-icon-default-password"
+                      className={
                         submitted && !data.newPassword
-                            ? `input-group-text invalid `
-                            : `input-group-text`
-                        }>
-                        <i class="bx bx-user"></i>
+                          ? `input-group-text invalid `
+                          : `input-group-text`
+                      }
+                    >
+                      <i class="bx bx-user"></i>
                     </span>
                     <input
-                        type="password"
-                        className={
+                      type={showNew ? "text" : "password"}
+                      className={
                         submitted && !data.newPassword
-                            ? `form-control invalid `
-                            : `form-control`
-                        }
-                        id="newPassword"
-                        name="newPassword"
-                        placeholder="Enter your New Password"
-                        onChange={handleInput}
+                          ? `form-control invalid `
+                          : `form-control`
+                      }
+                      id="newPassword"
+                      name="newPassword"
+                      placeholder="Enter your New Password"
+                      onChange={handleInput}
                     />
-                    </div>
-                    {submitted && !data.newPassword && (
+                    <span
+                      class="input-group-text cursor-pointer"
+                      onClick={handleShowNew}
+                    >
+                      <i class={showNew ? "bx bx-show" : "bx bx-hide"}></i>
+                    </span>
+                  </div>
+                  {submitted && !data.newPassword && (
                     <label class="error" for="basic-icon-default-fullname">
-                        New Password is required
+                      New Password is required
                     </label>
-                    )}
+                  )}
                 </div>
                 <div class="mb-3">
-                <label class="form-label" for="basic-icon-default-fullname">
+                  <label class="form-label" for="basic-icon-default-fullname">
                     Confirm Password<span className="error">*</span>{" "}
-                    </label>
-                <div class="input-group input-group-merge">
+                  </label>
+                  <div class="input-group input-group-merge">
                     <span
-                        id="basic-icon-default-fullname"
-                        className={
+                      id="basic-icon-default-password"
+                      className={
                         submitted && !data.confirmPassword
-                            ? `input-group-text invalid `
-                            : `input-group-text`
-                        }>
-                        <i class="bx bx-user"></i>
+                          ? `input-group-text invalid `
+                          : `input-group-text`
+                      }
+                    >
+                      <i class="bx bx-user"></i>
                     </span>
                     <input
-                        type="password"
-                        className={
+                      type={showConfirm ? "text" : "password"}
+                      className={
                         submitted && !data.confirmPassword
-                            ? `form-control invalid `
-                            : `form-control`
-                        }
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        placeholder="Enter your Confirm Password"
-                        onChange={handleInput}
+                          ? `form-control invalid `
+                          : `form-control`
+                      }
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      placeholder="Enter your Confirm Password"
+                      onChange={handleInput}
                     />
-                    </div>
-                    {submitted && !data.confirmPassword && (
+                    <span
+                      class="input-group-text cursor-pointer"
+                      onClick={handleShowConfirm}
+                    >
+                      <i class={showConfirm ? "bx bx-show" : "bx bx-hide"}></i>
+                    </span>
+                  </div>
+                  {submitted && !data.confirmPassword && (
                     <label class="error" for="basic-icon-default-fullname">
-                        Confirm Password is required
+                      Confirm Password is required
                     </label>
-                    )}
+                  )}
                 </div>
 
-                <button type='submit' class="btn btn-primary d-grid w-100">Change Password</button>
+                <button type="submit" class="btn btn-primary d-grid w-100">
+                  Change Password
+                </button>
               </form>
               <div class="text-center">
-                <Link to='/home'>
-                <a class="d-flex align-items-center justify-content-center">
-                  <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
-                  Back to Dashboard
-                </a>
+                <Link to="/home">
+                  <a class="d-flex align-items-center justify-content-center">
+                    <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
+                    Back to Dashboard
+                  </a>
                 </Link>
               </div>
             </div>
           </div>
-          {/* <!-- /Forgot Password --> */}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default ChangePassword;
