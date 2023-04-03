@@ -240,6 +240,12 @@ const Orders = () => {
       label: "Contact Number",
     },
     {
+      id: "Orders Created by",
+      numeric: true,
+      disablePadding: false,
+      label: "Orders Created by",
+    },
+    {
       id: "",
       numeric: true,
       disablePadding: false,
@@ -667,6 +673,9 @@ const Orders = () => {
                                     </TableCell>
                                     <TableCell align="left">
                                       {orderList.phone}
+                                    </TableCell>
+                                    <TableCell align="left">
+                                      {orderList.orderAssign ? orderList.orderAssign : null}
                                     </TableCell>
                                     <TableCell align="left">
                                       <td>
