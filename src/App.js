@@ -13,7 +13,6 @@ import ForgotPassword from "./Component/WithoutNav/ForgotPassword";
 import ResetPassword from "./Component/WithoutNav/ResetPassword";
 import Orders from "./Pages/Orders";
 import { DesignersOrders } from "./Pages/DesignersOrders";
-import { TrackersOrders } from "./Pages/TrackersOrders";
 import { TrackerOrders } from "./Pages/TrackingOrders";
 import { CheckOrderStatus } from "./Component/WithoutNav/CheckOrderStatus";
 import { useEffect } from "react";
@@ -42,15 +41,12 @@ function App() {
           <Route exact path="/home" element={<Home />}></Route>
           <Route path="/form" element={<Form />} />
           <Route path="/form/:id" element={<Form />} />
-          <Route exact path="/create-user" element={<CreateUser />}></Route> 
           <Route exact path="/users" element={<Users />}></Route>
           <Route exact path="/register-user" element={<RegisterUser />}></Route>
           <Route exact path="/update-user/:id" element={<RegisterUser />}></Route>
           <Route exact path="/orders" element={<Orders />} />
           <Route exact path="/all-orders" element={ <DesignersOrders />} />
           <Route exact path="/trackers-order" element={ <TrackerOrders /> } />
-
-          {/* <Route exact path="/trackers-order" element={ <TrackersOrders /> } /> */}
         </Route>
       </Routes>
     </>

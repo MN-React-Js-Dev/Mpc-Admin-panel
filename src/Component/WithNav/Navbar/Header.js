@@ -116,6 +116,12 @@ const Header = () => {
                   <i class="menu-icon tf-icons bx bx-bell"></i>
                   <div data-i18n="Boxicons">All Orders</div>
                 </Link>
+
+                <Link to={{ pathname: "/form" }} class="menu-link">
+                  <i class="menu-icon tf-icons bx bx-user-plus"></i>
+                  <div data-i18n="Boxicons">Create New Order</div>
+                </Link>
+                
               </li>
             )}
 
@@ -143,6 +149,11 @@ const Header = () => {
                   <i class="menu-icon tf-icons bx bx-bell"></i>
                   <div data-i18n="Boxicons">All Orders</div>
                 </Link>
+
+                <Link to={{ pathname: "/form" }} class="menu-link">
+                  <i class="menu-icon tf-icons bx bx-user-plus"></i>
+                  <div data-i18n="Boxicons">Create New Order</div>
+                </Link>
               </li>
             )}
 
@@ -154,7 +165,7 @@ const Header = () => {
 
                 <Link to="/form" class="menu-link menu-toggle">
                   <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                  <div data-i18n="Account Settings">Create Order</div>
+                  <div data-i18n="Account Settings">Create New Order</div>
                 </Link>
               </li>
             )}

@@ -61,10 +61,10 @@ export function* onUserLoginStartAsync({payload}) {
         }
     } catch (error) {
         yield put(loginUsersError(error.response))
-        // Toast.fire({
-        //     icon: "error",
-        //     title: error.response.data.message,
-        // });
+        Toast.fire({
+            icon: "error",
+            title: error.response.data.message,
+        });
     }
 }
 
@@ -158,6 +158,10 @@ export function* onResetPasswordAsyncStart ({payload}) {
         }
     } catch(error) {
         yield put(resetPasswordError(error.response));
+        Toast.fire({
+            icon: "error",
+            title: error.response.data.message,
+        });
     }
 }
 
@@ -292,6 +296,10 @@ export function* onDeleteUserStartAsync ({payload}) {
         }
     } catch (error) {
         yield put(deleteUserError(error.response))
+        Toast.fire({
+            icon: "error",
+            title: error.response.data.message,
+        });
     }
 }
 
@@ -301,9 +309,7 @@ export function* onDeleteUser() {
 
 export function* onGetUserByRoleStartAsync ({payload}) {
     try {
-        console.log("PAYLOAD~~~>>>", payload)
         const response = yield call(getUserBYRoleApi, payload);
-        console.log("RESPOSNE~~>>>>", response)
         if (response.data.success === true) {
             yield put(getUserByRoleSuccess(response.data))
         }

@@ -1,9 +1,40 @@
 import * as types from "../ActionTypes/ordersActionTypes";
 import { takeLatest, put, all, fork, call, take } from "redux-saga/effects";
 import Swal from "sweetalert2";
-import { createOrdersApi, deleteOrderApi, loadAllTrackersOrderApi, loadFilterOrdersApi, loadOrderListApi, loadOrdersApi, loadSingleOrdersApi, pageChangeApi, updateOrderApi, updateOrderStausApi } from "../APIs/ordersApi";
-
-import { createOrdersError, createOrdersSuccess, deleteOrderError, deleteOrderSuccess, getAllOrderListError, getAllOrderListSuccess, getAllOrdersError, getAllOrdersSuccess, getAllTrackersOrdersError, getAllTrackersOrdersSuccess, getFilterOrdersError, getFilterOrdersSuccess, getSingleOrdersError, getSingleOrdersSuccess, onPageChangeError, onPageChangeSuccess, updateOrderError, updateOrderStatusError, updateOrderStatusSuccess, updateOrderSuccess } from "../Actions/ordersActions";
+import { 
+    createOrdersApi, 
+    deleteOrderApi, 
+    loadAllTrackersOrderApi, 
+    loadFilterOrdersApi, 
+    loadOrderListApi, 
+    loadOrdersApi, 
+    loadSingleOrdersApi, 
+    pageChangeApi, 
+    updateOrderApi, 
+    updateOrderStausApi 
+} from "../APIs/ordersApi";
+import { 
+    createOrdersError, 
+    createOrdersSuccess, 
+    deleteOrderError, 
+    deleteOrderSuccess, 
+    getAllOrderListError, 
+    getAllOrderListSuccess, 
+    getAllOrdersError, 
+    getAllOrdersSuccess, 
+    getAllTrackersOrdersError, 
+    getAllTrackersOrdersSuccess, 
+    getFilterOrdersError, 
+    getFilterOrdersSuccess, 
+    getSingleOrdersError, 
+    getSingleOrdersSuccess, 
+    onPageChangeError, 
+    onPageChangeSuccess, 
+    updateOrderError, 
+    updateOrderStatusError, 
+    updateOrderStatusSuccess, 
+    updateOrderSuccess 
+} from "../Actions/ordersActions";
 
 const Toast = Swal.mixin({
     toast: true,
@@ -15,7 +46,6 @@ const Toast = Swal.mixin({
 export function* onLoadOrdersStartAsync() {
     try {
         const response = yield call(loadOrdersApi);
-        // console.log('RESPONSE~~~~~>>', response.data)
         if (response.data.success === true) {
             yield put(getAllOrdersSuccess(response.data));
         }

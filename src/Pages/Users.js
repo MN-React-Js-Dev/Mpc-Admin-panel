@@ -60,6 +60,7 @@ const Users = () => {
   const roleData = useSelector((state) => state?.users?.usersRole?.userSearch);
   const classes = useStyles();
   const [manageData, setManageData] = useState(usersData);
+  console.log("MANGE AFY~~~>>",manageData)
 
   useEffect(() => {
     if (roleData) {
@@ -71,7 +72,7 @@ const Users = () => {
 
   const handleDelete = (userList) => {
     dispatch(deleteUserStart(userList?.id));
-    window.location.reload()
+    // window.location.reload()
   };
 
   const requestSearch = (searchedVal) => {
@@ -184,7 +185,6 @@ const Users = () => {
         selected.slice(selectedIndex + 1)
       );
     }
-
     setSelected(newSelected);
   };
 
@@ -495,7 +495,7 @@ const Users = () => {
                         <TableCell colSpan={6} />
                       </TableRow>
                     )}
-                  </TableBody>
+                  </TableBody> 
                 </Table>
               </>
             )}

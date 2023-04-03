@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const token = JSON.parse(sessionStorage.getItem("MPCADMIN"));
-// console.log("token~~~FROM user API~~???", token)
 
 const headersParam = {
     "Authorization" : `Bearer ${token?.token}`,
