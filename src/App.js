@@ -22,7 +22,7 @@ function App() {
   const navigate = useNavigate()
   const token = localStorage.getItem('MPCADMIN')
 
-  useEffect (() => {
+  useEffect (() => { 
     !token && navigate('/')
   },[token])
  

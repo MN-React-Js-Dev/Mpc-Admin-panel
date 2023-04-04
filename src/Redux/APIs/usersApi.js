@@ -10,6 +10,7 @@ const headersParam = {
 let params = (new URL(document.location)).searchParams;
 let name = params.get("token");
 
+
 // export const loginUsersApi = async (users) => await axios.post(`https://api-v1.niceishfabrics.com/api/user/login`, users);
 
 // export const forgotPasswordApi = async (data) => await axios.post(`https://api-v1.niceishfabrics.com/api/user/forgot_password`, data);
@@ -40,7 +41,6 @@ export const resetPasswordApi = async (data) => await axios.post(`http://localho
 export const ChangePasswordApi = async (data) => await axios.patch(`http://localhost:7000/api/user/change-password`, data, { headers: headersParam });
 
 export const loadUsersApi = async () => await axios.get(`http://localhost:7000/api/user/getall`, { headers: headersParam });
-
 
 export const registerUserApi = async (user) => await axios.post(`http://localhost:7000/api/user/create`,user, { headers: headersParam });
 

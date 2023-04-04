@@ -95,6 +95,7 @@ const Orders = () => {
     (state) => state?.orders?.orderList?.ordersDetails?.orders
   );
   const [datas, setDatas] = useState(orderListData);
+  const isLoader = useSelector((state) => state?.orders?.isLoading);
 
   useEffect(() => {
     setDatas(orderListData);
@@ -104,7 +105,6 @@ const Orders = () => {
     (state) => state?.orders?.orders?.statusFilter
   );
   const [data, setData] = useState(filterordersData);
-  // console.log("DATA!~~~~>>>", data)
 
   useEffect(() => {
     setData(filterordersData);
@@ -112,6 +112,9 @@ const Orders = () => {
 
   const handleClick = ({id}) => {
     dispatch(deleteOrderStart(id));
+    if(isLoader === false) {
+      window.location.reload()
+    }
   };
 
   const handleCheck = (e) => {
@@ -569,7 +572,7 @@ const Orders = () => {
                       flexDirection: "column",
                     }}
                   >
-                    {!data ? (
+                    {isLoader === true ? (
                       <CircularProgress />
                     ) : (
                       <>
@@ -702,15 +705,20 @@ const Orders = () => {
                       </>
                     )}
                   </TableContainer>
-                  <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={data?.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
+                  {
+                    !isLoader ? (
+                        <TablePagination
+                          rowsPerPageOptions={[5, 10, 25]}
+                          component="div"
+                          count={data?.length}
+                          rowsPerPage={rowsPerPage}
+                          page={page}
+                          onPageChange={handleChangePage}
+                          onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                    ) : null
+                  }
+                  
                 </div>
               </div>
             </TabPanel>
@@ -861,15 +869,20 @@ const Orders = () => {
                       </>
                     )}
                   </TableContainer>
-                  <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={datas?.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
+                  {
+                    !isLoader ? (
+                      <TablePagination
+                      rowsPerPageOptions={[5, 10, 25]}
+                      component="div"
+                      count={datas?.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                    ) : null
+                  }
+                 
                 </div>
               </div>
             </TabPanel>

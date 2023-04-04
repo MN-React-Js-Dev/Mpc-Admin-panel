@@ -688,7 +688,7 @@ const Form = () => {
                       </div>
                   ) : null
                 }
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary" disabled={isOrderLoading}>
               Send
             </button>
           </form>

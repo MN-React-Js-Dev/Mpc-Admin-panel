@@ -48,6 +48,12 @@ const Users = () => {
   const [searched, setSearched] = useState("");
   const dispatch = useDispatch();
 
+  const isLoading = useSelector((state) => state?.users?.isLoading);
+  const usersData = useSelector((state) => state?.users?.users?.data?.rows);
+  const roleData = useSelector((state) => state?.users?.usersRole?.userSearch);
+  const classes = useStyles();
+  const [manageData, setManageData] = useState(usersData);
+
   useEffect(() => {
     if (!filterData) {
       dispatch(getAllUsersStart());
@@ -56,10 +62,7 @@ const Users = () => {
     }
   }, [filterData]);
 
-  const usersData = useSelector((state) => state?.users?.users?.data?.rows);
-  const roleData = useSelector((state) => state?.users?.usersRole?.userSearch);
-  const classes = useStyles();
-  const [manageData, setManageData] = useState(usersData);
+  
 
   useEffect(() => {
     if (roleData) {
@@ -71,7 +74,9 @@ const Users = () => {
 
   const handleDelete = (userList) => {
     dispatch(deleteUserStart(userList?.id));
-    // window.location.reload()
+    if(isLoading === false) {
+      window.location.reload()
+    }
   };
 
   const requestSearch = (searchedVal) => {
@@ -381,7 +386,7 @@ const Users = () => {
               flexDirection: "column",
             }}
           >
-            {!manageData ? (
+            {isLoading ? (
               <CircularProgress />
             ) : (
               <>
@@ -499,15 +504,21 @@ const Users = () => {
               </>
             )}
           </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={manageData?.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          
+          {
+            !isLoading ?  (
+              <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={manageData?.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+            ) : null
+          }
+          
         </div>
       </div>
     </>

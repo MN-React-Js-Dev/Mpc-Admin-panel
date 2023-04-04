@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { resetPasswordStart } from '../../Redux/Actions/usersActions';
+import { CircularProgress } from '@mui/material';
 
 const ResetPassword = () => {
 
@@ -10,6 +11,7 @@ const ResetPassword = () => {
         confirmPassword: "",
     }
 
+    const isLoading = useSelector((state) => state?.users?.isLoading)
     const [data, setData] = useState(formData);
     const [submitted, setSubmitted] = useState(false);
     const dispatch = useDispatch();
@@ -113,8 +115,15 @@ const ResetPassword = () => {
                   </label>
                   )}
               </div>
+              {
+                  isLoading ? (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <CircularProgress />
+                    </div>
+                  ) : null
+                }
 
-              <button type='submit' class="btn btn-primary d-grid w-100">Change Password</button>
+              <button type='submit' class="btn btn-primary d-grid w-100" disabled={isLoading}>Change Password</button>
             </form>
             <div class="text-center">
               <Link to='/'>
