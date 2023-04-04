@@ -20,7 +20,7 @@ import { useEffect } from "react";
 function App() {
 
   const navigate = useNavigate()
-  const token = sessionStorage.getItem('MPCADMIN')
+  const token = localStorage.getItem('MPCADMIN')
 
   useEffect (() => {
     !token && navigate('/')
@@ -37,7 +37,6 @@ function App() {
           <Route path='/order' element={ <CheckOrderStatus/> } />
         </Route>
         <Route element={<WithNav />}>
-         
           <Route exact path="/home" element={<Home />}></Route>
           <Route path="/form" element={<Form />} />
           <Route path="/form/:id" element={<Form />} />

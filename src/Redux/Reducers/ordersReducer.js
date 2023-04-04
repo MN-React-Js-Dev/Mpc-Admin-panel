@@ -5,6 +5,7 @@ const initialState = {
     orderList: [],
     singleOrder: [],
     trackerOrders: [],
+    isLoading: false,
 }
 
 const ordersReducer = ( state = initialState, action ) => {
@@ -21,6 +22,7 @@ const ordersReducer = ( state = initialState, action ) => {
         case types.ON_PAGE_CHANGE_START:
             return {
                 ...state,
+                isLoading: true,
             };
         case types.GET_ALL_ORDERS_SUCCESS:
         case types.UPDATE_ORDER_SUCCESS:
@@ -30,17 +32,20 @@ const ordersReducer = ( state = initialState, action ) => {
             return {
                 ...state,
                 orders: action.payload,
+                isLoading: false,
             };
         case types.GET_SINGLE_ORDERS_SUCCESS:
             return {
                 ...state,
                 singleOrder: action.payload,
+                isLoading: false,
             }
         case types.GET_ALL_TRACKERS_ORDERS_SUCCESS:
         case types.ON_PAGE_CHANGE_SUCCESS:
             return {
                 ...state,
                 trackerOrders: action.payload,
+                isLoading: false,
             }
         // case types.ON_PAGE_CHANGE_SUCCESS:
         //     return {
@@ -50,11 +55,13 @@ const ordersReducer = ( state = initialState, action ) => {
         case types.CREATE_ORDERS_SUCCESS:
             return {
                 ...state,
+                isLoading: false,
             }
         case types.GET_ALL_ORDER_LIST_SUCCESS:
             return{
                 ...state,
-                orderList: action.payload
+                orderList: action.payload,
+                isLoading: false,
             }
         case types.GET_ALL_ORDERS_ERROR:
         case types.CREATE_ORDERS_ERROR:
@@ -69,6 +76,7 @@ const ordersReducer = ( state = initialState, action ) => {
             return {
                 ...state,
                 error: action.payload,
+                isLoading: false,
             };
         default:
             return state;

@@ -28,7 +28,6 @@ const ResetPassword = () => {
         if (data.newPassword && data.confirmPassword) {
             dispatch(resetPasswordStart(data))
         }
-        console.log("DATA~~~>>>>", data)
     }
 
   return (

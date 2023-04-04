@@ -95,7 +95,6 @@ const Orders = () => {
     (state) => state?.orders?.orderList?.ordersDetails?.orders
   );
   const [datas, setDatas] = useState(orderListData);
-  // console.log("FILTER~~>>", datas);
 
   useEffect(() => {
     setDatas(orderListData);
@@ -111,7 +110,7 @@ const Orders = () => {
     setData(filterordersData);
   }, [filterordersData]);
 
-  const handleClick = (id) => {
+  const handleClick = ({id}) => {
     dispatch(deleteOrderStart(id));
   };
 
@@ -347,15 +346,6 @@ const Orders = () => {
         <TableHead>
           <TableRow>
             <TableCell padding="checkbox">
-              <Checkbox
-                color="primary"
-                indeterminate={numSelected > 0 && numSelected < rowCount}
-                checked={rowCount > 0 && numSelected === rowCount}
-                onChange={onSelectAllClick}
-                inputProps={{
-                  "aria-label": "select all desserts",
-                }}
-              />
             </TableCell>
             {headCells.map((headCell) => (
               <TableCell
@@ -675,7 +665,7 @@ const Orders = () => {
                                       {orderList.phone}
                                     </TableCell>
                                     <TableCell align="left">
-                                      {orderList.orderAssign ? orderList.orderAssign : null}
+                                      {orderList.orderAssign ? orderList.orderAssign : "NA"}
                                     </TableCell>
                                     <TableCell align="left">
                                       <td>

@@ -3,7 +3,8 @@ import * as types from '../ActionTypes/usersActionTypes';
 const initialState = {
     loginUser: [],
     users: [],
-    usersRole: []
+    usersRole: [],
+    isLoading: false,
 }
 
 const usersReducer = ( state = initialState, action ) => {
@@ -19,6 +20,7 @@ const usersReducer = ( state = initialState, action ) => {
         case types.GET_USER_BYROLE_START:
             return {
                 ...state,
+                isLoading: true,
             };
         case types.LOGIN_USERS_SUCCESS:
             return {
@@ -30,6 +32,7 @@ const usersReducer = ( state = initialState, action ) => {
         case types.RESET_PASSWORD_SUCCESS:
             return {
                 ...state,
+                isLoading: false,
             }
         case types.GET_ALL_USERS_SUCCESS:
         case types.REGISTER_USER_SUCCESS:
@@ -38,11 +41,13 @@ const usersReducer = ( state = initialState, action ) => {
             return {
                 ...state,
                 users: action.payload,
+                isLoading: false,
             };
         case types.GET_USER_BYROLE_SUCCESS:
             return {
                 ...state,
                 usersRole: action.payload,
+                isLoading: false,
             };
         case types.LOGIN_USERS_ERROR:
         case types.CHANGE_PASSWORD_ERROR:
@@ -56,6 +61,7 @@ const usersReducer = ( state = initialState, action ) => {
             return {
                 ...state,
                 error: action.payload,
+                isLoading: false,
             };
         default:
             return state;

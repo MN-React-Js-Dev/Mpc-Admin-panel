@@ -26,7 +26,6 @@ const ForgotPassword = () => {
         setSubmitted(true)
         if (data.email) {
             dispatch(forgotPasswordStart(data))
-            console.log("DATA~~~>>>>", data)
         }
     }
 

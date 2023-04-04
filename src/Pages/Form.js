@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { createOrdersStart, getAllOrdersStart, updateOrderStart } from "../Redux/Actions/ordersActions";
+import { CircularProgress } from "@mui/material";
 
 const Form = () => {
   
@@ -21,7 +22,7 @@ const Form = () => {
     price:"",
     image: null,
     note: "",
-    status:""
+    status:"NEW"
   };
   const [submitted, setSubmitted] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -30,8 +31,8 @@ const Form = () => {
   const formData = new FormData()
   const dispatch = useDispatch()
   
+  const isOrderLoading = useSelector((state) => state?.orders?.isLoading);
   const ordersData = useSelector((state) => state?.orders?.orders?.ordersData?.rows)
-  // console.log("SELECTOR DATA ORDER~~~>>>>", ordersData)
 
   const validateEmail = (email) => {
     const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -679,6 +680,14 @@ const Form = () => {
                 ></textarea>
               </div>
             </div>
+
+            {
+                  isOrderLoading === true ? (
+                      <div style={{ display:'flex', alignItems:'center', justifyContent:'center' }}>
+                        <CircularProgress />
+                      </div>
+                  ) : null
+                }
             <button type="submit" class="btn btn-primary">
               Send
             </button>

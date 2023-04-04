@@ -60,7 +60,6 @@ const Users = () => {
   const roleData = useSelector((state) => state?.users?.usersRole?.userSearch);
   const classes = useStyles();
   const [manageData, setManageData] = useState(usersData);
-  console.log("MANGE AFY~~~>>",manageData)
 
   useEffect(() => {
     if (roleData) {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getAllUsersStart, registerUserStart, updateUserStart } from "../Redux/Actions/usersActions";
+import { CircularProgress } from "@mui/material";
 
 const RegisterUser = () => {
   const formData = {
@@ -27,6 +28,7 @@ const RegisterUser = () => {
     dispatch(getAllUsersStart())
   },[])
   
+  const isUserRegister = useSelector((state) => state?.users?.isLoading);
   const usersData = useSelector((state) => state?.users?.users?.data?.rows)
 
   useEffect(() => {
@@ -433,9 +435,16 @@ const handleConfirmPass = () => {
 
                   )
                 }
-            
 
-              <button type="submit" class="btn btn-primary">
+                {
+                  isUserRegister === true ? (
+                      <div style={{ display:'flex', alignItems:'center', justifyContent:'center' }}>
+                        <CircularProgress  />
+                      </div>
+                  ) : null
+                }
+
+              <button type="submit" class="btn btn-primary" disabled={isUserRegister} >
                 Send
               </button>
             </form>
