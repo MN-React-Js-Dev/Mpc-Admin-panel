@@ -49,10 +49,15 @@ const Users = () => {
   const dispatch = useDispatch();
 
   const isLoading = useSelector((state) => state?.users?.isLoading);
+  const deleteSuccess = useSelector((state) => state?.users?.users?.message) 
   const usersData = useSelector((state) => state?.users?.users?.data?.rows);
   const roleData = useSelector((state) => state?.users?.usersRole?.userSearch);
   const classes = useStyles();
   const [manageData, setManageData] = useState(usersData);
+
+  if(deleteSuccess == 'user deleted successfully') {
+    window.location.reload()
+  }
 
   useEffect(() => {
     if (!filterData) {
@@ -74,9 +79,6 @@ const Users = () => {
 
   const handleDelete = (userList) => {
     dispatch(deleteUserStart(userList?.id));
-    if(isLoading === false) {
-      window.location.reload()
-    }
   };
 
   const requestSearch = (searchedVal) => {

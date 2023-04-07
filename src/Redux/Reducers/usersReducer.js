@@ -26,6 +26,7 @@ const usersReducer = ( state = initialState, action ) => {
             return {
                 ...state,
                 loginUser: action.payload,
+                isLoading: false,
             }
         case types.CHANGE_PASSWORD_SUCCESS:
         case types.FORGOT_PASSWORD_SUCCESS:
@@ -35,6 +36,11 @@ const usersReducer = ( state = initialState, action ) => {
                 isLoading: false,
             }
         case types.GET_ALL_USERS_SUCCESS:
+            return {
+                ...state,
+                users: action.payload,
+                isLoading: false,
+            };
         case types.REGISTER_USER_SUCCESS:
         case types.UPDATE_USER_SUCCESS:  
         case types.DELETE_USER_SUCCESS:

@@ -20,7 +20,7 @@ import { useEffect } from "react";
 function App() {
 
   const navigate = useNavigate()
-  const token = localStorage.getItem('MPCADMIN')
+  const token = sessionStorage.getItem('MPCADMIN')
 
   useEffect (() => { 
     !token && navigate('/')

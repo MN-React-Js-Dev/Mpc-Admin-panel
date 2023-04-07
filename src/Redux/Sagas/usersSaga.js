@@ -46,14 +46,13 @@ export function* onUserLoginStartAsync({payload}) {
     try {
         const response = yield call(loginUsersApi, payload);
         if (response.data.message === "Login successful") {
-            localStorage.setItem('MPCADMIN', JSON.stringify(response.data.data))
+            sessionStorage.setItem('MPCADMIN', JSON.stringify(response.data.data))
             yield put(loginUsersSuccess(response.data))
             Toast.fire({
                 icon: "success",
                 title: response.data.message,
             });
         } else{
-            yield put(loginUsersSuccess(response.data))
             Toast.fire({
                 icon: "error",
                 title: response.data.message,

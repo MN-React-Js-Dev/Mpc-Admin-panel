@@ -47,11 +47,6 @@ const ordersReducer = ( state = initialState, action ) => {
                 trackerOrders: action.payload,
                 isLoading: false,
             }
-        // case types.ON_PAGE_CHANGE_SUCCESS:
-        //     return {
-        //         ...state,
-        //         trackerOrders: action.payload,
-        //     }
         case types.CREATE_ORDERS_SUCCESS:
             return {
                 ...state,

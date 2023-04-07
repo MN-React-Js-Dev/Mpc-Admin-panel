@@ -83,6 +83,18 @@ const Orders = () => {
   const [filter, SetFilter] = useState("");
   let itemIds = [];
 
+  const deleteSuccess = useSelector((state) => state?.orders?.orders?.message)
+  const orderListData = useSelector((state) => state?.orders?.orderList?.ordersDetails?.orders);
+  const filterordersData = useSelector((state) => state?.orders?.orders?.statusFilter);
+  const [data, setData] = useState(filterordersData);
+  const [datas, setDatas] = useState(orderListData);
+  const isLoader = useSelector((state) => state?.orders?.isLoading);
+  
+
+  if(deleteSuccess == 'order deleted successfully') {
+    window.location.reload()
+  }
+
   useEffect(() => {
     dispatch(getFilterOrdersStart(filter));
   }, [filter]);
@@ -91,30 +103,16 @@ const Orders = () => {
     dispatch(getAllOrderListStart());
   }, []);
 
-  const orderListData = useSelector(
-    (state) => state?.orders?.orderList?.ordersDetails?.orders
-  );
-  const [datas, setDatas] = useState(orderListData);
-  const isLoader = useSelector((state) => state?.orders?.isLoading);
-
-  useEffect(() => {
-    setDatas(orderListData);
-  }, [orderListData]);
-
-  const filterordersData = useSelector(
-    (state) => state?.orders?.orders?.statusFilter
-  );
-  const [data, setData] = useState(filterordersData);
+  // useEffect(() => {
+  //   setDatas(orderListData);
+  // }, [datas]);
 
   useEffect(() => {
     setData(filterordersData);
   }, [filterordersData]);
 
   const handleClick = ({id}) => {
-    dispatch(deleteOrderStart(id));
-    if(isLoader === false) {
-      window.location.reload()
-    }
+    dispatch(deleteOrderStart(id))
   };
 
   const handleCheck = (e) => {
@@ -143,8 +141,9 @@ const Orders = () => {
     {
       id: "Order Number",
       numeric: false,
-      disablePadding: false,
+      disablePadding: true,
       label: "Order Number",
+      align: "right"
     },
     {
       id: "Name",
@@ -308,6 +307,7 @@ const Orders = () => {
   };
 
   const searchDataOrderList = (searchedVal) => {
+    console.log("searchedVal!!!>>>>>",searchedVal)
     // orderListData?.filter(({line_items}) => {
     //   console.log("LINE ITEMS~~>>", line_items)
     //   line_items?.map((data) => {
@@ -381,7 +381,7 @@ const Orders = () => {
 
   const handleSelectAllClicked = (event) => {
     if (event.target.checked) {
-      const newSelected = datas?.map((n) => n.name);
+      const newSelected = orderListData?.map((n) => n.name);
       setSelected(newSelected);
       return;
     }
@@ -389,7 +389,7 @@ const Orders = () => {
   };
 
   const emptyRowss =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - datas?.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - orderListData?.length) : 0;
 
   function EnhancedTableHeader(props) {
     const {
@@ -570,6 +570,7 @@ const Orders = () => {
                       justifyContent: "center",
                       alignItems: "center",
                       flexDirection: "column",
+                      padding: '5px'
                     }}
                   >
                     {isLoader === true ? (
@@ -595,9 +596,9 @@ const Orders = () => {
                             onRequestSort={handleRequestSort}
                             rowCount={data?.length}
                           />
-                          <TableHead>
-                            <TableRow></TableRow>
-                          </TableHead>
+                          {/* <TableHead>
+                            <TableRow> </TableRow>
+                          </TableHead> */}
                           <TableBody>
                             {stableSort(data, getComparator(order, orderBy))
                               ?.slice(
@@ -642,6 +643,7 @@ const Orders = () => {
                                         color="primary"
                                         onChange={handleCheck}
                                         value={orderList?.id}
+                                        align='right'
                                         inputProps={{
                                           "aria-labelledby": labelId,
                                         }}
@@ -651,7 +653,7 @@ const Orders = () => {
                                       component="th"
                                       id={labelId}
                                       scope="row"
-                                      align="left"
+                                      align="center"
                                     >
                                       {orderList.id}
                                     </TableCell>
@@ -662,7 +664,7 @@ const Orders = () => {
                                       align="left"
                                       class={`badge ${cssClass}`}
                                     >
-                                      {orderList.status}
+                                      {orderList.status ? orderList.status : "NA"}
                                     </TableCell>
                                     <TableCell align="left">
                                       {orderList.phone}
@@ -739,7 +741,7 @@ const Orders = () => {
                       flexDirection: "column",
                     }}
                   >
-                    {!datas ? (
+                    {!orderListData ? (
                       <CircularProgress />
                     ) : (
                       <>
@@ -762,13 +764,13 @@ const Orders = () => {
                             orderBy={orderBy}
                             onSelectAllClick={handleSelectAllClicked}
                             onRequestSort={handleRequestSort}
-                            rowCount={datas?.length}
+                            rowCount={orderListData?.length}
                           />
                           <TableHead>
                             <TableRow></TableRow>
                           </TableHead>
                           <TableBody>
-                            {stableSort(datas, getComparator(order, orderBy))
+                            {stableSort(orderListData, getComparator(order, orderBy))
                               ?.slice(
                                 page * rowsPerPage,
                                 page * rowsPerPage + rowsPerPage
@@ -817,14 +819,14 @@ const Orders = () => {
                                     <TableCell>
                                       {orderList?.line_items[0]?.properties.map(
                                         (items) => {
-                                          if (items?.name === "status") {
-                                            return (
+                                          if(items?.name === 'status') {
+                                               return (
                                               <td class="bg-label-warning">
                                                 {items.value}
                                               </td>
                                             );
                                           }
-                                        }
+                                        } 
                                       )}
                                     </TableCell>
                                     <TableCell align="left">
@@ -841,16 +843,7 @@ const Orders = () => {
                                       )}
                                     </TableCell>
                                     <TableCell align="left">
-                                      {/* {
-                                    orderList?.fulfillments?.map((data) => {
-                                        return (
-                                          <td>
-                                            {data?.tracking_number}
-                                          </td>
-                                        )
-                                    })
-                                  } */}
-                                      {orderList.phone}
+                                      {orderList.phone ? orderList.phone : 'NA'}
                                     </TableCell>
                                   </TableRow>
                                 );
@@ -874,7 +867,7 @@ const Orders = () => {
                       <TablePagination
                       rowsPerPageOptions={[5, 10, 25]}
                       component="div"
-                      count={datas?.length}
+                      count={orderListData?.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       onPageChange={handleChangePage}

@@ -21,6 +21,7 @@ export const ChangePassword = () => {
   const [loader, setLoader] = useState(false);
   const dispatch = useDispatch();
   const passDataSelector = useSelector((state) => state?.users?.error?.data);
+  const isLoading = useSelector((state) => state?.users?.isLoading);
 
   useEffect(() => {
     if (passDataSelector?.status == 400) {
@@ -202,22 +203,17 @@ export const ChangePassword = () => {
                   )}
                 </div>
 
-                {loader ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <CircularProgress />
-                  </div>
-                ) : null}
-
-                <button type="submit" class="btn btn-primary d-grid w-100">
-                  Change Password
+                <button class="btn btn-primary d-grid w-100" type="submit" disabled={loader ? true : false} >
+                  {
+                      isLoading ? (
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <CircularProgress style={{ padding: '2px' }} />   Change Password
+                      </div>
+                      ) : (`Change Password`)
+                    }
                 </button>
               </form>
+
               <div class="text-center">
                 <Link to="/home">
                   <a class="d-flex align-items-center justify-content-center">

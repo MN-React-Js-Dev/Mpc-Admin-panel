@@ -34,7 +34,7 @@ export const TrackerOrders = () => {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(15);
   const [filter, setFilter] = useState('');
@@ -71,19 +71,20 @@ export const TrackerOrders = () => {
   }, []);
 
   const orderListData = useSelector((state) => state?.orders?.trackerOrders);
+  const isLoading = useSelector((state) => state?.orders?.isLoading)
   const [data, setData] = useState([orderListData.data]);
 
   useEffect(() => {
     setData(orderListData);
   }, [orderListData]);
 
-//  {filter && data?.data?.filter((item) => {
-//   console.log("ITEM~~>>>",item)
-//    if(item.status == filter) {
-//      console.log("DATAA>DATA~~~>>>", item)
-//      return item
-//     };
-//   })}
+  //  {filter && data?.data?.filter((item) => {
+  //   console.log("ITEM~~>>>",item)
+  //    if(item.status == filter) {
+  //      console.log("DATAA>DATA~~~>>>", item)
+  //      return item
+  //     };
+  //   })}
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -213,7 +214,7 @@ export const TrackerOrders = () => {
 
 
   const requestSearch = (searchedVal) => {
-  
+
     // const filteredRows = data?.data?.filter((row) => {
     //   return row.products?.map((item) => {
     //     item.name?.toLowerCase().includes(searchedVal.toLowerCase());
@@ -226,7 +227,7 @@ export const TrackerOrders = () => {
     //   })
     //   console.log("ERSULT ~~~>>>",res)
     // })
-    
+
   };
 
 
@@ -235,7 +236,7 @@ export const TrackerOrders = () => {
     requestSearch(searched);
   };
 
- 
+
 
   return (
     <>
@@ -321,7 +322,7 @@ export const TrackerOrders = () => {
                   flexDirection: "column",
                 }}
               >
-                {!data ? (
+                {isLoading ? (
                   <CircularProgress />
                 ) : (
                   <>
@@ -356,97 +357,97 @@ export const TrackerOrders = () => {
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage
                           ),
-                          data?.data?.map((orderList, index) => {
-                            const checked = isSelected(
-                              orderList?.channel_order_id
-                            );
-                            const labelId = `enhanced-table-checkbox-${index}`;
-                            let cssClass;
+                            data?.data?.map((orderList, index) => {
+                              const checked = isSelected(
+                                orderList?.channel_order_id
+                              );
+                              const labelId = `enhanced-table-checkbox-${index}`;
+                              let cssClass;
 
-                            if (orderList?.status === "NEW") {
-                              cssClass = "bg-label-success";
-                            } else if (orderList?.status === "DELIVERED") {
-                              cssClass = "bg-label-danger";
-                            }else {
-                              cssClass = "bg-label-warning";
-                            }
+                              if (orderList?.status === "NEW") {
+                                cssClass = "bg-label-success";
+                              } else if (orderList?.status === "DELIVERED") {
+                                cssClass = "bg-label-danger";
+                              } else {
+                                cssClass = "bg-label-warning";
+                              }
 
-                            return (
-                              <TableRow
-                                hover
-                                onClick={(event) =>
-                                  handleClick(
-                                    event,
-                                    orderList?.channel_order_id
-                                  )
-                                }
-                                role="checkbox"
-                                aria-checked={checked}
-                                tabIndex={-1}
-                                key={orderList.id}
-                                selected={checked}
-                              >
-                                <TableCell
-                                  component="th"
-                                  id={labelId}
-                                  scope="row"
-                                  align="left"
+                              return (
+                                <TableRow
+                                  hover
+                                  onClick={(event) =>
+                                    handleClick(
+                                      event,
+                                      orderList?.channel_order_id
+                                    )
+                                  }
+                                  role="checkbox"
+                                  aria-checked={checked}
+                                  tabIndex={-1}
+                                  key={orderList.id}
+                                  selected={checked}
                                 >
-                                  {orderList.channel_order_id}
-                                </TableCell>
-                                <TableCell>
-                                  {orderList?.products?.map((item) => {
-                                    return (
-                                      <td
-                                        align="left"
-                                        style={{
-                                          display: "flex",
-                                          flexDirection: "row",
-                                        }}
-                                      >
-                                        {item?.name}
-                                      </td>
-                                    );
-                                  })}
-                                </TableCell>
-                                <TableCell
-                                  align="left"
-                                  class={`badge ${cssClass}`}
-                                >
-                                  <td>{orderList?.status}</td>
-                                </TableCell>
-                                <TableCell align="left">
-                                {orderList?.shipments?.map((item) => {
-                                    return (
-                                      <td
-                                        align="left"
-                                        style={{
-                                          display: "flex",
-                                          flexDirection: "row",
-                                        }}
-                                      > 
-                                      <Link to={`https://shiprocket.co//tracking/${item.awb}`}>
-                                          <button
-                                            type="button"
-                                            class="btn btn-primary m-1"
-                                            disabled={
-                                              item.awb === '' ? true: false
-                                            }
-                                          > 
-                                           {item?.awb ? item.awb : "n/a"}
-                                          </button>
-                                        </Link>
+                                  <TableCell
+                                    component="th"
+                                    id={labelId}
+                                    scope="row"
+                                    align="left"
+                                  >
+                                    {orderList.channel_order_id}
+                                  </TableCell>
+                                  <TableCell>
+                                    {orderList?.products?.map((item) => {
+                                      return (
+                                        <td
+                                          align="left"
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                          }}
+                                        >
+                                          {item?.name}
+                                        </td>
+                                      );
+                                    })}
+                                  </TableCell>
+                                  <TableCell
+                                    align="left"
+                                    class={`badge ${cssClass}`}
+                                  >
+                                    <td>{orderList?.status}</td>
+                                  </TableCell>
+                                  <TableCell align="left">
+                                    {orderList?.shipments?.map((item) => {
+                                      return (
+                                        <td
+                                          align="left"
+                                          style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                          }}
+                                        >
+                                          <Link to={`https://shiprocket.co//tracking/${item.awb}`}>
+                                            <button
+                                              type="button"
+                                              class="btn btn-primary m-1"
+                                              disabled={
+                                                item.awb === '' ? true : false
+                                              }
+                                            >
+                                              {item?.awb ? item.awb : "n/a"}
+                                            </button>
+                                          </Link>
 
-                                      {/* <Link to={`https://shiprocket.co//tracking/${item.awb}`}>
+                                          {/* <Link to={`https://shiprocket.co//tracking/${item.awb}`}>
                                         {item?.awb ? item.awb : "N/A"} 
                                       </Link> */}
-                                      </td>
-                                    );
-                                  })}
-                                </TableCell>
-                              </TableRow>
-                            );
-                          }))
+                                        </td>
+                                      );
+                                    })}
+                                  </TableCell>
+                                </TableRow>
+                              );
+                            }))
                         }
                         {emptyRows > 0 && (
                           <TableRow
@@ -462,15 +463,21 @@ export const TrackerOrders = () => {
                   </>
                 )}
               </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[15]}
-                component="div"
-                count={data?.meta?.pagination?.total}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
+              {
+                !isLoading ? (
+                  <TablePagination
+                    rowsPerPageOptions={[15]}
+                    component="div"
+                    // count={data?.data?.length}
+                    count={data?.meta?.pagination?.total}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+                ) : null
+              }
+
             </div>
           </div>
         </div>

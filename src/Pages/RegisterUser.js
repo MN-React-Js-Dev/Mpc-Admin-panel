@@ -29,7 +29,7 @@ const RegisterUser = () => {
   },[])
   
   const isUserRegister = useSelector((state) => state?.users?.isLoading);
-  const usersData = useSelector((state) => state?.users?.users?.data?.rows)
+  const usersData = useSelector((state) => state?.users?.users?.data?.rows);
 
   useEffect(() => {
     if (id) {
@@ -72,7 +72,7 @@ const RegisterUser = () => {
       if(
         data.role &&
         data.userName &&
-        data.address &&
+        data.address && 
         data.gender &&
         data.phone
       ) {

@@ -9,7 +9,7 @@ const SmallNav = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-  const usersData = JSON.parse(localStorage.getItem("MPCADMIN"));
+  const usersData = JSON.parse(sessionStorage.getItem("MPCADMIN"));
 
   const handleOpen = () => {
     setOpen(!open);
@@ -22,7 +22,7 @@ const SmallNav = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("MPCADMIN");
+    sessionStorage.removeItem("MPCADMIN");
     navigate("/");
     window.location.reload();
   };

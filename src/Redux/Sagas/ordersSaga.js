@@ -78,7 +78,10 @@ export function* onSubmitOrderStartAsync ({payload}) {
             });
         }
     } catch (error) {
+        console.log("ERRORRR~>>>>", error.response)
         yield put(createOrdersError(error.response))
+        
+
     }
 }
 
@@ -103,6 +106,22 @@ export function* onUpdateOrderStartAsync ({payload}) {
         }
     } catch (error) {
         yield put(updateOrderError(error.response))
+        if(error.response.data.errors.phone) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.phone,
+            });
+        } else if(error.response.data.errors.email) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.email,
+            });
+        } else {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.message,
+            });
+        }
     }
 }
 
@@ -222,7 +241,7 @@ export function* onTrackerOrderStartAsync() {
     try {
         const response = yield call(loadAllTrackersOrderApi);
         if(response) {
-            localStorage.setItem("TRACKER",response.data?.userToken )
+            sessionStorage.setItem("TRACKER",response.data?.userToken )
         }
         yield put(getAllTrackersOrdersSuccess(response.data));
     } catch (error) {
