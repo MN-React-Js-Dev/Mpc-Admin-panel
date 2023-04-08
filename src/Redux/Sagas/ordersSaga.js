@@ -72,15 +72,41 @@ export function* onSubmitOrderStartAsync ({payload}) {
                 title: response.data.message,
             });
         } else {
-            Toast.fire({
-                icon: "error",
-                title: response.data.message,
-            });
+            if(response.data.errors.phone) {
+                Toast.fire({
+                    icon: "error",
+                    title: response.data.errors.phone,
+                });
+            } else if(response.data.errors.email) {
+                Toast.fire({
+                    icon: "error",
+                    title: response.data.errors.email,
+                });
+            } else {
+                Toast.fire({
+                    icon: "error",
+                    title: response.data.message,
+                });
+            }
         }
     } catch (error) {
-        console.log("ERRORRR~>>>>", error.response)
         yield put(createOrdersError(error.response))
-        
+        if(error.response.data.errors.phone) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.phone,
+            });
+        } else if(error.response.data.errors.email) {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.errors.email,
+            });
+        } else {
+            Toast.fire({
+                icon: "error",
+                title: error.response.data.message,
+            });
+        }
 
     }
 }
@@ -99,10 +125,22 @@ export function* onUpdateOrderStartAsync ({payload}) {
                 title: response.data.message,
             });
         }  else {
-            Toast.fire({
-                icon: "error",
-                title: response.data.message,
-            });
+            if(response.data.errors.phone) {
+                Toast.fire({
+                    icon: "error",
+                    title: response.data.errors.phone,
+                });
+            } else if(response.data.errors.email) {
+                Toast.fire({
+                    icon: "error",
+                    title: response.data.errors.email,
+                });
+            } else {
+                Toast.fire({
+                    icon: "error",
+                    title: response.data.message,
+                });
+            }
         }
     } catch (error) {
         yield put(updateOrderError(error.response))

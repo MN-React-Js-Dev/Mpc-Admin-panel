@@ -52,7 +52,9 @@ export function* onUserLoginStartAsync({payload}) {
                 icon: "success",
                 title: response.data.message,
             });
-        } else{
+        }
+         else{
+            yield put(loginUsersError(response))
             Toast.fire({
                 icon: "error",
                 title: response.data.message,

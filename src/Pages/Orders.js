@@ -566,11 +566,11 @@ const Orders = () => {
                 <div class="table-responsive text-nowrap">
                   <TableContainer
                     style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
-                      padding: '5px'
+                      display: isLoader ? "flex" : null,
+                      justifyContent: isLoader ?"center" : null,
+                      alignItems: isLoader ? "center": null,
+                      flexDirection: isLoader ? "column" : null,
+                      padding: isLoader ? '5px' : null,
                     }}
                   >
                     {isLoader === true ? (
@@ -735,10 +735,11 @@ const Orders = () => {
                 <div class="table-responsive text-nowrap">
                   <TableContainer
                     style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
+                      isplay: isLoader ? "flex" : null,
+                      justifyContent: isLoader ?"center" : null,
+                      alignItems: isLoader ? "center": null,
+                      flexDirection: isLoader ? "column" : null,
+                      padding: isLoader ? '5px' : null,
                     }}
                   >
                     {!orderListData ? (

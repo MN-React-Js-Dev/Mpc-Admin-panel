@@ -148,7 +148,7 @@ const Login = () => {
                 </div>
 
                 <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit" disabled={loader ? true : false} >
+                  <button class="btn btn-primary d-grid w-100" type="submit" disabled={isLoading ? true : false} >
                     {
                       isLoading ? (
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

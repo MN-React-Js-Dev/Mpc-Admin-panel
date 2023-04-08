@@ -24,7 +24,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { CircularProgress } from "@mui/material";
 import admin from "../assets/img/icons/unicons/admin.png"
 import supervisor from "../assets/img/icons/unicons/supervisor.png"
-import agent from  "../assets/img/icons/unicons/agent.png"
+import agent from "../assets/img/icons/unicons/agent.png"
 import designer from "../assets/img/icons/unicons/designer.png"
 import packager from "../assets/img/icons/unicons/package.png"
 import tracker from "../assets/img/icons/unicons/location.png"
@@ -49,13 +49,13 @@ const Users = () => {
   const dispatch = useDispatch();
 
   const isLoading = useSelector((state) => state?.users?.isLoading);
-  const deleteSuccess = useSelector((state) => state?.users?.users?.message) 
+  const deleteSuccess = useSelector((state) => state?.users?.users?.message)
   const usersData = useSelector((state) => state?.users?.users?.data?.rows);
   const roleData = useSelector((state) => state?.users?.usersRole?.userSearch);
   const classes = useStyles();
   const [manageData, setManageData] = useState(usersData);
 
-  if(deleteSuccess == 'user deleted successfully') {
+  if (deleteSuccess == 'user deleted successfully') {
     window.location.reload()
   }
 
@@ -67,7 +67,7 @@ const Users = () => {
     }
   }, [filterData]);
 
-  
+
 
   useEffect(() => {
     if (roleData) {
@@ -380,12 +380,13 @@ const Users = () => {
             </div>
           </div>
 
-          <TableContainer
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
+          <TableContainer 
+            style={{ 
+              display: isLoading ? "flex" : null,
+              justifyContent:  isLoading ? "center" : null,
+              alignItems:  isLoading ?  "center" : null,
+              flexDirection:  isLoading ? "column" : null,
+              padding: isLoading ? '5px' : null,
             }}
           >
             {isLoading ? (
@@ -417,110 +418,110 @@ const Users = () => {
                     </TableRow>
                   </TableHead>
 
-                  <TableBody>
-                    {stableSort(manageData, getComparator(order, orderBy))
-                      ?.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                      ?.map((userList, index) => {
-                        const isItemSelected = isSelected(userList.id);
-                        const labelId = `enhanced-table-checkbox-${index}`;
-                        let cssClass;
+                      <TableBody>
+                        {stableSort(manageData, getComparator(order, orderBy))
+                          ?.slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage
+                          )
+                          ?.map((userList, index) => {
+                            const isItemSelected = isSelected(userList.id);
+                            const labelId = `enhanced-table-checkbox-${index}`;
+                            let cssClass;
 
-                        if (userList?.role === "Admin") {
-                          cssClass = "bg-label-success";
-                        } else if (userList?.role === "Supervisor") {
-                          cssClass = "bg-label-info";
-                        } else if (userList?.role === "Agent") {
-                          cssClass = "bg-label-primary";
-                        } else if (userList?.role === "Designer") {
-                          cssClass = "bg-label-warning";
-                        } else if (userList?.role === "Packager") {
-                          cssClass = "bg-label-danger";
-                        } else if (userList?.role === "Tracker") {
-                          cssClass = "bg-label-dark";
-                        } else {
-                          cssClass = "bg-label-secondary";
-                        }
-
-                        return (
-                          <TableRow
-                            hover
-                            onClick={(event) =>
-                              handleClick(event, userList?.name)
+                            if (userList?.role === "Admin") {
+                              cssClass = "bg-label-success";
+                            } else if (userList?.role === "Supervisor") {
+                              cssClass = "bg-label-info";
+                            } else if (userList?.role === "Agent") {
+                              cssClass = "bg-label-primary";
+                            } else if (userList?.role === "Designer") {
+                              cssClass = "bg-label-warning";
+                            } else if (userList?.role === "Packager") {
+                              cssClass = "bg-label-danger";
+                            } else if (userList?.role === "Tracker") {
+                              cssClass = "bg-label-dark";
+                            } else {
+                              cssClass = "bg-label-secondary";
                             }
-                            role="checkbox"
-                            aria-checked={isItemSelected}
-                            tabIndex={-1}
-                            key={userList.name}
-                            selected={isItemSelected}
-                          >
-                            <TableCell
-                              component="th"
-                              id={labelId}
-                              scope="row"
-                              align="left"
-                            >
-                              {userList.id}
-                            </TableCell>
-                            <TableCell align="left">
-                              {userList.userName}
-                            </TableCell>
-                            <TableCell align="left">{userList.email}</TableCell>
-                            <TableCell align="left" class={`badge ${cssClass}`}>
-                              {userList.role}
-                            </TableCell>
-                            <TableCell align="left">{userList.phone}</TableCell>
-                            <TableCell align="left">
-                              <td>
-                                <Link to={`/update-user/${userList.id}`}>
-                                  <a class="dropdown-item">
-                                    <i class="bx bx-edit-alt me-1"></i> Edit
-                                  </a>
-                                </Link>
-                              </td>
-                              <td>
-                                <a
-                                  class="dropdown-item"
-                                  onClick={() => handleDelete(userList)}
+
+                            return (
+                              <TableRow
+                                hover
+                                onClick={(event) =>
+                                  handleClick(event, userList?.name)
+                                }
+                                role="checkbox"
+                                aria-checked={isItemSelected}
+                                tabIndex={-1}
+                                key={userList.name}
+                                selected={isItemSelected}
+                              >
+                                <TableCell
+                                  component="th"
+                                  id={labelId}
+                                  scope="row"
+                                  align="left"
                                 >
-                                  <i class="bx bx-trash me-1"></i> Delete
-                                </a>
-                              </td>
-                            </TableCell>
+                                  {userList.id}
+                                </TableCell>
+                                <TableCell align="left">
+                                  {userList.userName}
+                                </TableCell>
+                                <TableCell align="left">{userList.email}</TableCell>
+                                <TableCell align="left" class={`badge ${cssClass}`}>
+                                  {userList.role}
+                                </TableCell>
+                                <TableCell align="left">{userList.phone}</TableCell>
+                                <TableCell align="left">
+                                  <td>
+                                    <Link to={`/update-user/${userList.id}`}>
+                                      <a class="dropdown-item">
+                                        <i class="bx bx-edit-alt me-1"></i> Edit
+                                      </a>
+                                    </Link>
+                                  </td>
+                                  <td>
+                                    <a
+                                      class="dropdown-item"
+                                      onClick={() => handleDelete(userList)}
+                                    >
+                                      <i class="bx bx-trash me-1"></i> Delete
+                                    </a>
+                                  </td>
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
+                        {emptyRows > 0 && (
+                          <TableRow
+                            style={{
+                              height: (dense ? 33 : 53) * emptyRows,
+                            }}
+                          >
+                            <TableCell colSpan={6} />
                           </TableRow>
-                        );
-                      })}
-                    {emptyRows > 0 && (
-                      <TableRow
-                        style={{
-                          height: (dense ? 33 : 53) * emptyRows,
-                        }}
-                      >
-                        <TableCell colSpan={6} />
-                      </TableRow>
-                    )}
-                  </TableBody> 
+                        )}
+                      </TableBody>
                 </Table>
               </>
             )}
           </TableContainer>
-          
+
           {
-            !isLoading ?  (
+            !isLoading ? (
               <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={manageData?.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={manageData?.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
             ) : null
           }
-          
+
         </div>
       </div>
     </>
