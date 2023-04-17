@@ -38,7 +38,7 @@ import {
 
 const Toast = Swal.mixin({
     toast: true,
-    position: "top-end",
+    position: "bottom-end",
     showConfirmButton: false,
     timer: 4000,
 });
@@ -279,7 +279,7 @@ export function* onTrackerOrderStartAsync() {
     try {
         const response = yield call(loadAllTrackersOrderApi);
         if(response) {
-            sessionStorage.setItem("TRACKER",response.data?.userToken )
+            localStorage.setItem("TRACKER",response.data?.userToken )
         }
         yield put(getAllTrackersOrdersSuccess(response.data));
     } catch (error) {

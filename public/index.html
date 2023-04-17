@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+   <html lang="en" class="light-style layout-menu-fixed layout-menu-100vh" id="myElement"></html>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -70,5 +70,11 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      document.getElementById("myElement").addEventListener("click", function () {
+        var element = document.getElementById("myElement");
+        element.classList.add("light-style", "layout-menu-fixed", "layout-menu-100vh", "layout-menu-expanded"); // Add multiple classes to the element
+      });
+    </script>
   </body>
 </html>

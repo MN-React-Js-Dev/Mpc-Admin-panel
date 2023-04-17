@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUsersStart } from '../../Redux/Actions/usersActions';
+import { EMAIL_REGEX } from '../../Constants/constants';
+import { validateEmail } from '../../Constants/validations';
 
 const Login = () => {
 
@@ -13,10 +15,11 @@ const Login = () => {
     email: "",
     password: ""
   };
+
+
   const [show, setShow] = useState(false)
   const [submitted, setSubmitted] = useState(false);
   const [data, setData] = useState(loginData);
-  const [loader, setLoader] = useState(false);
   const loginDataSelector = useSelector((state) => state?.users?.loginUser)
   const isLoading = useSelector((state) => state?.users?.isLoading);
 
@@ -41,9 +44,9 @@ const Login = () => {
     setSubmitted(true);
     if (
       data.email &&
+      validateEmail(data.email) &&
       data.password
     ) {
-      setLoader(true)
       dispatch(loginUsersStart(data))
     }
   };
@@ -78,7 +81,7 @@ const Login = () => {
                     <span
                       id="basic-icon-default-email"
                       className={
-                        submitted && !data.email
+                        submitted && !data.email || submitted && !validateEmail(data.email)
                           ? `input-group-text invalid `
                           : `input-group-text`
                       }
@@ -88,7 +91,7 @@ const Login = () => {
                     <input
                       type="text"
                       className={
-                        submitted && !data.email
+                        submitted && !data.email || submitted && !validateEmail(data.email)
                           ? `form-control invalid `
                           : `form-control`
                       }
@@ -101,11 +104,15 @@ const Login = () => {
                       onChange={handleInput}
                     />
                   </div>
-                  {submitted && !data.email && (
+                  {(submitted && !data.email && (
                     <label class="error" for="basic-icon-default-email">
                       Email Address is required
                     </label>
-                  )}
+                  )) || (submitted && !validateEmail(data.email) && (
+                    <label class="error" for="basic-icon-default-email">
+                      Enter valid Email
+                    </label>
+                  ))}
                 </div>
 
                 <div class="mb-3">
@@ -121,7 +128,7 @@ const Login = () => {
                           : `input-group-text`
                       }
                     >
-                      <i class="bx bx-user"></i>
+                    <i class="bx bx-lock"></i>
                     </span>
                     <input
                       type={show ? "text" : "password"}
@@ -133,12 +140,21 @@ const Login = () => {
                       id="basic-icon-default-password"
                       name="password"
                       value={data.password || ""}
-                      placeholder=""
-                      aria-label=""
+                      placeholder="********"
+                      aria-label="********"
                       aria-describedby="basic-icon-default-password"
                       onChange={handleInput}
                     />
-                    <span class="input-group-text cursor-pointer" onClick={handleShow}><i class={show ? "bx bx-show" : "bx bx-hide"}></i></span>
+                    <span 
+                      class="input-group-text cursor-pointer" 
+                      className={
+                        submitted && !data.password
+                          ? `input-group-text invalid `
+                          : `input-group-text`
+                      }
+                      onClick={handleShow}>
+                        <i class={show ? "bx bx-show" : "bx bx-hide"}></i>
+                    </span>
                   </div>
                   {submitted && !data.password && (
                     <label class="error" for="basic-icon-default-password">

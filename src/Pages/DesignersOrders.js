@@ -414,6 +414,7 @@ export const DesignersOrders = () => {
                 sortDirection={orderBy === headerCell.id ? order : false}
               >
                 <TableSortLabel
+
                   active={orderBy === headerCell.id}
                   direction={orderBy === headerCell.id ? order : "asc"}
                   onClick={createSortHandler(headerCell.id)}

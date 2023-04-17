@@ -22,12 +22,12 @@ import {
 } from "../Redux/Actions/usersActions";
 import Checkbox from "@mui/material/Checkbox";
 import { CircularProgress } from "@mui/material";
-import admin from "../assets/img/icons/unicons/admin.png"
-import supervisor from "../assets/img/icons/unicons/supervisor.png"
-import agent from "../assets/img/icons/unicons/agent.png"
-import designer from "../assets/img/icons/unicons/designer.png"
-import packager from "../assets/img/icons/unicons/package.png"
-import tracker from "../assets/img/icons/unicons/location.png"
+import admin from "../assets/img/icons/unicons/admin.png";
+import supervisor from "../assets/img/icons/unicons/supervisor.png";
+import agent from "../assets/img/icons/unicons/agent.png";
+import designer from "../assets/img/icons/unicons/designer.png";
+import packager from "../assets/img/icons/unicons/package.png";
+import tracker from "../assets/img/icons/unicons/location.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Users = () => {
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
+  const [orderBy, setOrderBy] = React.useState("ID");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -49,14 +49,16 @@ const Users = () => {
   const dispatch = useDispatch();
 
   const isLoading = useSelector((state) => state?.users?.isLoading);
-  const deleteSuccess = useSelector((state) => state?.users?.users?.message)
+  const deleteSuccess = useSelector((state) => state?.users?.users?.message);
   const usersData = useSelector((state) => state?.users?.users?.data?.rows);
   const roleData = useSelector((state) => state?.users?.usersRole?.userSearch);
   const classes = useStyles();
   const [manageData, setManageData] = useState(usersData);
 
-  if (deleteSuccess == 'user deleted successfully') {
-    window.location.reload()
+  if (deleteSuccess == "user deleted successfully") {
+    setTimeout(() => {
+      window.location.reload();
+    },1000)
   }
 
   useEffect(() => {
@@ -66,8 +68,6 @@ const Users = () => {
       dispatch(getUserByRoleStart(filterData));
     }
   }, [filterData]);
-
-
 
   useEffect(() => {
     if (roleData) {
@@ -134,8 +134,10 @@ const Users = () => {
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
+    const toggledOrder = isAsc ? 'desc' : 'asc';
+    setOrder(toggledOrder);
     setOrderBy(property);
+    
   };
 
   const handleSelectAllClick = (event) => {
@@ -228,6 +230,7 @@ const Users = () => {
     return (
       <TableHead>
         <TableRow>
+       
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
@@ -235,19 +238,12 @@ const Users = () => {
               padding={headCell.disablePadding ? "none" : "normal"}
               sortDirection={orderBy === headCell.id ? order : false}
             >
-              <TableSortLabel
+              <TableSortLabel  
                 active={orderBy === headCell.id}
                 direction={orderBy === headCell.id ? order : "asc"}
                 onClick={createSortHandler(headCell.id)}
               >
                 {headCell.label}
-                {orderBy === headCell.id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === "desc"
-                      ? "sorted descending"
-                      : "sorted ascending"}
-                  </Box>
-                ) : null}
               </TableSortLabel>
             </TableCell>
           ))}
@@ -262,15 +258,14 @@ const Users = () => {
         <div>
           <div class="row">
             <div class="col-lg-2 col-md-12 col-6 mb-4">
-              <div class="card" onClick={() => setFilterData("Admin")}>
+              <div
+                class="card cst-hover"
+                onClick={() => setFilterData("Admin")}
+              >
                 <div class="card-body">
                   <div class="card-title d-flex align-items-start justify-content-between">
                     <div class="avatar flex-shrink-0">
-                      <img
-                        src={admin}
-                        alt="Admin"
-                        class="rounded"
-                      />
+                      <img src={admin} alt="Admin" class="rounded" />
                     </div>
                   </div>
                   <span class="fw-semibold d-block mb-1">Admin</span>
@@ -279,15 +274,14 @@ const Users = () => {
               </div>
             </div>
             <div class="col-lg-2 col-md-12 col-6 mb-4">
-              <div class="card" onClick={() => setFilterData("Supervisor")}>
+              <div
+                class="card cst-hover"
+                onClick={() => setFilterData("Supervisor")}
+              >
                 <div class="card-body">
                   <div class="card-title d-flex align-items-start justify-content-between">
                     <div class="avatar flex-shrink-0">
-                      <img
-                        src={supervisor}
-                        alt="Credit Card"
-                        class="rounded"
-                      />
+                      <img src={supervisor} alt="Credit Card" class="rounded" />
                     </div>
                   </div>
                   <span class="fw-semibold d-block mb-1">Supervisors</span>
@@ -295,15 +289,14 @@ const Users = () => {
               </div>
             </div>
             <div class="col-lg-2 col-md-12 col-6 mb-4">
-              <div class="card" onClick={() => setFilterData("Agent")}>
+              <div
+                class="card cst-hover"
+                onClick={() => setFilterData("Agent")}
+              >
                 <div class="card-body">
                   <div class="card-title d-flex align-items-start justify-content-between">
                     <div class="avatar flex-shrink-0">
-                      <img
-                        src={agent}
-                        alt="Credit Card"
-                        class="rounded"
-                      />
+                      <img src={agent} alt="Credit Card" class="rounded" />
                     </div>
                   </div>
                   <span class="d-block mb-1">Agents</span>
@@ -311,15 +304,14 @@ const Users = () => {
               </div>
             </div>
             <div class="col-lg-2 col-md-12 col-6 mb-4">
-              <div class="card" onClick={() => setFilterData("Designer")}>
+              <div
+                class="card cst-hover"
+                onClick={() => setFilterData("Designer")}
+              >
                 <div class="card-body">
                   <div class="card-title d-flex align-items-start justify-content-between">
                     <div class="avatar flex-shrink-0">
-                      <img
-                        src={designer}
-                        alt="Credit Card"
-                        class="rounded"
-                      />
+                      <img src={designer} alt="Credit Card" class="rounded" />
                     </div>
                   </div>
                   <span class="fw-semibold d-block mb-1">Designers</span>
@@ -327,15 +319,14 @@ const Users = () => {
               </div>
             </div>
             <div class="col-lg-2 col-md-12 col-6 mb-4">
-              <div class="card" onClick={() => setFilterData("Packager")}>
+              <div
+                class="card cst-hover"
+                onClick={() => setFilterData("Packager")}
+              >
                 <div class="card-body">
                   <div class="card-title d-flex align-items-start justify-content-between">
                     <div class="avatar flex-shrink-0">
-                      <img
-                        src={packager}
-                        alt="Credit Card"
-                        class="rounded"
-                      />
+                      <img src={packager} alt="Credit Card" class="rounded" />
                     </div>
                   </div>
                   <span class="fw-semibold d-block mb-1">Packagers</span>
@@ -343,15 +334,14 @@ const Users = () => {
               </div>
             </div>
             <div class="col-lg-2 col-md-12 col-6 mb-4">
-              <div class="card" onClick={() => setFilterData("Tracker")}>
+              <div
+                class="card cst-hover"
+                onClick={() => setFilterData("Tracker")}
+              >
                 <div class="card-body">
                   <div class="card-title d-flex align-items-start justify-content-between">
                     <div class="avatar flex-shrink-0">
-                      <img
-                        src={tracker}
-                        alt="Credit Card"
-                        class="rounded"
-                      />
+                      <img src={tracker} alt="Credit Card" class="rounded" />
                     </div>
                   </div>
                   <span class="fw-semibold d-block mb-1">Trackers</span>
@@ -374,19 +364,19 @@ const Users = () => {
             <div class="d-flex justify-content-between">
               <Link to={`/register-user/`}>
                 <button type="button" class="btn btn-primary m-1">
-                  + NEW
+                  + CREATE NEW USER
                 </button>
               </Link>
             </div>
           </div>
 
-          <TableContainer 
-            style={{ 
+          <TableContainer
+            style={{
               display: isLoading ? "flex" : null,
-              justifyContent:  isLoading ? "center" : null,
-              alignItems:  isLoading ?  "center" : null,
-              flexDirection:  isLoading ? "column" : null,
-              padding: isLoading ? '5px' : null,
+              justifyContent: isLoading ? "center" : null,
+              alignItems: isLoading ? "center" : null,
+              flexDirection: isLoading ? "column" : null,
+              padding: isLoading ? "5px" : null,
             }}
           >
             {isLoading ? (
@@ -397,7 +387,7 @@ const Users = () => {
                   value={searched}
                   onChange={(searchVal) => requestSearch(searchVal)}
                   onCancelSearch={() => cancelSearch()}
-                  style={{ alignSelf: "flex-start", margin: "2%" }}
+                  style={{ alignSelf: "flex-start", margin: "2%", width: 250 }}
                 />
                 <Table
                   sx={{ minWidth: 750 }}
@@ -418,110 +408,107 @@ const Users = () => {
                     </TableRow>
                   </TableHead>
 
-                      <TableBody>
-                        {stableSort(manageData, getComparator(order, orderBy))
-                          ?.slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage
-                          )
-                          ?.map((userList, index) => {
-                            const isItemSelected = isSelected(userList.id);
-                            const labelId = `enhanced-table-checkbox-${index}`;
-                            let cssClass;
+                  <TableBody>
+                    {stableSort(manageData, getComparator(order, orderBy))
+                      ?.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      ?.map((userList, index) => {
+                        const isItemSelected = isSelected(userList.id);
+                        const labelId = `enhanced-table-checkbox-${index}`;
+                        let cssClass;
 
-                            if (userList?.role === "Admin") {
-                              cssClass = "bg-label-success";
-                            } else if (userList?.role === "Supervisor") {
-                              cssClass = "bg-label-info";
-                            } else if (userList?.role === "Agent") {
-                              cssClass = "bg-label-primary";
-                            } else if (userList?.role === "Designer") {
-                              cssClass = "bg-label-warning";
-                            } else if (userList?.role === "Packager") {
-                              cssClass = "bg-label-danger";
-                            } else if (userList?.role === "Tracker") {
-                              cssClass = "bg-label-dark";
-                            } else {
-                              cssClass = "bg-label-secondary";
-                            }
+                        if (userList?.role === "Admin") {
+                          cssClass = "bg-label-success";
+                        } else if (userList?.role === "Supervisor") {
+                          cssClass = "bg-label-info";
+                        } else if (userList?.role === "Agent") {
+                          cssClass = "bg-label-primary";
+                        } else if (userList?.role === "Designer") {
+                          cssClass = "bg-label-warning";
+                        } else if (userList?.role === "Packager") {
+                          cssClass = "bg-label-danger";
+                        } else if (userList?.role === "Tracker") {
+                          cssClass = "bg-label-dark";
+                        } else {
+                          cssClass = "bg-label-secondary";
+                        }
 
-                            return (
-                              <TableRow
-                                hover
-                                onClick={(event) =>
-                                  handleClick(event, userList?.name)
-                                }
-                                role="checkbox"
-                                aria-checked={isItemSelected}
-                                tabIndex={-1}
-                                key={userList.name}
-                                selected={isItemSelected}
-                              >
-                                <TableCell
-                                  component="th"
-                                  id={labelId}
-                                  scope="row"
-                                  align="left"
-                                >
-                                  {userList.id}
-                                </TableCell>
-                                <TableCell align="left">
-                                  {userList.userName}
-                                </TableCell>
-                                <TableCell align="left">{userList.email}</TableCell>
-                                <TableCell align="left" class={`badge ${cssClass}`}>
-                                  {userList.role}
-                                </TableCell>
-                                <TableCell align="left">{userList.phone}</TableCell>
-                                <TableCell align="left">
-                                  <td>
-                                    <Link to={`/update-user/${userList.id}`}>
-                                      <a class="dropdown-item">
-                                        <i class="bx bx-edit-alt me-1"></i> Edit
-                                      </a>
-                                    </Link>
-                                  </td>
-                                  <td>
-                                    <a
-                                      class="dropdown-item"
-                                      onClick={() => handleDelete(userList)}
-                                    >
-                                      <i class="bx bx-trash me-1"></i> Delete
-                                    </a>
-                                  </td>
-                                </TableCell>
-                              </TableRow>
-                            );
-                          })}
-                        {emptyRows > 0 && (
+                        return (
                           <TableRow
-                            style={{
-                              height: (dense ? 33 : 53) * emptyRows,
-                            }}
+                            hover
+                            onClick={(event) =>
+                              handleClick(event, userList?.name)
+                            }
+                            role="checkbox"
+                            aria-checked={isItemSelected}
+                            tabIndex={-1}
+                            key={userList.name}
+                            selected={isItemSelected}
                           >
-                            <TableCell colSpan={6} />
+                            <TableCell
+                              component="th"
+                              id={labelId}
+                              scope="row"
+                              align="left"
+                            >
+                              {userList.id}
+                            </TableCell>
+                            <TableCell align="left">
+                              {userList.userName}
+                            </TableCell>
+                            <TableCell align="left">{userList.email}</TableCell>
+                            <TableCell align="left" class={`badge ${cssClass}`}>
+                              {userList.role}
+                            </TableCell>
+                            <TableCell align="left">{userList.phone}</TableCell>
+                            <TableCell align="left">
+                              <td>
+                                <Link to={`/update-user/${userList.id}`}>
+                                  <a class="dropdown-item">
+                                    <i class="bx bx-edit-alt me-1"></i> Edit
+                                  </a>
+                                </Link>
+                              </td>
+                              <td>
+                                <a
+                                  class="dropdown-item"
+                                  onClick={() => handleDelete(userList)}
+                                >
+                                  <i class="bx bx-trash me-1"></i> Delete
+                                </a>
+                              </td>
+                            </TableCell>
                           </TableRow>
-                        )}
-                      </TableBody>
+                        );
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow
+                        style={{
+                          height: (dense ? 33 : 53) * emptyRows,
+                        }}
+                      >
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
                 </Table>
               </>
             )}
           </TableContainer>
 
-          {
-            !isLoading ? (
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={manageData?.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            ) : null
-          }
-
+          {!isLoading ? (
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={manageData?.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          ) : null}
         </div>
       </div>
     </>

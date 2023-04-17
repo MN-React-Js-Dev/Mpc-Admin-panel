@@ -92,7 +92,9 @@ const Orders = () => {
   
 
   if(deleteSuccess == 'order deleted successfully') {
-    window.location.reload()
+    setTimeout(() => {
+      window.location.reload()
+    },1000)
   }
 
   useEffect(() => {
@@ -102,10 +104,6 @@ const Orders = () => {
   useEffect(() => {
     dispatch(getAllOrderListStart());
   }, []);
-
-  // useEffect(() => {
-  //   setDatas(orderListData);
-  // }, [datas]);
 
   useEffect(() => {
     setData(filterordersData);
@@ -444,7 +442,7 @@ const Orders = () => {
           <div>
             <div class="row">
               <div class="col-lg-3 col-md-12 col-6 mb-4">
-                <div class="card" onClick={() => SetFilter("ReadytoPrint")}>
+                <div class="card cst-hover" onClick={() => SetFilter("ReadytoPrint")}>
                   <div class="card-body">
                     <div class="card-title d-flex align-items-start justify-content-between">
                       <div class="avatar flex-shrink-0">
@@ -460,7 +458,7 @@ const Orders = () => {
                 </div>
               </div>
               <div class="col-lg-3 col-md-12 col-6 mb-4">
-                <div class="card" onClick={() => SetFilter("InProduction")}>
+                <div class="card cst-hover" onClick={() => SetFilter("InProduction")}>
                   <div class="card-body">
                     <div class="card-title d-flex align-items-start justify-content-between">
                       <div class="avatar flex-shrink-0">
@@ -476,7 +474,7 @@ const Orders = () => {
                 </div>
               </div>
               <div class="col-lg-3 col-md-12 col-6 mb-4">
-                <div class="card" onClick={() => SetFilter("Shiped")}>
+                <div class="card cst-hover" onClick={() => SetFilter("Shiped")}>
                   <div class="card-body">
                     <div class="card-title d-flex align-items-start justify-content-between">
                       <div class="avatar flex-shrink-0">
@@ -492,7 +490,7 @@ const Orders = () => {
                 </div>
               </div>
               <div class="col-lg-3 col-md-12 col-6 mb-4">
-                <div class="card" onClick={() => SetFilter("Deliverd")}>
+                <div class="card cst-hover" onClick={() => SetFilter("Deliverd")}>
                   <div class="card-body">
                     <div class="card-title d-flex align-items-start justify-content-between">
                       <div class="avatar flex-shrink-0">
@@ -557,7 +555,7 @@ const Orders = () => {
 
                   <Link to={`/form`}>
                     <button type="button" class="btn btn-primary m-1">
-                      + NEW
+                      + CREATE NEW ORDER
                     </button>
                   </Link>
                 </div>
@@ -581,7 +579,7 @@ const Orders = () => {
                           value={searched}
                           onChange={(searchVal) => searchData(searchVal)}
                           onCancelSearch={() => cancelSearch()}
-                          style={{ alignSelf: "flex-start", margin: "2%" }}
+                          style={{ alignSelf: "flex-start", margin: "2%" , width: 250}}
                         />
                         <Table
                           sx={{ minWidth: 750 }}
@@ -746,16 +744,8 @@ const Orders = () => {
                       <CircularProgress />
                     ) : (
                       <>
-                        <SearchBar
-                          value={searched}
-                          onChange={(searchVal) =>
-                            searchDataOrderList(searchVal)
-                          }
-                          onCancelSearch={() => cancelSearch()}
-                          style={{ alignSelf: "flex-start", margin: "2%" }}
-                        />
                         <Table
-                          sx={{ minWidth: 750 }}
+                          sx={{ minWidth: 750 ,marginTop:20}}
                           aria-labelledby="tableTitle"
                           size={dense ? "small" : "medium"}
                         >

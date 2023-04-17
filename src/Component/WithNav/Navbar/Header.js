@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
-  const getUserData = JSON.parse(sessionStorage.getItem("MPCADMIN"));
+  const getUserData = JSON.parse(localStorage.getItem("MPCADMIN"));
   const userRole = getUserData?.role;
   const [role, setRole] = useState();
 
@@ -118,8 +118,8 @@ const Header = () => {
                 </Link>
 
                 <Link to={{ pathname: "/form" }} class="menu-link">
-                  <i class="menu-icon tf-icons bx bx-user-plus"></i>
-                  <div data-i18n="Boxicons">Create New Order</div>
+                <i class='bx bx-plus' ></i> <br/> 
+                  <div data-i18n="Boxicons" style={{marginLeft:12}}> Create New Order</div>
                 </Link>
                 
               </li>
@@ -151,7 +151,7 @@ const Header = () => {
                 </Link>
 
                 <Link to={{ pathname: "/form" }} class="menu-link">
-                  <i class="menu-icon tf-icons bx bx-user-plus"></i>
+                <i class='bx bx-plus' ></i>
                   <div data-i18n="Boxicons">Create New Order</div>
                 </Link>
               </li>
@@ -164,7 +164,7 @@ const Header = () => {
                 </li>
 
                 <Link to="/form" class="menu-link menu-toggle">
-                  <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <i class='bx bx-plus' ></i>
                   <div data-i18n="Account Settings">Create New Order</div>
                 </Link>
               </li>

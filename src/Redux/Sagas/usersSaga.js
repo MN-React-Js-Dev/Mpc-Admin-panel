@@ -37,7 +37,7 @@ import {
 
 const Toast = Swal.mixin({
     toast: true,
-    position: "top-end",
+    position: "bottom-end",
     showConfirmButton: false,
     timer: 4000,
 });
@@ -46,7 +46,7 @@ export function* onUserLoginStartAsync({payload}) {
     try {
         const response = yield call(loginUsersApi, payload);
         if (response.data.message === "Login successful") {
-            sessionStorage.setItem('MPCADMIN', JSON.stringify(response.data.data))
+            localStorage.setItem('MPCADMIN', JSON.stringify(response.data.data))
             yield put(loginUsersSuccess(response.data))
             Toast.fire({
                 icon: "success",
@@ -124,6 +124,7 @@ export function* onForgotPasswordAsyncStart ({payload}) {
                 title: response.data.message,
             }) ;
         } else {
+            yield put(forgotPasswordError(response.data))
             Toast.fire({
                 icon: "error",
                 title: response.data.message,

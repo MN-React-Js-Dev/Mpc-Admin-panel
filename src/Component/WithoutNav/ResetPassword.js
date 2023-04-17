@@ -3,18 +3,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { resetPasswordStart } from '../../Redux/Actions/usersActions';
 import { CircularProgress } from '@mui/material';
+import { validatePassword } from '../../Constants/validations';
 
 const ResetPassword = () => {
+    const dispatch = useDispatch();
+    let params = (new URL(document.location))?.searchParams;
+    let name = params.get("email");
 
     const formData = {
         newPassword: "",
         confirmPassword: "",
+        email: name,
     }
 
     const isLoading = useSelector((state) => state?.users?.isLoading)
     const [data, setData] = useState(formData);
     const [submitted, setSubmitted] = useState(false);
-    const dispatch = useDispatch();
+    const [newPasswordshow, setNewPasswordShow] = useState(false);
+    const [confirmPasswordShow, setConfirmPasswordShow] = useState(false);
 
     const handleInput = (e) => {
         const name = e.target.name;
@@ -27,9 +33,17 @@ const ResetPassword = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitted(true)
-        if (data.newPassword && data.confirmPassword) {
-            dispatch(resetPasswordStart(data))
+        if(data.email && validatePassword(data.newPassword) && data.newPassword === data.confirmPassword) {
+          dispatch(resetPasswordStart(data))
         }
+    }
+
+    const handleNewPasswordShow = () => {
+      setNewPasswordShow(!newPasswordshow)
+    }
+
+    const handleConfirmPasswordShow = () => {
+      setConfirmPasswordShow(!confirmPasswordShow)
     }
 
   return (
@@ -49,6 +63,7 @@ const ResetPassword = () => {
             <h4 class="mb-2">Reset Password 🔒</h4>
             <p class="mb-4">Enter your password and we'll send you instructions to reset your password</p>
             <form class="mb-3" onSubmit={handleSubmit} >
+
               <div class="mb-3">
               <label class="form-label" for="basic-icon-default-fullname">
                   New Password<span className="error">*</span>{" "}
@@ -57,16 +72,16 @@ const ResetPassword = () => {
                   <span
                       id="basic-icon-default-fullname"
                       className={
-                      submitted && !data.newPassword
+                      submitted && !data.newPassword || submitted && !validatePassword(data.newPassword)
                           ? `input-group-text invalid `
                           : `input-group-text`
                       }>
                       <i class="bx bx-user"></i>
                   </span>
                   <input
-                      type="password"
+                      type={newPasswordshow ? "text" : "password"}
                       className={
-                      submitted && !data.newPassword
+                      submitted && !data.newPassword || submitted && !validatePassword(data.newPassword)
                           ? `form-control invalid `
                           : `form-control`
                       }
@@ -75,13 +90,28 @@ const ResetPassword = () => {
                       placeholder="Enter your New Password"
                       onChange={handleInput}
                   />
+                   <span 
+                      class="input-group-text cursor-pointer" 
+                      className={
+                        submitted && !data.newPassword || submitted && !validatePassword(data.newPassword)
+                          ? `input-group-text invalid `
+                          : `input-group-text`
+                      }
+                      onClick={handleNewPasswordShow}>
+                        <i class={newPasswordshow ? "bx bx-show" : "bx bx-hide"}></i>
+                    </span>
                   </div>
-                  {submitted && !data.newPassword && (
+                  {(submitted && !data.newPassword && (
                   <label class="error" for="basic-icon-default-fullname">
                       New Password is required
                   </label>
-                  )}
+                  )) || (submitted && !validatePassword(data.newPassword) && (
+                    <label class="error" for="basic-icon-default-fullname">
+                        Please enter strong password
+                    </label>
+                    ))}
               </div>
+
               <div class="mb-3">
               <label class="form-label" for="basic-icon-default-fullname">
                   Confirm Password<span className="error">*</span>{" "}
@@ -90,16 +120,16 @@ const ResetPassword = () => {
                   <span
                       id="basic-icon-default-fullname"
                       className={
-                      submitted && !data.confirmPassword
+                      submitted && !data.confirmPassword || submitted && data.newPassword !== data.confirmPassword 
                           ? `input-group-text invalid `
                           : `input-group-text`
                       }>
                       <i class="bx bx-user"></i>
                   </span>
                   <input
-                      type="password"
+                      type={confirmPasswordShow ? "text" : "password"}
                       className={
-                      submitted && !data.confirmPassword
+                      submitted && !data.confirmPassword || submitted && data.newPassword !== data.confirmPassword 
                           ? `form-control invalid `
                           : `form-control`
                       }
@@ -108,12 +138,26 @@ const ResetPassword = () => {
                       placeholder="Enter your Confirm Password"
                       onChange={handleInput}
                   />
+                   <span 
+                      class="input-group-text cursor-pointer" 
+                      className={
+                        submitted && !data.confirmPassword || submitted && data.newPassword !== data.confirmPassword 
+                          ? `input-group-text invalid `
+                          : `input-group-text`
+                      }
+                      onClick={handleConfirmPasswordShow}>
+                        <i class={confirmPasswordShow ? "bx bx-show" : "bx bx-hide"}></i>
+                    </span>
                   </div>
-                  {submitted && !data.confirmPassword && (
+                  {(submitted && !data.confirmPassword && (
                   <label class="error" for="basic-icon-default-fullname">
                       Confirm Password is required
                   </label>
-                  )}
+                  )) || (submitted && data.newPassword !== data.confirmPassword && (
+                    <label class="error" for="basic-icon-default-fullname">
+                        Confirm password is Not Matched
+                    </label>
+                    ))}
               </div>
               {
                   isLoading ? (

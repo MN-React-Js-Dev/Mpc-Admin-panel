@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const token = JSON.parse(sessionStorage.getItem("MPCADMIN"));
+const token = JSON.parse(localStorage.getItem("MPCADMIN"));
 
 const headersParam = {
     "Content-type" : "multipart/form-data",

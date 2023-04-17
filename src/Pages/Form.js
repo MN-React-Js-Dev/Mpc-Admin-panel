@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { createOrdersStart, getAllOrdersStart, updateOrderStart } from "../Redux/Actions/ordersActions";
 import { CircularProgress } from "@mui/material";
+import { validateEmail, validatePhone, validatePincode } from "../Constants/validations";
 
 const Form = () => {
   
@@ -33,11 +34,6 @@ const Form = () => {
   
   const isOrderLoading = useSelector((state) => state?.orders?.isLoading);
   const ordersData = useSelector((state) => state?.orders?.orders?.ordersData?.rows)
-
-  const validateEmail = (email) => {
-    const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return pattern.test(String(email).toLowerCase());
-};
 
   useEffect(() => {
       dispatch(getAllOrdersStart())
@@ -79,9 +75,9 @@ const Form = () => {
       data.country &&   
       data.orderName &&
       data.address &&
-      data.pincode &&
-      data.phone &&
-      data.email &&
+      validatePincode(data.pincode) &&
+      validatePhone(data.phone) &&
+      validateEmail(data.email) &&
       data.desing && 
       data.quantity && 
       data.price 
@@ -405,7 +401,7 @@ const Form = () => {
                 <span
                   id="basic-icon-default-pincode"
                   className={
-                    submitted && !data.pincode
+                    submitted && !data.pincode || submitted && !validatePincode(data.pincode)
                       ? `input-group-text invalid `
                       : `input-group-text`
                   }
@@ -415,7 +411,7 @@ const Form = () => {
                 <input
                   type="text"
                   className={
-                    submitted && !data.pincode
+                    submitted && !data.pincode || submitted && !validatePincode(data.pincode)
                       ? `form-control invalid `
                       : `form-control`
                   }
@@ -428,11 +424,15 @@ const Form = () => {
                   onChange={handleInput}
                 />
               </div>
-              {submitted && !data.pincode && (
+              {(submitted && !data.pincode && (
                 <label class="error" for="basic-icon-default-fullname">
                   Provide Pincode
                 </label>
-              )}
+              )) || (submitted && !validatePincode(data.pincode) && (
+                <label class="error" for="basic-icon-default-fullname">
+                  Provide valid Pincode
+                </label>
+              ))}
             </div>
 
             <div class="mb-3">
@@ -443,7 +443,7 @@ const Form = () => {
                 <span
                   id="basic-icon-default-phone2"
                   className={
-                    submitted && !data.phone
+                    submitted && !data.phone || submitted && validatePhone(data.phone)
                       ? `input-group-text invalid `
                       : `input-group-text`
                   }
@@ -453,7 +453,7 @@ const Form = () => {
                 <input
                   type="text"
                   className={
-                    submitted && !data.phone
+                    submitted && !data.phone || submitted && validatePhone(data.phone)
                       ? `form-control invalid `
                       : `form-control`
                   }
@@ -466,11 +466,15 @@ const Form = () => {
                   onChange={handleInput}
                 />
               </div>
-              {submitted && !data.phone && (
+              {(submitted && !data.phone && (
                 <label class="error" for="basic-icon-default-fullname">
                   Enter Phone number
                 </label>
-              )}
+              )) || (submitted && !validatePhone(data.phone) && (
+                <label class="error" for="basic-icon-default-fullname">
+                  Enter valid Phone number
+                </label>
+              ))}
             </div>
             <div class="mb-3">
               <label class="form-label" for="basic-icon-default-email">
@@ -490,7 +494,7 @@ const Form = () => {
                 <input
                   type="text"
                   className={
-                    submitted && !data.email
+                    submitted && !data.email  || submitted && !validateEmail(data.email)
                       ? `form-control invalid `
                       : `form-control`
                   }

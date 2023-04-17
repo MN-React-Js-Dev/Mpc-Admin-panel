@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const token = JSON.parse(sessionStorage.getItem("MPCADMIN"));
-const tracker = sessionStorage.getItem("TRACKER")
+const token = JSON.parse(localStorage.getItem("MPCADMIN"));
+const tracker = localStorage.getItem("TRACKER")
 
 const headersParam = {
     "Authorization" : `Bearer ${token?.token}`,

@@ -1,17 +1,18 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { forgotPasswordStart } from '../../Redux/Actions/usersActions';
-import { CircularProgress } from '@mui/material';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { forgotPasswordStart } from "../../Redux/Actions/usersActions";
+import { CircularProgress } from "@mui/material";
+import { validateEmail } from "../../Constants/validations";
 
 const ForgotPassword = () => {
+  const dispatch = useDispatch();
 
   const formData = {
-    email: ""
-  }
+    email: "",
+  };
 
-  const isLoading = useSelector((state) => state?.users?.isLoading)
-  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state?.users?.isLoading);
   const [data, setData] = useState(formData);
   const [submitted, setSubmitted] = useState(false);
 
@@ -19,17 +20,17 @@ const ForgotPassword = () => {
     const name = e.target.name;
     setData({
       ...data,
-      [name]: e.target.value
-    })
-  }
+      [name]: e.target.value,
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true)
-    if (data.email) {
-      dispatch(forgotPasswordStart(data))
+    setSubmitted(true);
+    if (validateEmail(data.email)) {
+      dispatch(forgotPasswordStart(data));
     }
-  }
+  };
 
   return (
     <div class="container-xxl">
@@ -41,13 +42,18 @@ const ForgotPassword = () => {
               {/* <!-- Logo --> */}
               <div class="app-brand justify-content-center">
                 <a href="index.html" class="app-brand-link gap-2">
-                  <span class="app-brand-text demo text-body fw-bolder">My Print Clothes</span>
+                  <span class="app-brand-text demo text-body fw-bolder">
+                    My Print Clothes
+                  </span>
                 </a>
               </div>
               {/* <!-- /Logo --> */}
               <h4 class="mb-2">Forgot Password? 🔒</h4>
-              <p class="mb-4">Enter your email and we'll send you instructions to reset your password</p>
-              <form class="mb-3" onSubmit={handleSubmit} >
+              <p class="mb-4">
+                Enter your email and we'll send you instructions to reset your
+                password
+              </p>
+              <form class="mb-3" onSubmit={handleSubmit}>
                 <div class="mb-3">
                   <label class="form-label" for="basic-icon-default-fullname">
                     Enter Register Email Address<span className="error">*</span>{" "}
@@ -56,7 +62,7 @@ const ForgotPassword = () => {
                     <span
                       id="basic-icon-default-email"
                       className={
-                        submitted && !data.email
+                        submitted && !data.email || submitted && !validateEmail(data.email)
                           ? `input-group-text invalid `
                           : `input-group-text`
                       }
@@ -64,9 +70,9 @@ const ForgotPassword = () => {
                       <i class="bx bx-user"></i>
                     </span>
                     <input
-                      type="email"
+                      type="text"
                       className={
-                        submitted && !data.email
+                        submitted && !data.email || submitted && !validateEmail(data.email)
                           ? `form-control invalid `
                           : `form-control`
                       }
@@ -76,26 +82,44 @@ const ForgotPassword = () => {
                       onChange={handleInput}
                     />
                   </div>
-                  {submitted && !data.email && (
+
+                  {(submitted && !data.email && (
                     <label class="error" for="basic-icon-default-fullname">
                       Email Address is required
                     </label>
-                  )}
+                  )) ||
+                    (submitted && !validateEmail(data.email) && (
+                      <label class="error" for="basic-icon-default-fullname">
+                        Enter valid email
+                      </label>
+                    ))}
                 </div>
-                {
-                  isLoading ? (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <CircularProgress />
-                    </div>
-                  ) : null
-                }
-                <button type='submit' class="btn btn-primary d-grid w-100" disabled={isLoading}>Send Reset Link</button>
+                {isLoading ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <CircularProgress />
+                  </div>
+                ) : null}
+                <button
+                  type="submit"
+                  class="btn btn-primary d-grid w-100"
+                  disabled={isLoading}
+                >
+                  Send Reset Link
+                </button>
               </form>
 
-
               <div class="text-center">
-                <Link to='/'>
-                  <a href="auth-login-basic.html" class="d-flex align-items-center justify-content-center">
+                <Link to="/">
+                  <a
+                    href="auth-login-basic.html"
+                    class="d-flex align-items-center justify-content-center"
+                  >
                     <i class="bx bx-chevron-left scaleX-n1-rtl bx-sm"></i>
                     Back to login
                   </a>
@@ -107,8 +131,7 @@ const ForgotPassword = () => {
         </div>
       </div>
     </div>
-
-  )
-}
+  );
+};
 
 export default ForgotPassword;

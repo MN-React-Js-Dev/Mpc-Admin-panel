@@ -9,7 +9,7 @@ const SmallNav = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-  const usersData = JSON.parse(sessionStorage.getItem("MPCADMIN"));
+  const usersData = JSON.parse(localStorage.getItem("MPCADMIN"));
 
   const handleOpen = () => {
     setOpen(!open);
@@ -22,7 +22,7 @@ const SmallNav = () => {
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem("MPCADMIN");
+    localStorage.removeItem("MPCADMIN");
     navigate("/");
     window.location.reload();
   };
@@ -50,13 +50,7 @@ const SmallNav = () => {
         >
           <div class="navbar-nav align-items-center">
             <div class="nav-item d-flex align-items-center">
-              <i class="bx bx-search fs-4 lh-0"></i>
-              <input
-                type="text"
-                class="form-control border-0 shadow-none"
-                placeholder="Search..."
-                aria-label="Search..."
-              />
+             
             </div>
           </div>
 

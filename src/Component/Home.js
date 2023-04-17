@@ -1,7 +1,40 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import image from "../../src/assets/img/backgrounds/Designer-dupatta.jpg";
+import  Image  from "../assets/img/icons/unicons/package.png";
+import userimg from "../assets/img/icons/unicons/man.png";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    deleteOrderStart,
+    getAllOrderListStart,
+    getFilterOrdersStart,
+    updateOrderStatusStart,
+  } from "../Redux/Actions/ordersActions";
+  import {
+    deleteUserStart,
+    getAllUsersStart,
+    getUserByRoleStart,
+  } from "../Redux/Actions/usersActions";
 
 const Home = () => {
+     const usersData = useSelector((state) => state?.users?.users?.data?.rows.length);
+    const [manageData, setManageData] = useState(usersData);
+    const orderListData = useSelector((state) => state?.orders?.orderList?.ordersDetails?.orders.length);
+    const [datas, setDatas] = useState(orderListData);
+    const dispatch = useDispatch();
+   
+    
+    useEffect(() => {
+        dispatch(getAllUsersStart());
+        dispatch(getAllOrderListStart());
+      }, []);
+
+  useEffect(() => {
+  
+      setManageData(usersData);
+      setDatas(orderListData)
+  }, [ usersData,orderListData]);
+
+
   return (
     <>
       <div class="container-xxl flex-grow-1 container-p-y">
@@ -10,13 +43,35 @@ const Home = () => {
             <div class="card">
               <div class="d-flex align-items-end row">
                 <div class="col-sm-7">
+                <div class="row">
+                <div class="col-lg-3 col-md-12 col-6 mb-4"  style={{width:180,height:100,marginTop:50,marginLeft:70}} >
+                <div class="card" >
                   <div class="card-body">
-                    <h5 class="card-title text-primary">Congratulations! 🎉</h5>
-                    <p class="mb-4">
-                      You have done <span class="fw-bold">72%</span> more sales
-                      today.
-                      {/* Check your new badge in  your profile. */}
-                    </p>
+                    <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="avatar flex-shrink-0">
+                     <center> <img src={  userimg  }  style={{width:30 ,align:"center",marginLeft:40}}/></center>
+                      </div>
+                    </div>
+                    <span class="fw-semibold d-block mb-1">Total Users:{manageData}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-12 col-6 mb-4"  style={{width:190,height:100,marginTop:50,marginLeft:70}}>
+              <div class="card" >
+                <div class="card-body">
+                  <div class="card-title d-flex align-items-start justify-content-between">
+                    <div class="avatar flex-shrink-0">
+                    <img src={ Image }  style={{width:30 ,align:"center",marginLeft:35}} />
+                     
+                    </div>
+                  </div>
+                  <span class="fw-semibold d-block mb-1">Total Orders:{datas}</span>
+                </div>
+              </div>
+            </div>
+                </div>
+                  <div class="card-body">
+                     
 
                     {/* <a href="javascript:;" class="btn btn-sm btn-outline-primary">View Badges</a> */}
                   </div>
