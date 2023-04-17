@@ -7,15 +7,12 @@ const headersParam = {
     "Authorization" : `Bearer ${token?.token}`
 };
 
-let params = (new URL(document.location)).searchParams;
-let name = params.get("token");
-
 
 export const loginUsersApi = async (users) => await axios.post(`https://api-v1.niceishfabrics.com/api/user/login`, users);
 
 export const forgotPasswordApi = async (data) => await axios.post(`https://api-v1.niceishfabrics.com/api/user/forgot_password`, data);
 
-export const resetPasswordApi = async (data) => await axios.post(`https://api-v1.niceishfabrics.com/api/user/reset_password/${name}`, data, data);
+export const resetPasswordApi = async (data) => await axios.post(`https://api-v1.niceishfabrics.com/api/user/reset_password/`, data);
 
 export const ChangePasswordApi = async (data) => await axios.patch(`https://api-v1.niceishfabrics.com/api/user/change-password`, data, { headers: headersParam });
 
